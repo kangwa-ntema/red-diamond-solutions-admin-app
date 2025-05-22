@@ -1,0 +1,49 @@
+/* @import "./components/css/abstract/fonts.css"; */
+@import "./components/css/abstract/colors.css";
+@import "./components/css/abstract/resets.css";
+/* @import "./components/css/abstract/transitions.css"; */
+
+.appContainer {
+  color: var(--clr-zeus);
+  height: 100vh;
+  background-color: var(--clr-soap-stone);
+}
+
+.appPrimaryNavbarContainer {
+  background-color: var(--clr-lava-red);
+  padding: 1rem;
+}
+
+.appPrimaryNavbar {
+  margin: auto;
+  max-width: var(--max-width-md);
+}
+
+.appPrimaryNavbar a {
+  color: var(--clr-soap-stone);
+  background-color: var(--clr-lava-red);
+  font-size: 1.25em;
+}
+
+.navLink {
+}
+
+.outletSection {
+  max-width: var(--max-width-md);
+  margin: 2rem auto;
+  padding-inline: 1rem;
+  height: 100vh;
+}
+
+
+
+.appFooter {
+  background-color: var(--clr-zeus);
+  padding: 1rem;
+}
+
+.appFooterCopyright {
+  color: var(--clr-soap-stone);
+  text-align: center;
+  font-size: 0.5em;
+}

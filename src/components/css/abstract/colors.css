@@ -1,0 +1,28 @@
+:root {
+  --clr-golden-yellow: hsl(56, 90%, 51%);
+  --clr-golden-yellow-2: hsl(56, 70%, 50%);
+  --clr-soap-stone: #f6fefc;
+  --clr-zeus: #1f2022;
+  --clr-lava-red: #ec1a25;
+  --clr-coral-red: #ee4c41;
+  --clr-rose-gold: #f8c4c6;
+
+  --clr-white: hsl(0, 0%, 100%);
+
+  --clr-success-msg: hsl(110, 90%, 50%);
+  --clr-warning-msg: hsl(0, 100%, 50%);
+
+  --clr-neutral-100: hsl(0, 0%, 5%);
+  --clr-neutral-200: hsl(0, 0%, 20%);
+  --clr-neutral-300: hsl(0, 0%, 35%);
+  --clr-neutral-400: hsl(0, 0%, 50%);
+  --clr-neutral-500: hsl(0, 0%, 65%);
+  --clr-neutral-600: hsl(0, 0%, 80%);
+  --clr-neutral-700: hsl(0, 0%, 95%);
+
+  --max-width-xsm: 576px;
+  --max-width-sm: 576px;
+  --max-width-md: 768px;
+  --max-width-lg: 922px;
+  --max-width-xl: 1200px;
+}
