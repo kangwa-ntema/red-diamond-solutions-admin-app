@@ -9,7 +9,6 @@ const LoginForm = () => {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
   const BACKEND_URL = "https://red-diamond-solutions-admin-api.onrender.com/";
-  const backend = "";
 
 
   const handleSubmit = async (e) => {
