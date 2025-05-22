@@ -8,6 +8,8 @@ const LoginForm = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const BACKEND_URL = "https://red-diamond-solutions-admin-api.onrender.com/";
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -15,7 +17,7 @@ const LoginForm = () => {
     setError(null);
 
     try {
-      const response = await fetch("https://red-diamond-solutions-admin-api.onrender.com/", {
+      const response = await fetch(`${BACKEND_URL}/api/admin/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password }),
