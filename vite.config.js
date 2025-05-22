@@ -4,7 +4,7 @@ import react from '@vitejs/plugin-react'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-  server: {
+/*   server: {
     proxy: {
       '/api': { // Any request starting with /api
         target: 'http://localhost:5000', // Will be forwarded to your backend
@@ -13,5 +13,5 @@ export default defineConfig({
         ws: true, // Enable websocket proxying (if you use websockets)
       },
     },
-  },
+  }, */
 })
