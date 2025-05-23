@@ -8,7 +8,7 @@ const LoginForm = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
-  const BACKEND_URL = "https://red-diamond-solutions-admin-api.onrender.com";
+  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 
   const handleSubmit = async (e) => {
