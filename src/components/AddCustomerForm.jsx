@@ -16,6 +16,9 @@ const AddCustomerForm = () => {
 
   const navigate = useNavigate();
 
+  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prevData => ({
@@ -31,7 +34,7 @@ const AddCustomerForm = () => {
     setSuccess(null);
 
     try {
-      const response = await fetch('/api/customers', { // Use relative path for proxy
+      const response = await fetch(`${BACKEND_URL}/api/customers`, { // Use relative path for proxy
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

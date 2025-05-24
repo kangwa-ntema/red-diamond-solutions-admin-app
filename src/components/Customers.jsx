@@ -50,7 +50,7 @@ const Customers = () => {
   }
   return (
     <div className="customers-container">
-                <li><Link to="/dashboard">Back to Dashboard</Link></li>
+        <li><Link to="/dashboard">Back to Dashboard</Link></li>
       
       <h1>Clients List</h1>
       
