@@ -7,12 +7,13 @@ const Customers = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate(); // Initialize useNavigate
+  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
   useEffect(() => {
     const fetchCustomers = async () => {
       try {
         // Make sure this URL points to your backend
-        const response = await fetch("/api/customers", {
+        const response = await fetch(`${BACKEND_URL}/api/customers`, {
           method: "GET",
           // Credentials are important for sending the HTTP-only cookie
           credentials: "include", // This sends cookies with the request

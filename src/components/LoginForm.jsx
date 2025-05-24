@@ -20,6 +20,7 @@ const LoginForm = () => {
       const response = await fetch(`${BACKEND_URL}/api/admin/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: 'include',
         body: JSON.stringify({ username, password }),
       });
 
