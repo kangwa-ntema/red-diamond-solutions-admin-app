@@ -11,11 +11,15 @@ import Accounting from "./components/Accounting";
 import "./App.css";
 
 /* IMAGES */
-import PrimaryNavLogo from "./assets/logo-images/red-diamond-primary-logo-white-type.png";
+import PrimaryNavLogo from "./assets/logo-images/red-diamond-primary-logo-white-typeface.png";
+
+/* COMPONENTS */
+import ScrollToTop from "./components/scrollToTop/ScrollToTop";
 
 function App() {
   return (
     <BrowserRouter>
+    <ScrollToTop />
       <div className="appContainer">
         <div className="appPrimaryNavbarContainer">
           <header className="appPrimaryNavbar">
