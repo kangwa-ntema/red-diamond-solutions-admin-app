@@ -1,0 +1,24 @@
+.landingPageContainer{
+    
+  max-width: var(--max-width-xl);
+  margin:  auto;
+
+}
+
+
+.loginBtn{
+    margin: 1rem auto;
+    width: 100%;
+    padding: .5rem 5rem;
+    outline: none;
+    border: none;
+    background-color: var(--clr-golden-yellow);
+    cursor: pointer;
+    
+}
+
+.loginBtn:hover{
+    background-color: var(--clr-golden-yellow-2);
+}
+
+.loginBtn:focus{}

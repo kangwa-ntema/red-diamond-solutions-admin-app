@@ -5,41 +5,46 @@
 
 .appContainer {
   color: var(--clr-zeus);
-  height: 100vh;
   background-color: var(--clr-soap-stone);
+  display: grid;
+  grid-template-rows: auto 1fr auto; /* Header (auto), Main (1fr), Footer (auto) */
+  min-height: 100vh; /* Make the grid container at least the height of the viewport */
 }
 
 .appPrimaryNavbarContainer {
-  background-color: var(--clr-lava-red);
+  background-color: var(--clr-zeus);
   padding: 1rem;
 }
 
 .appPrimaryNavbar {
   margin: auto;
-  max-width: var(--max-width-md);
+  max-width: var(--max-width-xl);
 }
 
-.appPrimaryNavbar a {
+
+
+.primaryNavLogo {
+  max-height: 2.5rem;
+}
+
+.appPrimaryNavbarHeadline{
   color: var(--clr-soap-stone);
-  background-color: var(--clr-lava-red);
-  font-size: 1.25em;
-}
-
-.navLink {
 }
 
 .outletSection {
-  max-width: var(--max-width-md);
-  margin: 2rem auto;
+  /* border: .1rem solid black; */
+  max-width: var(--max-width-xl);
+  margin: 1rem 0;
   padding-inline: 1rem;
-  height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
-
-
 .appFooter {
-  background-color: var(--clr-zeus);
+  background-color: var(--clr-lava-red);
   padding: 1rem;
+  margin-top: auto;
+  z-index: 100;
 }
 
 .appFooterCopyright {

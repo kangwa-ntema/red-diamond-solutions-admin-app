@@ -50,36 +50,43 @@ const Customers = () => {
   }
   return (
     <div className="customers-container">
-        <li><Link to="/dashboard">Back to Dashboard</Link></li>
-      
-      <h1>Clients List</h1>
-      
-      {customers.length === 0 ? (
-        <p>No clients found. Add a new customer!</p>
-      ) : (
-        <ul className="customer-list">
-          {customers.map((customer) => (
-            <li key={customer._id} className="customer-item">
-              <h3>{customer.name}</h3>
-              <p>Email: {customer.email}</p>
-              <p>Phone: {customer.phone}</p>
-              {customer.address && (
-                <p>
-                  Address: {customer.address.street}, {customer.address.city},{" "}
-                  {customer.address.state}, {customer.address.zip},{" "}
-                  {customer.address.country}
-                </p>
-              )}
-              {/* Add buttons for Edit/Delete later */}
-              {/* <button onClick={() => handleEdit(customer._id)}>Edit</button> */}
-              {/* <button onClick={() => handleDelete(customer._id)}>Delete</button> */}
-            </li>
-          ))}
-        </ul>
-      )}
-      <Link to="/customers/add">
-        <button className="add-customer-btn">Add New Client</button>
-      </Link>
+      <div>
+        <Link class="redirectButton" to="/dashboard">
+          {" "}
+          {"<"} Back to Dashboard
+        </Link>
+      </div>
+
+      <section className="customersSection">
+        <h1>Clients List</h1>
+        
+        {customers.length === 0 ? (
+          <p>No clients found. Add a new customer!</p>
+        ) : (
+          <ul className="customer-list">
+            {customers.map((customer) => (
+              <li key={customer._id} className="customer-item">
+                <h3>{customer.name}</h3>
+                <p>Email: {customer.email}</p>
+                <p>Phone: {customer.phone}</p>
+                {customer.address && (
+                  <p>
+                    Address: {customer.address.street}, {customer.address.city},{" "}
+                    {customer.address.state}, {customer.address.zip},{" "}
+                    {customer.address.country}
+                  </p>
+                )}
+                {/* Add buttons for Edit/Delete later */}
+                {/* <button onClick={() => handleEdit(customer._id)}>Edit</button> */}
+                {/* <button onClick={() => handleDelete(customer._id)}>Delete</button> */}
+              </li>
+            ))}
+          </ul>
+        )}
+        <Link to="/customers/add">
+          <button className="add-customer-btn">Add New Client</button>
+        </Link>
+      </section>
     </div>
   );
 };

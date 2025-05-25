@@ -1,6 +1,6 @@
 import "./LoginForm.css";
 import React, { useState } from "react";
-import {useNavigate} from "react-router-dom"
+import {Link, useNavigate} from "react-router-dom"
 
 const LoginForm = () => {
   const [username, setUsername] = useState("");
@@ -39,7 +39,8 @@ const LoginForm = () => {
     }
   };
   return (
-    <>
+    <section className="loginFormContainer">
+        <Link to="/">{"<"} Back Home</Link>
       <div className="loginForm">
         <p className="signInHeadline">LOG IN.</p>
         <form onSubmit={handleSubmit}>
@@ -75,7 +76,7 @@ const LoginForm = () => {
           {error && <p className="text-red-500 text-sm">{error}</p>}
         </form>
       </div>
-    </>
+    </section>
   );
 };
 

@@ -1,13 +1,13 @@
 import { Link } from "react-router-dom";
-
+import "./LandingPage.css";
 const LandingPage = () => {
   return (
-    <>
-      <h1>Login to access and manage you information.</h1>
+    <section className="landingPageContainer">
+      <h1 className="landingPageHeadline">Login to access and manage you information.</h1>
       <Link to="LoginForm">
-        <button>Login</button>
+        <button className="loginBtn">Login</button>
       </Link>
-    </>
+    </section>
   );
 };
 

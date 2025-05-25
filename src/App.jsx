@@ -10,28 +10,45 @@ import AddCustomerForm from "./components/AddCustomerForm";
 import Accounting from "./components/Accounting";
 import "./App.css";
 
+/* IMAGES */
+import PrimaryNavLogo from "./assets/logo-images/red-diamond-primary-logo-white-type.png";
+
 function App() {
   return (
     <BrowserRouter>
-      <div className="appPrimaryNavbarContainer">
-        <header className="appPrimaryNavbar">
-          <div className="logo">Red Diamond Solutions.</div>
-        </header>
+      <div className="appContainer">
+        <div className="appPrimaryNavbarContainer">
+          <header className="appPrimaryNavbar">
+            <div className="primaryNavLogoContainer">
+              <span>
+                <img src={PrimaryNavLogo} alt="" className="primaryNavLogo" />
+              </span>
+              <span className="appPrimaryNavbarHeadline">
+                <h1>Management Portal</h1>
+              </span>
+            </div>
+          </header>
+        </div>
+        <div className="outletSection">
+          <Routes>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/loginForm" element={<LoginForm />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/customers" element={<Customers />} />
+            <Route
+              path="/changePasswordForm"
+              element={<ChangePasswordForm />}
+            />
+            <Route path="/customers/add" element={<AddCustomerForm />} />
+            <Route path="/accounting" element={<Accounting />} />
+          </Routes>
+        </div>
+        <footer className="appFooter">
+          <p className="appFooterCopyright">
+            Red Diamond Solutions &copy; 2025
+          </p>
+        </footer>
       </div>
-      <div className="outletSection">
-        <Routes>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/loginForm" element={<LoginForm />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/customers" element={<Customers />} />
-          <Route path="/changePasswordForm" element={<ChangePasswordForm />} />
-          <Route path="/customers/add" element={<AddCustomerForm />} />
-          <Route path="/accounting" element={<Accounting />} />
-        </Routes>
-      </div>
-      <footer className="appFooter">
-        <p className="appFooterCopyright">Red Diamond Solutions &copy; 2025</p>
-      </footer>
     </BrowserRouter>
   );
 }

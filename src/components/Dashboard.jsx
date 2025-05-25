@@ -13,7 +13,7 @@ const Dashboard = () => {
       });
 
       if (response.ok) {
-        navigate("/loginform"); // Redirect to login page after successful logout
+        navigate("/"); // Redirect to login page after successful logout
       } else {
         const errorData = await response.json();
         console.error(
@@ -42,9 +42,9 @@ const Dashboard = () => {
             <Link to="/accounting">Manage Accounting</Link>{" "}
             {/* Add this link */}
           </li>
-          {/* <li>
+          <li>
             <Link to="/changePasswordForm">Change Password</Link> 
-          </li> */}
+          </li>
           <li>
             <button onClick={handleLogout} className="logout-btn">
               Logout
