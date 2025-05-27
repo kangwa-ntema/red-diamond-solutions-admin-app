@@ -8,6 +8,8 @@ import Dashboard from "./components/Dashboard";
 import Customers from "./components/Customers";
 import AddCustomerForm from "./components/AddCustomerForm";
 import Accounting from "./components/Accounting";
+import ViewClientPage from "./components/ViewClientPage";
+import EditCustomerPage from "./components/EditCustomerPage";
 import "./App.css";
 
 /* IMAGES */
@@ -19,7 +21,7 @@ import ScrollToTop from "./components/scrollToTop/ScrollToTop";
 function App() {
   return (
     <BrowserRouter>
-    <ScrollToTop />
+      <ScrollToTop />
       <div className="appContainer">
         <div className="appPrimaryNavbarContainer">
           <header className="appPrimaryNavbar">
@@ -38,12 +40,14 @@ function App() {
             <Route path="/" element={<LandingPage />} />
             <Route path="/loginForm" element={<LoginForm />} />
             <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/customers" element={<Customers />} />
             <Route
               path="/changePasswordForm"
               element={<ChangePasswordForm />}
             />
+            <Route path="/customers" element={<Customers />} />
             <Route path="/customers/add" element={<AddCustomerForm />} />
+            <Route path="/customers/:id" element={<ViewClientPage />} />
+            <Route path="/customers/edit/:id" element={<EditCustomerPage />} />
             <Route path="/accounting" element={<Accounting />} />
           </Routes>
         </div>
