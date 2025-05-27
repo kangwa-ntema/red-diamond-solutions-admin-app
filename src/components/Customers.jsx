@@ -1,18 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import "./Customers.css";
+import React, { useState, useEffect } from "react"; // Ensure React is imported
+import { useNavigate, Link } from "react-router-dom";
 import { getToken, clearAuthData } from '../utils/authUtils'; // Import your auth utility functions
-// import { fetchCustomersFromApi } from '../services/customerService'; // If you're using a separate service file
 
-const CustomersPage = () => {
+const CustomersPage = () => { // Renamed from CustomersPage back to Customers
     const [customers, setCustomers] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const navigate = useNavigate(); // Initialize the navigate hook
-
-    // Ensure your .env.production on Netlify has VITE_BACKEND_URL set
+    const navigate = useNavigate();
     const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
-    // This function will fetch your customer data
+    // This function will fetch your customer data with the Authorization header
     const fetchCustomerData = async () => {
         setLoading(true); // Start loading state
         setError(null); // Clear previous errors
@@ -60,7 +58,7 @@ const CustomersPage = () => {
 
         } catch (err) {
             console.error("Error fetching customer data:", err);
-            setError(err.message || "Failed to load customers."); // Set error state
+            setError(err.message || "Network error or server unavailable."); // Set error state
         } finally {
             setLoading(false); // End loading state
         }
@@ -69,37 +67,58 @@ const CustomersPage = () => {
     // Use useEffect to call fetchCustomerData when the component mounts
     useEffect(() => {
         fetchCustomerData();
-    }, []); // The empty dependency array ensures this runs only once when the component mounts
+    }, [navigate]); // Add navigate to dependency array for useEffect
 
     // --- Render Logic ---
     if (loading) {
-        return <div className="customers-loading">Loading customers...</div>;
+        return <div>Loading customers...</div>;
     }
 
     if (error) {
-        return <div className="customers-error">Error: {error}</div>;
+        return <div style={{ color: "red" }}>Error: {error}</div>;
     }
 
     return (
-        <section className="customers-page-container">
-            <h1 className="customers-page-headline">Clients Overview</h1>
-            <div className="customers-list">
-                {customers.length === 0 ? (
-                    <p>No customers found.</p>
-                ) : (
-                    customers.map((customer) => (
-                        <div key={customer._id} className="customer-card">
-                            <h3>{customer.name}</h3>
-                            <p>Email: {customer.email}</p>
-                            <p>Phone: {customer.phone}</p>
-                            <p>Address: {customer.address}</p>
-                            {/* Add actions like View Details, Edit, Delete here */}
-                        </div>
-                    ))
-                )}
+        <div className="customers-container">
+            <div>
+                <Link className="redirectButton" to="/dashboard">
+                    {" "}
+                    {"<"} Back to Dashboard
+                </Link>
             </div>
-        </section>
+
+            <section className="customersSection">
+                <h1>Clients List</h1>
+
+                {customers.length === 0 ? (
+                    <p>No clients found. Add a new customer!</p>
+                ) : (
+                    <ul className="customer-list">
+                        {customers.map((customer) => (
+                            <li key={customer._id} className="customer-item">
+                                <h3>{customer.name}</h3>
+                                <p>Email: {customer.email}</p>
+                                <p>Phone: {customer.phone}</p>
+                                {customer.address && (
+                                    <p>
+                                        Address: {customer.address.street}, {customer.address.city},{" "}
+                                        {customer.address.state}, {customer.address.zip},{" "}
+                                        {customer.address.country}
+                                    </p>
+                                )}
+                                {/* Add buttons for Edit/Delete later */}
+                                {/* <button onClick={() => handleEdit(customer._id)}>Edit</button> */}
+                                {/* <button onClick={() => handleDelete(customer._id)}>Delete</button> */}
+                            </li>
+                        ))}
+                    </ul>
+                )}
+                <Link to="/customers/add">
+                    <button className="add-customer-btn">Add New Client</button>
+                </Link>
+            </section>
+        </div>
     );
 };
 
-export default CustomersPage;
+export default CustomersPage; // Ensure the export matches the component name
