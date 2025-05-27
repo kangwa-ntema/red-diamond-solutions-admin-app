@@ -20,16 +20,26 @@ const LoginForm = () => {
       const response = await fetch(`${BACKEND_URL}/api/admin/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        credentials: 'include',
+        credentials: 'include', // Keep this if you want cookies to still be sent for some browsers
         body: JSON.stringify({ username, password }),
       });
 
+      const responseData = await response.json(); // <--- Parse the JSON response
+
       if (response.ok) {
-        // Login successful, the cookie is set by the backend
-        navigate("/dashboard");
+        // Login successful, the cookie is set by the backend.
+        // NOW, ALSO STORE THE TOKEN FROM THE RESPONSE BODY IN LOCAL STORAGE
+        if (responseData.token) {
+          localStorage.setItem('jwtToken', responseData.token); // Store the token
+          // You might also store user info if available in responseData
+          localStorage.setItem('userInfo', JSON.stringify(responseData.user));
+          navigate("/dashboard");
+        } else {
+          // This should ideally not happen if backend sends token
+          setError("Login successful, but no token received.");
+        }
       } else {
-        const errorData = await response.json();
-        setError(errorData.message || "Login failed");
+        setError(responseData.message || "Login failed");
       }
     } catch (err) {
       setError("Error during login");
