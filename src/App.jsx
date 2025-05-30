@@ -12,7 +12,7 @@ import AddCustomerForm from "./components/AddCustomerForm";
 import ClientDashboard from "./components/ClientDashboard";
 import EditCustomerPage from "./components/EditCustomerPage";
 /* Loans */
-import LoansDashboard from "./components/loansDashboard";
+import LoansDashboard from "./components/LoansDashboard";
 import LoanDetailsPage from "./components/LoansDetails";
 import LoansList from "./components/loansList";
 import AddLoanPage from "./components/AddLoanPage";
