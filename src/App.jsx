@@ -14,6 +14,7 @@ import EditCustomerPage from "./components/EditCustomerPage";
 /* Loans */
 import LoansDashboard from "./components/loansDashboard";
 import LoanDetailsPage from "./components/LoansDetails";
+import LoansList from "./components/loansList";
 import AddLoanPage from "./components/AddLoanPage";
 import EditLoanPage from "./components/EditLoanPage";
 import Accounting from "./components/Accounting";
