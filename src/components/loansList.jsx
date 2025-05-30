@@ -21,6 +21,7 @@ const LoansList = () => {
         setLoading(true);
         setError(null);
         const token = getToken();
+        const strg = "";
 
         if (!token) {
             console.error('LoansList: No authentication token found. Redirecting to login.');
