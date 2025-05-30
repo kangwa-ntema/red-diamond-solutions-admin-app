@@ -18,7 +18,6 @@ import LoansList from "./components/loansList";
 import AddLoanPage from "./components/AddLoanPage";
 import EditLoanPage from "./components/EditLoanPage";
 import Accounting from "./components/Accounting";
-
 /* IMAGES */
 import PrimaryNavLogo from "./assets/logo-images/red-diamond-primary-logo-white-typeface.png";
 
@@ -37,7 +36,7 @@ function App() {
                 <img src={PrimaryNavLogo} alt="" className="primaryNavLogo" />
               </span>
               <span className="appPrimaryNavbarHeadline">
-                <h1>Management Portal</h1>
+                <h1>Management Portal.</h1>
               </span>
             </div>
           </header>
