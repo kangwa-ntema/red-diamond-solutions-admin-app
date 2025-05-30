@@ -39,6 +39,9 @@ const Dashboard = () => {
             <Link to="/customers">Manage Clients</Link> {/* Add this link */}
           </li>
           <li>
+            <Link to="/loans">Manage Loans</Link> {/* Add this link */}
+          </li>
+          <li>
             <Link to="/accounting">Manage Accounting</Link>{" "}
             {/* Add this link */}
           </li>

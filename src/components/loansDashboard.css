@@ -1,0 +1,241 @@
+.dashboard-container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 20px auto;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.dashboard-container h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 25px;
+}
+
+.auth-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.profile-link {
+    background-color: #6c757d; /* Grey */
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.profile-link:hover {
+    background-color: #5a6268;
+}
+
+.logout-button {
+    background-color: #dc3545; /* Red */
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.logout-button:hover {
+    background-color: #c82333;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 30px;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.section-header h2 {
+    color: #333;
+    margin: 0;
+}
+
+.add-loan-button, .add-customer-button {
+    background-color: #28a745; /* Green */
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.add-loan-button:hover, .add-customer-button:hover {
+    background-color: #218838;
+}
+
+.filter-buttons {
+    display: flex;
+    flex-wrap: wrap; /* Allow buttons to wrap to next line */
+    gap: 10px;
+    margin-bottom: 30px;
+    justify-content: center; /* Center buttons */
+}
+
+.filter-buttons button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    white-space: nowrap; /* Prevent text wrapping inside buttons */
+}
+
+.filter-buttons button:hover {
+    background-color: #0056b3;
+}
+
+/* --- Loan Summary Section Styles --- */
+.summary-section {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    margin-bottom: 30px;
+}
+
+.summary-section h2 {
+    text-align: center;
+    color: #333;
+    margin-top: 0;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+.summary-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center; /* Center the cards */
+}
+
+.summary-card {
+    background-color: #f0f8ff; /* Light blue background */
+    border: 1px solid #cceeff; /* Light blue border */
+    border-radius: 8px;
+    padding: 15px 20px;
+    text-align: center;
+    min-width: 160px; /* Minimum width for cards */
+    flex: 1; /* Allow cards to grow and shrink */
+    max-width: 220px; /* Max width for cards */
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    transition: transform 0.2s ease-in-out;
+}
+
+.summary-card:hover {
+    transform: translateY(-5px);
+}
+
+.summary-card h3 {
+    margin-top: 0;
+    color: #0056b3; /* Darker blue for titles */
+    font-size: 1.1em;
+    margin-bottom: 10px;
+}
+
+.summary-count {
+    font-size: 2.2em;
+    font-weight: bold;
+    color: #007bff; /* Primary blue for counts */
+}
+
+/* Specific colors for summary cards based on status */
+.summary-card.total-loans {
+    background-color: #e6f7ff;
+    border-color: #91d5ff;
+    color: #001529;
+}
+.summary-card.total-loans .summary-count { color: #001529; }
+
+
+.summary-card.active {
+    background-color: #e6ffe6;
+    border-color: #87e8de;
+}
+.summary-card.active .summary-count { color: #28a745; }
+
+
+.summary-card.pending {
+    background-color: #fffbe6;
+    border-color: #ffe58f;
+}
+.summary-card.pending .summary-count { color: #ffc107; }
+
+.summary-card.overdue {
+    background-color: #ffe6e6;
+    border-color: #ff7875;
+}
+.summary-card.overdue .summary-count { color: #dc3545; }
+
+.summary-card.default {
+    background-color: #f0f2f5;
+    border-color: #d9d9d9;
+}
+.summary-card.default .summary-count { color: #6c757d; }
+
+.summary-card.paid {
+    background-color: #e6f7ff;
+    border-color: #a0d911;
+}
+.summary-card.paid .summary-count { color: #007bff; } /* Reusing primary blue for paid */
+
+
+/* Error message style */
+.error-message {
+    color: red;
+    text-align: center;
+    margin-top: 15px;
+}
+
+/* Customer section specific styling for spacing */
+.customer-section {
+    margin-top: 40px; /* More space above customer section */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .dashboard-container {
+        padding: 15px;
+        margin: 10px auto;
+    }
+
+    .filter-buttons, .summary-cards {
+        flex-direction: column; /* Stack buttons and cards vertically */
+        align-items: stretch; /* Stretch items to fill width */
+    }
+
+    .filter-buttons button, .summary-card {
+        width: 100%; /* Full width on small screens */
+        max-width: none; /* Override max-width */
+    }
+
+    .summary-card h3 {
+        font-size: 1em;
+    }
+
+    .summary-count {
+        font-size: 2em;
+    }
+}

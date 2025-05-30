@@ -1,24 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { getToken, clearAuthData } from '../utils/authUtils'; // Assuming authUtils.js exists
-// import './EditCustomerPage.css'; // Don't forget to import your CSS if you have one
+import './EditCustomerPage.css'; // Don't forget to import your CSS if you have one
 
 const EditCustomerPage = () => {
-    const { id } = useParams(); // Get the customer ID from the URL
+    const { id: customerId } = useParams(); // Get the customer ID from the URL
     const navigate = useNavigate();
     const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
-    const [customer, setCustomer] = useState({
+    const [formData, setFormData] = useState({
         name: '',
         email: '',
         phone: '',
-        address: {
-            street: '',
-            city: '',
-            state: '',
-            zip: '',
-            country: ''
-        }
+        secondaryPhone: '',
+        nrc: '',
+        address: '',
+        dateRegistered: ''
     });
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -39,7 +36,7 @@ const EditCustomerPage = () => {
             }
 
             try {
-                const response = await fetch(`${BACKEND_URL}/api/customers/${id}`, {
+                const response = await fetch(`${BACKEND_URL}/api/customers/${customerId}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -60,19 +57,21 @@ const EditCustomerPage = () => {
                     throw new Error(errorData.message || 'Failed to fetch customer details.');
                 }
 
-                const data = await response.json();
-                // Ensure address sub-fields are initialized if they might be missing
-                setCustomer({
-                    name: data.name || '',
-                    email: data.email || '',
-                    phone: data.phone || '',
-                    address: {
-                        street: data.address?.street || '',
-                        city: data.address?.city || '',
-                        state: data.address?.state || '',
-                        zip: data.address?.zip || '',
-                        country: data.address?.country || ''
-                    }
+                // --- CRITICAL CHANGE HERE ---
+                // The backend sends { customer: {...}, loans: [...], customerLoanSummary: {...} }
+                // We need to extract the 'customer' object from this response.
+                const responseData = await response.json();
+                const customerData = responseData.customer; // Extract the actual customer object
+
+                // Map the fetched data to the state, ensuring address is a string and new fields are included
+                setFormData({ // Changed from setCustomer to setFormData for consistency
+                    name: customerData.name || '',
+                    email: customerData.email || '',
+                    phone: customerData.phone || '',
+                    secondaryPhone: customerData.secondaryPhone || '',
+                    nrc: customerData.nrc || '',
+                    address: customerData.address || '',
+                    dateRegistered: customerData.dateRegistered ? new Date(customerData.dateRegistered).toISOString().split('T')[0] : ''
                 });
 
             } catch (err) {
@@ -83,27 +82,18 @@ const EditCustomerPage = () => {
             }
         };
 
-        fetchCustomerDetails();
-    }, [id, navigate, BACKEND_URL]); // Re-fetch if ID changes, or navigate/backend URL changes
+        if (customerId) { // Only fetch if customerId is available
+            fetchCustomerDetails();
+        }
+    }, [customerId, navigate, BACKEND_URL]); // Re-fetch if ID changes, or navigate/backend URL changes
 
     // --- Handle Form Field Changes ---
     const handleChange = (e) => {
         const { name, value } = e.target;
-        if (name.startsWith('address.')) {
-            const addressField = name.split('.')[1];
-            setCustomer(prevCustomer => ({
-                ...prevCustomer,
-                address: {
-                    ...prevCustomer.address,
-                    [addressField]: value
-                }
-            }));
-        } else {
-            setCustomer(prevCustomer => ({
-                ...prevCustomer,
-                [name]: value
-            }));
-        }
+        setFormData(prevData => ({ // Changed from setCustomer to setFormData
+            ...prevData,
+            [name]: value
+        }));
     };
 
     // --- Handle Form Submission (Update Customer) ---
@@ -114,36 +104,36 @@ const EditCustomerPage = () => {
         const token = getToken();
 
         if (!token) {
-            alert("Authentication required to update customer.");
+            alert("Authentication required to update client.");
             navigate('/login');
             return;
         }
 
         try {
-            const response = await fetch(`${BACKEND_URL}/api/customers/${id}`, {
+            const response = await fetch(`${BACKEND_URL}/api/customers/${customerId}`, { // Use customerId
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 },
                 credentials: 'include',
-                body: JSON.stringify(customer), // Send the updated customer object
+                body: JSON.stringify(formData), // Send the updated formData object
             });
 
             if (response.ok) {
-                alert("Customer updated successfully!");
-                navigate('/customers'); // Navigate back to the customers list
+                alert("Client updated successfully!");
+                navigate(`/customers/${customerId}`); // Navigate back to the client dashboard
             } else if (response.status === 401 || response.status === 403) {
                 alert("Authentication expired or unauthorized. Please log in again.");
                 clearAuthData();
                 navigate('/login');
             } else {
                 const errorData = await response.json();
-                throw new Error(errorData.message || 'Failed to update customer.');
+                throw new Error(errorData.message || 'Failed to update client.');
             }
         } catch (err) {
-            console.error("Error updating customer:", err);
-            alert(`Error updating customer: ${err.message}`);
+            console.error("Error updating client:", err);
+            alert(`Error updating client: ${err.message}`);
         } finally {
             setSubmitting(false);
         }
@@ -151,7 +141,7 @@ const EditCustomerPage = () => {
 
     // --- Render Logic ---
     if (loading) {
-        return <div>Loading customer details...</div>;
+        return <div>Loading client details...</div>;
     }
 
     if (error) {
@@ -161,9 +151,9 @@ const EditCustomerPage = () => {
     return (
         <div className="edit-customer-container">
             <Link to="/customers" className="back-to-customers-btn">
-                {"<"} Back to Clients
+                {"<"} Back to Clients List
             </Link>
-            <h1>Edit Client: {customer.name}</h1>
+            <h1>Edit Client: {formData.name || customerId}</h1>
             <form onSubmit={handleSubmit} className="edit-customer-form">
                 <div className="form-group">
                     <label htmlFor="name">Name:</label>
@@ -171,7 +161,7 @@ const EditCustomerPage = () => {
                         type="text"
                         id="name"
                         name="name"
-                        value={customer.name}
+                        value={formData.name}
                         onChange={handleChange}
                         required
                     />
@@ -182,77 +172,67 @@ const EditCustomerPage = () => {
                         type="email"
                         id="email"
                         name="email"
-                        value={customer.email}
+                        value={formData.email}
                         onChange={handleChange}
                         required
                     />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="phone">Phone:</label>
+                    <label htmlFor="phone">Primary Phone:</label>
                     <input
                         type="tel"
                         id="phone"
                         name="phone"
-                        value={customer.phone}
-                        onChange={handleChange}
-                    />
-                </div>
-
-                {/* Address Fields */}
-                <h3>Address:</h3>
-                <div className="form-group">
-                    <label htmlFor="address.street">Street:</label>
-                    <input
-                        type="text"
-                        id="address.street"
-                        name="address.street"
-                        value={customer.address.street}
+                        value={formData.phone}
                         onChange={handleChange}
                     />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="address.city">City:</label>
+                    <label htmlFor="secondaryPhone">Secondary Phone:</label>
                     <input
-                        type="text"
-                        id="address.city"
-                        name="address.city"
-                        value={customer.address.city}
+                        type="tel"
+                        id="secondaryPhone"
+                        name="secondaryPhone"
+                        value={formData.secondaryPhone}
                         onChange={handleChange}
                     />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="address.state">State:</label>
+                    <label htmlFor="nrc">NRC:</label>
                     <input
                         type="text"
-                        id="address.state"
-                        name="address.state"
-                        value={customer.address.state}
+                        id="nrc"
+                        name="nrc"
+                        value={formData.nrc}
                         onChange={handleChange}
                     />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="address.zip">Zip Code:</label>
-                    <input
-                        type="text"
-                        id="address.zip"
-                        name="address.zip"
-                        value={customer.address.zip}
+                    <label htmlFor="address">Address:</label>
+                    <textarea
+                        id="address"
+                        name="address"
+                        value={formData.address}
                         onChange={handleChange}
-                    />
+                        rows="3"
+                    ></textarea>
                 </div>
                 <div className="form-group">
-                    <label htmlFor="address.country">Country:</label>
+                    <label htmlFor="dateRegistered">Date Registered:</label>
                     <input
-                        type="text"
-                        id="address.country"
-                        name="address.country"
-                        value={customer.address.country}
+                        type="date"
+                        id="dateRegistered"
+                        name="dateRegistered"
+                        value={formData.dateRegistered}
                         onChange={handleChange}
                     />
                 </div>
 
                 <button type="submit" disabled={submitting} className="update-customer-btn">
                     {submitting ? 'Updating...' : 'Update Client'}
+                </button>
+                <button type="button" onClick={() => navigate(-1)} className="cancel-btn">
+                    Cancel
                 </button>
             </form>
         </div>

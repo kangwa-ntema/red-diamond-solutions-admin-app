@@ -1,0 +1,152 @@
+/* src/pages/ClientDashboard.css */
+
+.client-dashboard-container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 20px auto;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.client-dashboard-container h1, .client-dashboard-container h2 {
+    color: #333;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+.back-to-dashboard-btn {
+    display: inline-block;
+    margin-bottom: 20px;
+    padding: 8px 15px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.back-to-dashboard-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Client Details Section */
+.client-details-section .details-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    margin-bottom: 20px;
+}
+
+.client-details-section .details-grid p {
+    margin: 0;
+    font-size: 0.95rem;
+    color: #555;
+}
+
+.client-details-section .edit-btn {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.client-details-section .edit-btn:hover {
+    background-color: #218838;
+}
+
+/* Loan Summary Cards - Reusing summary-cards styling (from CustomersDashboard.css) if available */
+.client-loan-summary-section .summary-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.client-loan-summary-section .summary-card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    padding: 20px;
+    text-align: center;
+}
+
+.client-loan-summary-section .summary-card h3 {
+    margin-top: 0;
+    color: #007bff;
+    font-size: 1.1rem;
+}
+
+.client-loan-summary-section .summary-card p {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 0;
+}
+
+/* Loan Filter Buttons - Reusing filter-btn styling from CustomersDashboard.css */
+.loan-filter-buttons {
+    margin-bottom: 20px;
+    display: flex;
+    flex-wrap: wrap; /* Allow wrapping on small screens */
+    gap: 10px;
+    justify-content: center;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 15px;
+}
+
+.loan-filter-buttons .filter-btn {
+    padding: 10px 20px;
+    border: 1px solid #007bff;
+    border-radius: 5px;
+    background-color: #fff;
+    color: #007bff;
+    cursor: pointer;
+    font-size: 0.95rem;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+
+.loan-filter-buttons .filter-btn:hover {
+    background-color: #e6f2ff;
+    border-color: #0056b3;
+    color: #0056b3;
+}
+
+.loan-filter-buttons .filter-btn.active {
+    background-color: #007bff;
+    color: #fff;
+    border-color: #007bff;
+}
+
+.loan-filter-buttons .filter-btn.active:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
+/* Loans List - Reusing customers-table styles (from CustomersList.css) */
+.client-loans-list-section {
+    margin-top: 20px;
+}
+
+.client-loans-list-section h2 {
+    margin-bottom: 15px;
+}
+
+.client-loans-list-section .no-loans-message {
+    text-align: center;
+    color: #777;
+    padding: 20px;
+    border: 1px dashed #ccc;
+    border-radius: 5px;
+}
+
+/* Ensure table-responsive and table styles are correctly applied from CustomersList.css */
+/* If not, copy them here or ensure CustomersList.css is imported correctly */

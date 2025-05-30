@@ -18,7 +18,7 @@ const ViewClientPage = () => {
             setLoading(true);
             setError(null);
             const token = getToken();
-
+            
             if (!token) {
                 console.error('No authentication token found. Redirecting to login.');
                 clearAuthData();

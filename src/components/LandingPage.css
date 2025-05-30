@@ -1,24 +1,70 @@
-.landingPageContainer{
-    
-  max-width: var(--max-width-xl);
-  margin:  auto;
-
+.landingPageContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh; /* Make it take full viewport height */
+  width: 100%;
+  padding: 1rem;
 }
 
-
-.loginBtn{
-    margin: 1rem auto;
-    width: 100%;
-    padding: .5rem 5rem;
-    outline: none;
-    border: none;
-    background-color: var(--clr-golden-yellow);
-    cursor: pointer;
-    
+.landingPageContent {
+  background-color: var(
+    --clr-neutral-100
+  ); /* Similar to loginForm background */
+  padding: 2.5rem;
+  border-radius: 0.1rem; /* Consistent border radius */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Consistent shadow */
+  max-width: var(--max-width-sm); /* Adjusted max-width for content */
+  width: 100%;
+  text-align: center;
 }
 
-.loginBtn:hover{
-    background-color: var(--clr-golden-yellow-2);
+.landingPageHeadline {
+  font-size: 2em;
+  color: var(--clr-soap-stone); /* Consistent headline color */
+  margin-bottom: 2rem; /* Increased margin for better spacing */
+  font-weight: bold;
 }
 
-.loginBtn:focus{}
+.signInContainer {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.loginBtn {
+  width: 100%; /* Make button take full width of its container */
+  color: var(--clr-zeus); /* Consistent text color on button */
+  border: none;
+  border-radius: 0.1rem; /* Consistent border radius */
+  font-size: 1em;
+  font-weight: bold;
+  margin: 1rem auto;
+  padding: 0.5rem 5rem;
+  outline: none;
+  background-color: var(--clr-golden-yellow);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.loginBtn:hover {
+  background-color: var(--clr-golden-yellow-2); /* Consistent hover effect */
+}
+
+.loginBtn:focus {
+  outline: none; /* Remove default outline */
+}
+
+.landingPageContainer {
+}
+
+.loginBtn {
+}
+
+.loginBtn:hover {
+  background-color: var(--clr-golden-yellow-2);
+}
+
+.loginBtn:focus {
+}

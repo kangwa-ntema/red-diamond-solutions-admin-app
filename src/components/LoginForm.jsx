@@ -1,6 +1,6 @@
 import "./LoginForm.css";
 import React, { useState } from "react";
-import {Link, useNavigate} from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom";
 
 const LoginForm = () => {
   const [username, setUsername] = useState("");
@@ -9,7 +9,6 @@ const LoginForm = () => {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
   const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -20,7 +19,7 @@ const LoginForm = () => {
       const response = await fetch(`${BACKEND_URL}/api/admin/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        credentials: 'include', // Keep this if you want cookies to still be sent for some browsers
+        credentials: "include", // Keep this if you want cookies to still be sent for some browsers
         body: JSON.stringify({ username, password }),
       });
 
@@ -30,9 +29,9 @@ const LoginForm = () => {
         // Login successful, the cookie is set by the backend.
         // NOW, ALSO STORE THE TOKEN FROM THE RESPONSE BODY IN LOCAL STORAGE
         if (responseData.token) {
-          localStorage.setItem('jwtToken', responseData.token); // Store the token
+          localStorage.setItem("jwtToken", responseData.token); // Store the token
           // You might also store user info if available in responseData
-          localStorage.setItem('userInfo', JSON.stringify(responseData.user));
+          localStorage.setItem("userInfo", JSON.stringify(responseData.user));
           navigate("/dashboard");
         } else {
           // This should ideally not happen if backend sends token
@@ -50,7 +49,9 @@ const LoginForm = () => {
   };
   return (
     <section className="loginFormContainer">
-        <Link to="/">{"<"} Back Home</Link>
+      <Link to="/" >
+        <button className="backHomeBtn">Back Home</button>
+      </Link>
       <div className="loginForm">
         <p className="signInHeadline">LOG IN.</p>
         <form onSubmit={handleSubmit}>

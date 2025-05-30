@@ -1,3 +1,4 @@
+import "./App.css";
 import React from "react";
 import { BrowserRouter, Routes, Route, NavLink } from "react-router-dom";
 
@@ -5,12 +6,18 @@ import LandingPage from "./components/LandingPage";
 import LoginForm from "./components/LoginForm";
 import ChangePasswordForm from "./components/ChangePasswordForm";
 import Dashboard from "./components/Dashboard";
-import Customers from "./components/Customers";
+/* Customers */
+import CustomersDashboard from "./components/CustomersDashboard";
 import AddCustomerForm from "./components/AddCustomerForm";
-import Accounting from "./components/Accounting";
-import ViewClientPage from "./components/ViewClientPage";
+import ClientDashboard from "./components/ClientDashboard";
 import EditCustomerPage from "./components/EditCustomerPage";
-import "./App.css";
+/* Loans */
+import LoansDashboard from "./components/loansDashboard";
+import LoanDetailsPage from "./components/LoansDetails";
+import LoansList from "./components/loansList";
+import AddLoanPage from "./components/AddLoanPage";
+import EditLoanPage from "./components/EditLoanPage";
+import Accounting from "./components/Accounting";
 
 /* IMAGES */
 import PrimaryNavLogo from "./assets/logo-images/red-diamond-primary-logo-white-typeface.png";
@@ -21,7 +28,7 @@ import ScrollToTop from "./components/scrollToTop/ScrollToTop";
 function App() {
   return (
     <BrowserRouter>
-      <ScrollToTop />
+      {/* <ScrollToTop /> */}
       <div className="appContainer">
         <div className="appPrimaryNavbarContainer">
           <header className="appPrimaryNavbar">
@@ -44,10 +51,18 @@ function App() {
               path="/changePasswordForm"
               element={<ChangePasswordForm />}
             />
-            <Route path="/customers" element={<Customers />} />
+            {/* CUSTOMER ROUTES */}
+            <Route path="/customers" element={<CustomersDashboard />} />
             <Route path="/customers/add" element={<AddCustomerForm />} />
-            <Route path="/customers/:id" element={<ViewClientPage />} />
+            <Route path="/customers/:id" element={<ClientDashboard />} />
             <Route path="/customers/edit/:id" element={<EditCustomerPage />} />
+            {/* LOANS ROUTES */}
+            <Route path="/loans" element={<LoansDashboard />} />
+            <Route path="/loans/list" element={<LoansList />} />
+            <Route path="/loans/add" element={<AddLoanPage />} />
+            <Route path="/loans/edit/:id" element={<EditLoanPage />} />
+            <Route path="/loans/:id" element={<LoanDetailsPage />} />
+            {/* ACCOUNTING ROUTES */}
             <Route path="/accounting" element={<Accounting />} />
           </Routes>
         </div>

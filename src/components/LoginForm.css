@@ -1,9 +1,109 @@
-.loginFormContainer{
-    
+.backHomeBtn{
+  color: var(--clr-soap-stone);
+  background-color: var(--clr-lava-red);
+  border: none;
+  border-radius: .1rem;
+  padding: .5rem 3rem;
+  margin-bottom: 2rem;
+  cursor: pointer;
 }
 
+.backHomeBtn:hover{
+  background-color: var(--clr-coral-red);
+}
+
+.loginFormContainer {
+/*   display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh; 
+  width: 100%;
+  padding: 1rem; */
+  
+}
+
+.loginForm {
+  margin: 0 auto;
+  background-color: var(--clr-neutral-100); /* Dark background for the form itself */
+  padding: 2rem;
+  border-radius: .1rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  max-width: 400px; /* Limit form width */
+  width: 100%;
+  text-align: center;
+}
+
+.signInHeadline {
+  font-size: 2em;
+  color: var(--clr-soap-stone);
+  margin-bottom: 1.5rem;
+  font-weight: bold;
+}
+
+.signInFormElement {
+  margin-bottom: 1rem;
+  text-align: left;
+}
+
+.signInFormElement label p {
+  font-size: 0.9em;
+  color: var(--clr-neutral-600); /* Lighter text for labels */
+  margin-bottom: 0.3rem;
+}
+
+.signInFormElement input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--clr-neutral-300);
+  border-radius: 4px;
+  background-color: var(--clr-neutral-200); /* Darker input background */
+  color: var(--clr-white); /* Input text color */
+}
+
+.signInFormElement input:focus {
+  outline: none;
+  border-color: var(--clr-golden-yellow);
+  box-shadow: 0 0 0 2px rgba(var(--clr-golden-yellow-2), 0.5);
+}
+
+.logInBtn {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: var(--clr-golden-yellow);
+  color: var(--clr-zeus); /* Dark text on golden button */
+  border: none;
+  border-radius: 4px;
+  font-size: 1em;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  margin-top: 1.5rem;
+}
+
+.logInBtn:hover:not(:disabled) {
+  background-color: var(--clr-golden-yellow-2);
+}
+
+.logInBtn:disabled {
+  background-color: var(--clr-neutral-400);
+  cursor: not-allowed;
+}
+
+.text-red-500 { /* This class was already in the JS, mapping it to a variable */
+    color: var(--clr-lava-red);
+    margin-top: 0.75rem;
+}
+
+.text-sm {
+    font-size: 0.875em; /* 14px */
+}
+
+
+
+
+
+
 .loginForm{
-display: grid;
-    place-items: center;
-  justify-self: center;
+
 }
