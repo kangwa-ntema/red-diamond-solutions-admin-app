@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { getToken, clearAuthData } from "../utils/authUtils";
-/* import "./LoansDashboard.css"; */ // CSS import commented out
+import "./LoansDashboard.css"; // Ensure this CSS file is correctly imported
 
 const LoansDashboard = () => {
     const [loans, setLoans] = useState([]);
@@ -37,7 +37,12 @@ const LoansDashboard = () => {
             }
 
             try {
-                const response = await fetch(`${BACKEND_URL}/api/loans`, {
+                let url = `${BACKEND_URL}/api/loans`;
+                if (currentFilter !== 'all') {
+                    url += `?status=${currentFilter}`;
+                }
+
+                const response = await fetch(url, {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
@@ -58,21 +63,10 @@ const LoansDashboard = () => {
                     throw new Error(errorData.message || "Failed to fetch loan data.");
                 }
 
-                const { loans: fetchedLoans } = await response.json(); // Only destructure loans
-
-                setLoans(fetchedLoans); // Store all fetched loans
-                setFilteredLoans(fetchedLoans); // Initially show all loans
-
-                // Calculate summary from fetchedLoans
-                const newSummary = {
-                    totalLoans: fetchedLoans.length,
-                    totalActiveLoans: fetchedLoans.filter(loan => loan.status === 'active').length,
-                    totalPaidLoans: fetchedLoans.filter(loan => loan.status === 'paid').length,
-                    totalOverdueLoans: fetchedLoans.filter(loan => loan.status === 'overdue').length,
-                    totalPendingLoans: fetchedLoans.filter(loan => loan.status === 'pending').length,
-                    totalDefaultLoans: fetchedLoans.filter(loan => loan.status === 'default').length,
-                };
-                setOverallSummary(newSummary);
+                const { loans, overallSummary } = await response.json();
+                setLoans(loans);
+                setFilteredLoans(loans); // Initially set filtered loans to all fetched loans
+                setOverallSummary(overallSummary);
 
             } catch (err) {
                 console.error("LoansDashboard: Error fetching loan data:", err);
@@ -83,111 +77,166 @@ const LoansDashboard = () => {
         };
 
         fetchLoans();
-    }, [navigate, BACKEND_URL]);
+    }, [navigate, BACKEND_URL, currentFilter]);
 
-    // --- Handle Filter Change ---
+    // Apply filter when currentFilter changes
     useEffect(() => {
         if (currentFilter === 'all') {
             setFilteredLoans(loans);
         } else {
             setFilteredLoans(loans.filter(loan => loan.status === currentFilter));
         }
-    }, [currentFilter, loans]); // Re-filter when filter changes or original loans data changes
+    }, [currentFilter, loans]);
 
-    // No need for handleDelete or handleEdit functions as buttons are removed
 
     if (loading) {
-        return <div>Loading loans...</div>;
+        return <div className="loansDashboardContainer">Loading loans...</div>;
     }
 
     if (error) {
-        return <div style={{ color: "red" }}>Error: {error}</div>;
+        return <div className="loansDashboardContainer" style={{ color: "red" }}>Error: {error}</div>;
     }
 
     return (
-        <div>
-            <Link to="/dashboard">
-                {"<"} Back to Main Dashboard
-            </Link>
+        <div className="loansDashboardContainer">
+            <div className="loansDashboardContent">
+                <Link to="/dashboard" className="loansDashboardBackLink">
+                    {"<"} Back to Main Dashboard
+                </Link>
 
-            <h1>Loans Overview</h1>
+                <h1 className="loansDashboardHeadline">Loans Overview</h1>
 
-            {/* Overall Loan Summary Section */}
-            <div>
-                <h2>Loan Summaries by Status</h2>
-                <div style={{ display: 'flex', gap: '10px', marginBottom: '20px', flexWrap: 'wrap' }}>
-                    <button onClick={() => setCurrentFilter('all')} style={{ padding: '10px', cursor: 'pointer' }}>
-                        All Loans ({overallSummary.totalLoans})
+                {/* Overall Loan Summary Section */}
+                <section className="loanSummarySection">
+                    <h2 className="loanSummaryHeadline">Overall Loan Summary</h2>
+                    <div className="loanSummaryCards">
+                        <div className="loanSummaryCard">
+                            <h3>Total Loans</h3>
+                            <p>{overallSummary.totalLoans}</p>
+                        </div>
+                        <div className="loanSummaryCard">
+                            <h3>Active Loans</h3>
+                            <p>{overallSummary.totalActiveLoans}</p>
+                        </div>
+                        <div className="loanSummaryCard">
+                            <h3>Paid Loans</h3>
+                            <p>{overallSummary.totalPaidLoans}</p>
+                        </div>
+                        <div className="loanSummaryCard">
+                            <h3>Overdue Loans</h3>
+                            <p>{overallSummary.totalOverdueLoans}</p>
+                        </div>
+                        <div className="loanSummaryCard">
+                            <h3>Pending Loans</h3>
+                            <p>{overallSummary.totalPendingLoans}</p>
+                        </div>
+                        <div className="loanSummaryCard">
+                            <h3>Defaulted Loans</h3>
+                            <p>{overallSummary.totalDefaultLoans}</p>
+                        </div>
+                    </div>
+                </section>
+
+                {/* Action Buttons (Add New Loan) */}
+                <div className="loanActionButtons">
+                    <Link to="/loans/add">
+                        <button className="addLoanButton">Add New Loan</button>
+                    </Link>
+                </div>
+
+                {/* Filter Buttons */}
+                <div className="loanFilterButtons">
+                    <button
+                        onClick={() => setCurrentFilter('all')}
+                        className={currentFilter === 'all' ? 'active-filter loanFilterButton' : 'loanFilterButton'}
+                    >
+                        All Loans
                     </button>
-                    <button onClick={() => setCurrentFilter('active')} style={{ padding: '10px', cursor: 'pointer' }}>
-                        Active Loans ({overallSummary.totalActiveLoans})
+                    <button
+                        onClick={() => setCurrentFilter('active')}
+                        className={currentFilter === 'active' ? 'active-filter loanFilterButton' : 'loanFilterButton'}
+                    >
+                        Active
                     </button>
-                    <button onClick={() => setCurrentFilter('paid')} style={{ padding: '10px', cursor: 'pointer' }}>
-                        Paid Loans ({overallSummary.totalPaidLoans})
+                    <button
+                        onClick={() => setCurrentFilter('pending')}
+                        className={currentFilter === 'pending' ? 'active-filter loanFilterButton' : 'loanFilterButton'}
+                    >
+                        Pending
                     </button>
-                    <button onClick={() => setCurrentFilter('overdue')} style={{ padding: '10px', cursor: 'pointer' }}>
-                        Overdue Loans ({overallSummary.totalOverdueLoans})
+                    <button
+                        onClick={() => setCurrentFilter('overdue')}
+                        className={currentFilter === 'overdue' ? 'active-filter loanFilterButton' : 'loanFilterButton'}
+                    >
+                        Overdue
                     </button>
-                    <button onClick={() => setCurrentFilter('pending')} style={{ padding: '10px', cursor: 'pointer' }}>
-                        Pending Loans ({overallSummary.totalPendingLoans})
+                    <button
+                        onClick={() => setCurrentFilter('default')}
+                        className={currentFilter === 'default' ? 'active-filter loanFilterButton' : 'loanFilterButton'}
+                    >
+                        Default
                     </button>
-                    <button onClick={() => setCurrentFilter('default')} style={{ padding: '10px', cursor: 'pointer' }}>
-                        Default Loans ({overallSummary.totalDefaultLoans})
+                    <button
+                        onClick={() => setCurrentFilter('paid')}
+                        className={currentFilter === 'paid' ? 'active-filter loanFilterButton' : 'loanFilterButton'}
+                    >
+                        Paid
                     </button>
                 </div>
-            </div>
 
-            {/* Action Buttons (Add New Loan) */}
-            <div>
-                <Link to="/loans/add">
-                    <button>Add New Loan</button>
-                </Link>
-            </div>
-
-            {/* Detailed Loans List Section */}
-            <div>
-                <h2>{currentFilter === 'all' ? 'All Loans' : `${currentFilter.charAt(0).toUpperCase() + currentFilter.slice(1)} Loans`} List</h2>
-                {filteredLoans.length === 0 ? (
-                    <p>No {currentFilter === 'all' ? '' : currentFilter} loans found. Add a new loan!</p>
-                ) : (
-                    <div>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Loan ID</th>
-                                    <th>Customer Name</th>
-                                    <th>Loan Amount (ZMW)</th>
-                                    <th>Start Date</th> {/* Changed from Loan Date */}
-                                    <th>Due Date</th>
-                                    <th>Interest Rate (%)</th>
-                                    <th>Status</th>
-                                    <th>Balance Due (ZMW)</th>
-                                    <th>Actions</th> {/* Still present for View Details */}
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {filteredLoans.map((loan) => (
-                                    <tr key={loan._id}>
-                                        <td>{loan._id.substring(0, 8)}...</td>
-                                        <td>{loan.customerName || 'N/A'}</td>
-                                        <td>ZMW{loan.loanAmount.toFixed(2)}</td>
-                                        <td>{loan.startDate}</td> {/* Use startDate */}
-                                        <td>{loan.dueDate}</td>
-                                        <td>{loan.interestRate}%</td>
-                                        <td>{loan.status}</td>
-                                        <td>ZMW{loan.balanceDue.toFixed(2)}</td>
-                                        <td>
-                                            <Link to={`/loans/${loan._id}`}>
-                                                View Details
-                                            </Link>
-                                            {/* Edit and Delete buttons removed as per request */}
-                                        </td>
+                {/* Detailed Loans List Section */}
+                <section className="loansListSection">
+                    <h2 className="loansListHeadline">
+                        {currentFilter !== "all" ? `${currentFilter} ` : ""}Loans
+                    </h2>
+                    {filteredLoans.length === 0 ? (
+                        <p className="noLoansMessage">
+                            No {currentFilter !== "all" ? `${currentFilter} ` : ""}loans
+                            found.
+                        </p>
+                    ) : (
+                        <div className="loansTableContainer">
+                            <table className="loansTable">
+                                <thead>
+                                    <tr>
+                                        <th>Loan ID</th>
+                                        <th>Customer</th>
+                                        <th>Amount (ZMW)</th>
+                                        <th>Loan Date</th>
+                                        <th>Due Date</th>
+                                        <th>Interest Rate (%)</th>
+                                        <th>Status</th>
+                                        <th>Balance Due (ZMW)</th>
+                                        <th>Actions</th>
                                     </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
-                )}
+                                </thead>
+                                <tbody>
+                                    {filteredLoans.map((loan) => (
+                                        <tr key={loan._id}>
+                                            <td>{loan._id.substring(0, 8)}...</td>
+                                            <td>{loan.customerName || 'N/A'}</td>
+                                            <td>ZMW{loan.loanAmount.toFixed(2)}</td>
+                                            <td>{loan.startDate}</td>
+                                            <td>{loan.dueDate}</td>
+                                            <td>{loan.interestRate}%</td>
+                                            <td>
+                                                <span className={`loanStatus ${loan.status}`}>
+                                                    {loan.status}
+                                                </span>
+                                            </td>
+                                            <td>ZMW{loan.balanceDue.toFixed(2)}</td>
+                                            <td className="loanActionsCell">
+                                                <Link to={`/loans/${loan._id}`} className="viewLoanDetailsLink">
+                                                    View Details
+                                                </Link>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    )}
+                </section>
             </div>
         </div>
     );

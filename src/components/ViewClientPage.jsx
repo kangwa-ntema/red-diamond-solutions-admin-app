@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { getToken, clearAuthData } from '../utils/authUtils'; // Assuming authUtils.js exists
-import './ViewClientPage.css'; // Optional: for styling this page
+import './ViewClientPage.css'; // Import the new CSS file
 
 const ViewClientPage = () => {
     const { id } = useParams(); // Get the customer ID from the URL (e.g., /customers/123)
@@ -18,7 +18,7 @@ const ViewClientPage = () => {
             setLoading(true);
             setError(null);
             const token = getToken();
-            
+
             if (!token) {
                 console.error('No authentication token found. Redirecting to login.');
                 clearAuthData();
@@ -111,38 +111,41 @@ const ViewClientPage = () => {
 
     // --- Render Logic ---
     if (loading) {
-        return <div className="view-client-loading">Loading client details...</div>;
+        return <div className="viewClientLoading">Loading client details...</div>;
     }
 
     if (error) {
-        return <div className="view-client-error" style={{ color: "red" }}>Error: {error}</div>;
+        return <div className="viewClientError" style={{ color: "red" }}>Error: {error}</div>;
     }
 
     if (!customer) {
-        return <div className="view-client-not-found">Client not found.</div>;
+        return <div className="viewClientNotFound">Client not found.</div>;
     }
 
     return (
-        <div className="view-client-container">
-            <Link to="/customers" className="back-to-list-btn">
-                {"<"} Back to Clients List
-            </Link>
-            <h1 className="view-client-headline">Client Details</h1>
-            <div className="client-details-card">
-                <h2>{customer.name}</h2>
-                <p><strong>Email:</strong> {customer.email}</p>
-                <p><strong>Phone:</strong> {customer.phone}</p>
-                {customer.address && (
-                    <div className="client-address-details">
-                        <p><strong>Address:</strong></p>
-                        <p>{customer.address.street}</p>
-                        <p>{customer.address.city}, {customer.address.state} {customer.address.zip}</p>
-                        <p>{customer.address.country}</p>
+        <div className="viewClientContainer">
+            <div className="viewClientContent">
+                <Link to="/customers" className="viewClientBackLink">
+                    {"<"} Back to Clients List
+                </Link>
+                <h1 className="viewClientHeadline">Client Details</h1>
+                <div className="clientDetailsCard">
+                    <h2>{customer.name}</h2>
+                    <p><strong>Email:</strong> {customer.email}</p>
+                    <p><strong>Phone:</strong> {customer.phone || 'N/A'}</p>
+                    <p><strong>Secondary Phone:</strong> {customer.secondaryPhone || 'N/A'}</p>
+                    <p><strong>NRC:</strong> {customer.nrc || 'N/A'}</p>
+                    <p><strong>Date Registered:</strong> {new Date(customer.dateRegistered).toLocaleDateString()}</p>
+                    {customer.address && (
+                        <div className="clientAddressDetails">
+                            <p><strong>Address:</strong></p>
+                            <p>{customer.address}</p> {/* Assuming address is a single string now */}
+                        </div>
+                    )}
+                    <div className="clientActions">
+                        <button onClick={handleEdit} className="editBtn">Edit Client</button>
+                        <button onClick={handleDelete} className="deleteBtn">Delete Client</button>
                     </div>
-                )}
-                <div className="client-actions">
-                    <button onClick={handleEdit} className="edit-btn">Edit Client</button>
-                    <button onClick={handleDelete} className="delete-btn">Delete Client</button>
                 </div>
             </div>
         </div>

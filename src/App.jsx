@@ -13,7 +13,7 @@ import ClientDashboard from "./components/ClientDashboard";
 import EditCustomerPage from "./components/EditCustomerPage";
 /* Loans */
 import LoansDashboard from "./components/LoansDashboard";
-import LoanDetailsPage from "./components/LoansDetails";
+import LoanDetailsPage from "./components/LoansDetailsPage";
 import LoansList from "./components/LoansList";
 import AddLoanPage from "./components/AddLoanPage";
 import EditLoanPage from "./components/EditLoanPage";
@@ -23,6 +23,9 @@ import PrimaryNavLogo from "./assets/logo-images/red-diamond-primary-logo-white-
 
 /* COMPONENTS */
 import ScrollToTop from "./components/scrollToTop/ScrollToTop";
+
+/* SETTINGS COMPONENTS */
+import Settings from "./components/Settings";
 
 function App() {
   return (
@@ -63,6 +66,8 @@ function App() {
             <Route path="/loans/:id" element={<LoanDetailsPage />} />
             {/* ACCOUNTING ROUTES */}
             <Route path="/accounting" element={<Accounting />} />
+            {/* SETTINGS ROUTES */}
+            <Route path="/settings" element={<Settings/>}/>
           </Routes>
         </div>
         <footer className="appFooter">

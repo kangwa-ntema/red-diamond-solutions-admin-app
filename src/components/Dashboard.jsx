@@ -1,62 +1,37 @@
 import { Link, useNavigate } from "react-router-dom";
-
-import "./Dashboard.css";
+import "./Dashboard.css"; // Ensure this CSS file is correctly imported
 
 const Dashboard = () => {
   const navigate = useNavigate(); // Initialize useNavigate
 
-  const handleLogout = async () => {
-    try {
-      const response = await fetch("/api/admin/logout", {
-        method: "GET",
-        credentials: "include", // Ensure this sends cookies to clear the token
-      });
-
-      if (response.ok) {
-        navigate("/"); // Redirect to login page after successful logout
-      } else {
-        const errorData = await response.json();
-        console.error(
-          "Logout failed:",
-          errorData.message || "Server error during logout."
-        );
-        // Even if backend reports an error, for UX, still redirect to login
-        navigate("/loginform");
-      }
-    } catch (err) {
-      console.error("Network error during logout:", err);
-      // For network errors, still attempt to redirect
-      navigate('/loginform');
-    }
-  };
+  // handleLogout function is now moved to Settings.jsx
+  // const handleLogout = async () => { ... };
 
   return (
-    <>
-      <h1>Hello, welcome to the dashboard.</h1>
-      <nav>
-        <ul>
-          <li>
-            <Link to="/customers">Manage Clients</Link> {/* Add this link */}
-          </li>
-          <li>
-            <Link to="/loans">Manage Loans</Link> {/* Add this link */}
-          </li>
-          <li>
-            <Link to="/accounting">Manage Accounting</Link>{" "}
-            {/* Add this link */}
-          </li>
-          <li>
-            <Link to="/changePasswordForm">Change Password</Link> 
-          </li>
-          <li>
-            <button onClick={handleLogout} className="logout-btn">
-              Logout
-            </button>
-          </li>
-          {/* You can add a logout link here later too */}
-        </ul>
-      </nav>
-    </>
+    // Add a container div with class for overall styling
+    <div className="mainDashboardContainer">
+      {/* Content wrapper div */}
+      <div className="mainDashboardContent"> {/* This was previously mainDashboardContainer, adjusted to reflect content box */}
+        <h1 className="mainDashboardHeadline">Hello, welcome to the dashboard.</h1>
+        <nav className="mainDashboardNav">
+          <ul role="list" className="mainDashboardNavList">
+            <li className="mainDashboardNavLink" >
+              <Link to="/customers">Manage Clients</Link>
+            </li>
+            <li className="mainDashboardNavLink" >
+              <Link to="/loans">Manage Loans</Link>
+            </li>
+            <li className="mainDashboardNavLink" >
+              <Link to="/accounting">Manage Accounting</Link>
+            </li>
+            <li className="mainDashboardNavLink" >
+              <Link to="/settings">Settings</Link> {/* Updated link to /settings */}
+            </li>
+            {/* Removed Change Password and Logout links from here */}
+          </ul>
+        </nav>
+      </div>
+    </div>
   );
 };
 

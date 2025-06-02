@@ -1,0 +1,102 @@
+/* components/css/Settings.css */
+
+/* Container for the entire settings page, similar to landing/login/dashboard */
+.settingsContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh; /* Make it take full viewport height for centering */
+  width: 100%;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+/* Inner content box for settings, mimicking the form/content areas */
+.settingsContent {
+  background-color: var(--clr-neutral-100); /* Dark background from colors.css */
+  padding: 2.5rem; /* Consistent padding */
+  border-radius: 0.1rem; /* Consistent border radius */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Consistent shadow */
+  max-width: var(--max-width-md); /* Use your defined max-width variable */
+  width: 100%;
+  text-align: center;
+}
+
+/* Headline styling */
+.settingsHeadline {
+  font-size: 2em;
+  color: var(--clr-soap-stone); /* Light text color for headline */
+  margin-bottom: 2rem;
+  font-weight: bold;
+}
+
+/* Navigation specific styling for settings links */
+.settingsNav {
+  width: 100%; /* Ensure the nav takes full width of its parent */
+}
+
+.settingsNavList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column; /* Stack links vertically */
+  gap: 1rem; /* Space between navigation items */
+}
+
+.settingsNavLink {
+  width: 100%;
+}
+
+/* Styling for both Link components and the Logout button within nav links */
+.settingsNavLink a,
+.settingsNavLink button {
+  display: block;
+  width: 100%;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 0.1rem;
+  font-size: 1em;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  text-decoration: none;
+  box-sizing: border-box;
+
+  /* Apply consistent button colors from your variables */
+  background-color: var(--clr-golden-yellow);
+  color: var(--clr-zeus); /* Dark text on golden button */
+}
+
+.settingsNavLink a:hover,
+.settingsNavLink button:hover:not(:disabled) {
+  background-color: var(--clr-golden-yellow-2); /* Darker golden on hover */
+}
+
+/* Specific styling for the logout button */
+.logout-btn {
+  background-color: var(--clr-lava-red); /* Distinct red color for logout */
+  color: var(--clr-soap-stone); /* Light text on red button */
+}
+
+.logout-btn:hover {
+  background-color: var(--clr-coral-red); /* Lighter red on hover */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .settingsContent {
+    padding: 1.5rem;
+  }
+
+  .settingsHeadline {
+    font-size: 1.5em;
+  }
+
+  .settingsNavLink a,
+  .settingsNavLink button {
+    padding: 0.6rem 1rem;
+    font-size: 0.9em;
+  }
+}

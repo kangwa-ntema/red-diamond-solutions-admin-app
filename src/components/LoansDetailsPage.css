@@ -1,0 +1,168 @@
+/* components/css/LoanDetailsPage.css */
+
+/* Main container for the loan details page */
+.loanDetailsPageContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start; /* Align content to top, allowing scroll */
+  min-height: 100vh; /* Ensure it takes full viewport height */
+  width: 100%;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+/* Inner content area, mimicking the styled boxes of other pages */
+.loanDetailsPageContent {
+  background-color: var(--clr-neutral-100); /* Dark background */
+  padding: 2.5rem;
+  border-radius: 0.1rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  max-width: var(--max-width-md); /* Consistent max-width for content */
+  width: 100%;
+  text-align: center;
+  margin-top: 1rem; /* Add some margin from the top if it's not full height */
+  margin-bottom: 2rem; /* Space before footer */
+}
+
+/* Back to Loans Overview link */
+.loanDetailsBackLink {
+  display: inline-block;
+  margin-bottom: 1.5rem;
+  color: var(--clr-golden-yellow); /* Consistent link color */
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1rem;
+  transition: color 0.2s ease;
+}
+
+.loanDetailsBackLink:hover {
+  color: var(--clr-golden-yellow-2);
+}
+
+/* Main headline styling */
+.loanDetailsHeadline {
+  font-size: 2em;
+  color: var(--clr-soap-stone); /* Light text color for headline */
+  margin-bottom: 1.5rem;
+  font-weight: bold;
+}
+
+/* Loan Information Section */
+.loanInfoSection,
+.collateralInfoSection {
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background-color: var(--clr-neutral-200); /* Slightly lighter dark background */
+  border-radius: 0.1rem;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+  text-align: left; /* Align text left within the section */
+  color: var(--clr-white);
+}
+
+.loanInfoHeadline,
+.collateralInfoHeadline {
+  font-size: 1.5em;
+  color: var(--clr-golden-yellow); /* Highlight headline */
+  margin-bottom: 1rem;
+  border-bottom: 1px solid var(--clr-neutral-300);
+  padding-bottom: 0.5rem;
+}
+
+.loanDetailItem {
+  margin-bottom: 0.5rem;
+  font-size: 1.1em;
+}
+
+.loanDetailLabel {
+  color: var(--clr-soap-stone);
+}
+
+/* Actions buttons section */
+.loanActions {
+  margin-top: 2rem;
+  text-align: right; /* Align buttons to the right */
+  display: flex; /* Use flexbox for button spacing */
+  justify-content: flex-end;
+  gap: 1rem; /* Space between buttons */
+}
+
+.editLoanBtn,
+.deleteLoanBtn {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 0.1rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  font-weight: bold;
+}
+
+.editLoanBtn {
+  background-color: var(--clr-golden-yellow);
+  color: var(--clr-zeus);
+}
+
+.editLoanBtn:hover {
+  background-color: var(--clr-golden-yellow-2);
+}
+
+.deleteLoanBtn {
+  background-color: var(--clr-lava-red);
+  color: var(--clr-soap-stone);
+}
+
+.deleteLoanBtn:hover {
+  background-color: var(--clr-coral-red);
+}
+
+/* Loading, error, not found messages */
+.loanDetailsLoading,
+.loanDetailsError,
+.loanDetailsNotFound {
+  text-align: center;
+  font-size: 1.2rem;
+  margin-top: 3rem;
+  color: var(--clr-neutral-500);
+}
+
+.loanDetailsError {
+  color: var(--clr-lava-red);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .loanDetailsPageContent {
+    padding: 1.5rem;
+  }
+
+  .loanDetailsHeadline {
+    font-size: 1.8em;
+  }
+
+  .loanInfoSection,
+  .collateralInfoSection {
+    padding: 1rem;
+  }
+
+  .loanInfoHeadline,
+  .collateralInfoHeadline {
+    font-size: 1.3em;
+  }
+
+  .loanDetailItem {
+    font-size: 1em;
+  }
+
+  .loanActions {
+    flex-direction: column; /* Stack buttons vertically */
+    align-items: center;
+    gap: 0.8rem;
+  }
+
+  .editLoanBtn,
+  .deleteLoanBtn {
+    width: calc(100% - 2rem); /* Full width minus margin */
+    margin: 0.4rem auto;
+  }
+}

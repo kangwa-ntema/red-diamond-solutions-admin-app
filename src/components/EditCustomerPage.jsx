@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { getToken, clearAuthData } from '../utils/authUtils'; // Assuming authUtils.js exists
-import './EditCustomerPage.css'; // Don't forget to import your CSS if you have one
+import './EditCustomerPage.css'; // Import the new CSS file
 
 const EditCustomerPage = () => {
     const { id: customerId } = useParams(); // Get the customer ID from the URL
@@ -57,14 +57,10 @@ const EditCustomerPage = () => {
                     throw new Error(errorData.message || 'Failed to fetch customer details.');
                 }
 
-                // --- CRITICAL CHANGE HERE ---
-                // The backend sends { customer: {...}, loans: [...], customerLoanSummary: {...} }
-                // We need to extract the 'customer' object from this response.
                 const responseData = await response.json();
                 const customerData = responseData.customer; // Extract the actual customer object
 
-                // Map the fetched data to the state, ensuring address is a string and new fields are included
-                setFormData({ // Changed from setCustomer to setFormData for consistency
+                setFormData({
                     name: customerData.name || '',
                     email: customerData.email || '',
                     phone: customerData.phone || '',
@@ -90,7 +86,7 @@ const EditCustomerPage = () => {
     // --- Handle Form Field Changes ---
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData(prevData => ({ // Changed from setCustomer to setFormData
+        setFormData(prevData => ({
             ...prevData,
             [name]: value
         }));
@@ -141,100 +137,104 @@ const EditCustomerPage = () => {
 
     // --- Render Logic ---
     if (loading) {
-        return <div>Loading client details...</div>;
+        return <div className="editCustomerLoading">Loading client details...</div>;
     }
 
     if (error) {
-        return <div style={{ color: "red" }}>Error: {error}</div>;
+        return <div className="editCustomerError" style={{ color: "red" }}>Error: {error}</div>;
     }
 
     return (
-        <div className="edit-customer-container">
-            <Link to="/customers" className="back-to-customers-btn">
-                {"<"} Back to Clients List
-            </Link>
-            <h1>Edit Client: {formData.name || customerId}</h1>
-            <form onSubmit={handleSubmit} className="edit-customer-form">
-                <div className="form-group">
-                    <label htmlFor="name">Name:</label>
-                    <input
-                        type="text"
-                        id="name"
-                        name="name"
-                        value={formData.name}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="email">Email:</label>
-                    <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="phone">Primary Phone:</label>
-                    <input
-                        type="tel"
-                        id="phone"
-                        name="phone"
-                        value={formData.phone}
-                        onChange={handleChange}
-                    />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="secondaryPhone">Secondary Phone:</label>
-                    <input
-                        type="tel"
-                        id="secondaryPhone"
-                        name="secondaryPhone"
-                        value={formData.secondaryPhone}
-                        onChange={handleChange}
-                    />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="nrc">NRC:</label>
-                    <input
-                        type="text"
-                        id="nrc"
-                        name="nrc"
-                        value={formData.nrc}
-                        onChange={handleChange}
-                    />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="address">Address:</label>
-                    <textarea
-                        id="address"
-                        name="address"
-                        value={formData.address}
-                        onChange={handleChange}
-                        rows="3"
-                    ></textarea>
-                </div>
-                <div className="form-group">
-                    <label htmlFor="dateRegistered">Date Registered:</label>
-                    <input
-                        type="date"
-                        id="dateRegistered"
-                        name="dateRegistered"
-                        value={formData.dateRegistered}
-                        onChange={handleChange}
-                    />
-                </div>
+        <div className="editCustomerPageContainer">
+            <div className="editCustomerPageContent"> {/* New wrapper div for content box */}
+                <Link to="/customers" className="editCustomerBackLink">
+                    {"<"} Back to Clients List
+                </Link>
+                <h1 className="editCustomerHeadline">Edit Client: {formData.name || customerId}</h1>
+                <form onSubmit={handleSubmit} className="editCustomerForm">
+                    <div className="editCustomerFormGroup">
+                        <label htmlFor="name">Name:</label>
+                        <input
+                            type="text"
+                            id="name"
+                            name="name"
+                            value={formData.name}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+                    <div className="editCustomerFormGroup">
+                        <label htmlFor="email">Email:</label>
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            value={formData.email}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+                    <div className="editCustomerFormGroup">
+                        <label htmlFor="phone">Primary Phone:</label>
+                        <input
+                            type="tel"
+                            id="phone"
+                            name="phone"
+                            value={formData.phone}
+                            onChange={handleChange}
+                        />
+                    </div>
+                    <div className="editCustomerFormGroup">
+                        <label htmlFor="secondaryPhone">Secondary Phone:</label>
+                        <input
+                            type="tel"
+                            id="secondaryPhone"
+                            name="secondaryPhone"
+                            value={formData.secondaryPhone}
+                            onChange={handleChange}
+                        />
+                    </div>
+                    <div className="editCustomerFormGroup">
+                        <label htmlFor="nrc">NRC:</label>
+                        <input
+                            type="text"
+                            id="nrc"
+                            name="nrc"
+                            value={formData.nrc}
+                            onChange={handleChange}
+                        />
+                    </div>
+                    <div className="editCustomerFormGroup">
+                        <label htmlFor="address">Address:</label>
+                        <textarea
+                            id="address"
+                            name="address"
+                            value={formData.address}
+                            onChange={handleChange}
+                            rows="3"
+                        ></textarea>
+                    </div>
+                    <div className="editCustomerFormGroup">
+                        <label htmlFor="dateRegistered">Date Registered:</label>
+                        <input
+                            type="date"
+                            id="dateRegistered"
+                            name="dateRegistered"
+                            value={formData.dateRegistered}
+                            onChange={handleChange}
+                        />
+                    </div>
 
-                <button type="submit" disabled={submitting} className="update-customer-btn">
-                    {submitting ? 'Updating...' : 'Update Client'}
-                </button>
-                <button type="button" onClick={() => navigate(-1)} className="cancel-btn">
-                    Cancel
-                </button>
-            </form>
+                    <div className="editCustomerActionButtons">
+                        <button type="submit" disabled={submitting} className="editCustomerSubmitBtn">
+                            {submitting ? 'Updating...' : 'Update Client'}
+                        </button>
+                        <button type="button" onClick={() => navigate(-1)} className="editCustomerCancelBtn">
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
     );
 };

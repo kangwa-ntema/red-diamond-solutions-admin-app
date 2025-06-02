@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import { getToken, clearAuthData } from "../utils/authUtils";
-/* import "./ClientDashboard.css"; */ // CSS import commented out
+import "./ClientDashboard.css"; // Import the new CSS file
 
 const ClientDashboard = () => {
   const { id: customerId } = useParams();
@@ -176,164 +176,174 @@ const ClientDashboard = () => {
   };
 
   if (loading) {
-    return <div>Loading client dashboard...</div>;
+    return <div className="clientDashboardContainer">Loading client dashboard...</div>;
   }
 
   if (error) {
-    return <div style={{ color: "red" }}>Error: {error}</div>;
+    return <div className="clientDashboardContainer" style={{ color: "red" }}>Error: {error}</div>;
   }
 
   if (!customer) {
-    return <div>Client not found.</div>;
+    return <div className="clientDashboardContainer">Client not found.</div>;
   }
 
   return (
-    <div>
-      <Link to="/customers">{"<"} Back to Customers List</Link>
+    <div className="clientDashboardContainer">
+      <div className="clientDashboardContent">
+        <Link to="/customers" className="clientDashboardBackLink">
+          {"<"} Back to Customers List
+        </Link>
 
-      <h1>Client Dashboard: {customer.name}</h1>
+        <h1 className="clientDashboardHeadline">Client Dashboard: {customer.name}</h1>
 
-      {/* Client Details Section */}
-      <div>
-        <h2>Client Details</h2>
-        <div>
-          <p>
-            <strong>Name:</strong> {customer.name}
-          </p>
-          <p>
-            <strong>Email:</strong> {customer.email}
-          </p>
-          <p>
-            <strong>Primary Phone:</strong> {customer.phone || "N/A"}
-          </p>
-          <p>
-            <strong>Secondary Phone:</strong> {customer.secondaryPhone || "N/A"}
-          </p>
-          <p>
-            <strong>NRC:</strong> {customer.nrc || "N/A"}
-          </p>
-          <p>
-            <strong>Address:</strong> {customer.address || "N/A"}
-          </p>
-          <p>
-            <strong>Status:</strong>{" "}
-            {customerLoanSummary.activeLoans > 0
-              ? "Active (has active loan)"
-              : "Inactive (no active loans)"}
-          </p>
-          <p>
-            <strong>Date Registered:</strong>{" "}
-            {new Date(customer.dateRegistered).toLocaleDateString()}
-          </p>
-          {/* Client action buttons */}
-          <div>
-            <button onClick={() => navigate(`/customers/edit/${customer._id}`)}>
-              Edit Client Details
-            </button>
-            <button onClick={handleClientDelete}>Delete Client</button>
+        {/* Client Details Section */}
+        <section className="clientDetailsSection">
+          <h2 className="clientDetailsHeadline">Client Details</h2>
+          <div className="clientDetailsContent">
+            <p className="clientDetailItem">
+              <strong className="clientDetailLabel">Name:</strong> {customer.name}
+            </p>
+            <p className="clientDetailItem">
+              <strong className="clientDetailLabel">Email:</strong> {customer.email}
+            </p>
+            <p className="clientDetailItem">
+              <strong className="clientDetailLabel">Primary Phone:</strong> {customer.phone || "N/A"}
+            </p>
+            <p className="clientDetailItem">
+              <strong className="clientDetailLabel">Secondary Phone:</strong> {customer.secondaryPhone || "N/A"}
+            </p>
+            <p className="clientDetailItem">
+              <strong className="clientDetailLabel">NRC:</strong> {customer.nrc || "N/A"}
+            </p>
+            <p className="clientDetailItem">
+              <strong className="clientDetailLabel">Address:</strong> {customer.address || "N/A"}
+            </p>
+            <p className="clientDetailItem">
+              <strong className="clientDetailLabel">Status:</strong>{" "}
+              <span className={`clientStatus ${customerLoanSummary.activeLoans > 0 ? 'active' : 'inactive'}`}>
+                {customerLoanSummary.activeLoans > 0
+                  ? "Active (has active loan)"
+                  : "Inactive (no active loans)"}
+              </span>
+            </p>
+            <p className="clientDetailItem">
+              <strong className="clientDetailLabel">Date Registered:</strong>{" "}
+              {new Date(customer.dateRegistered).toLocaleDateString()}
+            </p>
+            {/* Client action buttons */}
+            <div className="clientActionButtons">
+              <button onClick={() => navigate(`/customers/edit/${customer._id}`)} className="clientEditButton">
+                Edit Client Details
+              </button>
+              <button onClick={handleClientDelete} className="clientDeleteButton">Delete Client</button>
+            </div>
           </div>
+        </section>
+
+        {/* Client's Loan Summary Section */}
+        <section className="clientLoanSummarySection">
+          <h2 className="clientLoanSummaryHeadline">{customer.name}'s Loan Summary</h2>
+          <div className="clientLoanSummaryCards">
+            <div className="clientLoanSummaryCard">
+              <h3>Total Loans</h3>
+              <p>{customerLoanSummary.totalLoans}</p>
+            </div>
+            <div className="clientLoanSummaryCard">
+              <h3>Total Loan Amount</h3>
+              <p>ZMW{customerLoanSummary.totalLoanAmount.toFixed(2)}</p>
+            </div>
+            <div className="clientLoanSummaryCard">
+              <h3>Total Balance Due</h3>
+              <p>ZMW{customerLoanSummary.totalBalanceDue.toFixed(2)}</p>
+            </div>
+            <div className="clientLoanSummaryCard">
+              <h3>Total Payments Made</h3>
+              <p>ZMW{customerLoanSummary.totalPaymentsMade.toFixed(2)}</p>
+            </div>
+            <div className="clientLoanSummaryCard">
+              <h3>Active Loans</h3>
+              <p>{customerLoanSummary.activeLoans}</p>
+            </div>
+            <div className="clientLoanSummaryCard">
+              <h3>Pending Loans</h3>
+              <p>{customerLoanSummary.pendingLoans}</p>
+            </div>
+            <div className="clientLoanSummaryCard">
+              <h3>Defaulted Loans</h3>
+              <p>{customerLoanSummary.defaultedLoans}</p>
+            </div>
+            <div className="clientLoanSummaryCard">
+              <h3>Paid Loans</h3>
+              <p>{customerLoanSummary.paidLoans}</p>
+            </div>
+          </div>
+        </section>
+
+        {/* Loan Filter Buttons */}
+        <div className="clientLoanFilterButtons">
+          <button onClick={() => setLoanFilterStatus("all")} className={loanFilterStatus === 'all' ? 'active-filter clientLoanFilterButton' : 'clientLoanFilterButton'}>All Loans</button>
+          <button onClick={() => setLoanFilterStatus("active")} className={loanFilterStatus === 'active' ? 'active-filter clientLoanFilterButton' : 'clientLoanFilterButton'}>
+            Active Loans
+          </button>
+          <button onClick={() => setLoanFilterStatus("pending")} className={loanFilterStatus === 'pending' ? 'active-filter clientLoanFilterButton' : 'clientLoanFilterButton'}>
+            Pending Loans
+          </button>
+          <button onClick={() => setLoanFilterStatus("defaulted")} className={loanFilterStatus === 'defaulted' ? 'active-filter clientLoanFilterButton' : 'clientLoanFilterButton'}>
+            Defaulted Loans
+          </button>
+          <button onClick={() => setLoanFilterStatus("paid")} className={loanFilterStatus === 'paid' ? 'active-filter clientLoanFilterButton' : 'clientLoanFilterButton'}>Paid Loans</button>
         </div>
-      </div>
 
-      {/* Client's Loan Summary Section */}
-      <div>
-        <h2>{customer.name}'s Loan Summary</h2>
-        <div>
-          <div>
-            <h3>Total Loans</h3>
-            <p>{customerLoanSummary.totalLoans}</p>
-          </div>
-          <div>
-            <h3>Total Loan Amount</h3>
-            <p>ZMW{customerLoanSummary.totalLoanAmount.toFixed(2)}</p>
-          </div>
-          <div>
-            <h3>Total Balance Due</h3>
-            <p>ZMW{customerLoanSummary.totalBalanceDue.toFixed(2)}</p>
-          </div>
-          <div>
-            <h3>Total Payments Made</h3>
-            <p>ZMW{customerLoanSummary.totalPaymentsMade.toFixed(2)}</p>
-          </div>
-          <div>
-            <h3>Active Loans</h3>
-            <p>{customerLoanSummary.activeLoans}</p>
-          </div>
-          <div>
-            <h3>Pending Loans</h3>
-            <p>{customerLoanSummary.pendingLoans}</p>
-          </div>
-          <div>
-            <h3>Defaulted Loans</h3>
-            <p>{customerLoanSummary.defaultedLoans}</p>
-          </div>
-          <div>
-            <h3>Paid Loans</h3>
-            <p>{customerLoanSummary.paidLoans}</p>
-          </div>
-        </div>
-      </div>
-
-      {/* Loan Filter Buttons */}
-      <div>
-        <button onClick={() => setLoanFilterStatus("all")}>All Loans</button>
-        <button onClick={() => setLoanFilterStatus("active")}>
-          Active Loans
-        </button>
-        <button onClick={() => setLoanFilterStatus("pending")}>
-          Pending Loans
-        </button>
-        <button onClick={() => setLoanFilterStatus("defaulted")}>
-          Defaulted Loans
-        </button>
-        <button onClick={() => setLoanFilterStatus("paid")}>Paid Loans</button>
-      </div>
-
-      {/* Client's Loans List Section */}
-      <div>
-        <h2>
-          {customer.name}'s{" "}
-          {loanFilterStatus !== "all" ? `${loanFilterStatus} ` : ""}Loans
-        </h2>
-        {customerLoans.length === 0 ? (
-          <p>
-            No {loanFilterStatus !== "all" ? `${loanFilterStatus} ` : ""}loans
-            found for this client.
-          </p>
-        ) : (
-          <div>
-            <table>
-              <thead>
-                <tr>
-                  <th>Loan ID</th>
-                  <th>Amount (ZMW)</th>
-                  <th>Loan Date</th>
-                  <th>Due Date</th>
-                  <th>Interest Rate (%)</th>
-                  <th>Status</th>
-                  <th>Balance Due (ZMW)</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {customerLoans.map((loan) => (
-                  <tr key={loan._id}>
-                    <td>{loan._id.substring(0, 8)}...</td>
-                    <td>ZMW{loan.loanAmount.toFixed(2)}</td>
-                    <td>{loan.loanDate}</td>
-                    <td>{loan.dueDate}</td>
-                    <td>{loan.interestRate}%</td>
-                    <td>{loan.status}</td>
-                    <td>ZMW{loan.balanceDue.toFixed(2)}</td>
-                    <td>
-                      <Link to={`/loans/${loan._id}`}>View Details</Link>
-                    </td>
+        {/* Client's Loans List Section */}
+        <section className="clientLoansListSection">
+          <h2 className="clientLoansListHeadline">
+            {customer.name}'s{" "}
+            {loanFilterStatus !== "all" ? `${loanFilterStatus} ` : ""}Loans
+          </h2>
+          {customerLoans.length === 0 ? (
+            <p className="noLoansMessage">
+              No {loanFilterStatus !== "all" ? `${loanFilterStatus} ` : ""}loans
+              found for this client.
+            </p>
+          ) : (
+            <div className="clientLoansTableContainer">
+              <table className="clientLoansTable">
+                <thead>
+                  <tr>
+                    <th className="clientLoansTableHeader">Loan ID</th>
+                    <th className="clientLoansTableHeader">Amount (ZMW)</th>
+                    <th className="clientLoansTableHeader">Loan Date</th>
+                    <th className="clientLoansTableHeader">Due Date</th>
+                    <th className="clientLoansTableHeader">Interest Rate (%)</th>
+                    <th className="clientLoansTableHeader">Status</th>
+                    <th className="clientLoansTableHeader">Balance Due (ZMW)</th>
+                    <th className="clientLoansTableHeader">Actions</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
+                </thead>
+                <tbody>
+                  {customerLoans.map((loan) => (
+                    <tr key={loan._id}>
+                      <td className="clientLoansTableCell">{loan._id.substring(0, 8)}...</td>
+                      <td className="clientLoansTableCell">ZMW{loan.loanAmount.toFixed(2)}</td>
+                      <td className="clientLoansTableCell">{loan.loanDate}</td>
+                      <td className="clientLoansTableCell">{loan.dueDate}</td>
+                      <td className="clientLoansTableCell">{loan.interestRate}%</td>
+                      <td className="clientLoansTableCell">
+                        <span className={`loanStatus ${loan.status}`}>
+                          {loan.status}
+                        </span>
+                      </td>
+                      <td className="clientLoansTableCell">ZMW{loan.balanceDue.toFixed(2)}</td>
+                      <td className="loanActionsCell">
+                        <Link to={`/loans/${loan._id}`} className="viewLoanDetailsLink">View Details</Link>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </section>
       </div>
     </div>
   );

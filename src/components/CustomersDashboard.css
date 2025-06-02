@@ -1,36 +1,289 @@
-/* In CustomersDashboard.css or similar */
+/* components/css/CustomersDashboard.css */
 
-.customer-filter-buttons {
-    margin-bottom: 20px;
-    display: flex;
-    gap: 10px; /* Space between buttons */
-    justify-content: center; /* Center the buttons */
+/* Main container for the dashboard, consistent with other main pages */
+.customersDashboardContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start; /* Align content to top, allowing scroll */
+  min-height: 100vh; /* Ensure it takes full viewport height */
+  width: 100%;
+  padding: 1rem;
+  box-sizing: border-box;
 }
 
-.customer-filter-buttons .filter-btn {
-    padding: 10px 20px;
-    border: 1px solid #007bff;
-    border-radius: 5px;
-    background-color: #fff;
-    color: #007bff;
-    cursor: pointer;
-    font-size: 1rem;
-    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+/* Inner content area, mimicking the styled boxes of other pages */
+.customersDashboardContent {
+  background-color: var(--clr-neutral-100); /* Dark background */
+  padding: 2.5rem;
+  border-radius: 0.1rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  max-width: var(--max-width-lg); /* Slightly wider for tables */
+  width: 100%;
+  text-align: center;
+  margin-top: 1rem; /* Add some margin from the top if it's not full height */
+  margin-bottom: 2rem; /* Space before footer */
 }
 
-.customer-filter-buttons .filter-btn:hover {
-    background-color: #e6f2ff;
-    border-color: #0056b3;
-    color: #0056b3;
+/* Headline styling */
+.customersDashboardHeadline {
+  font-size: 2em;
+  color: var(--clr-soap-stone);
+  margin-bottom: 1.5rem;
+  font-weight: bold;
 }
 
-.customer-filter-buttons .filter-btn.active {
-    background-color: #007bff;
-    color: #fff;
-    border-color: #007bff;
+/* Back to Dashboard link */
+.customersDashboardBackLink {
+  display: inline-block; /* Allows text to flow, but keeps button-like padding */
+  margin-bottom: 1.5rem;
+  color: var(--clr-golden-yellow); /* Color for links */
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.2s ease;
 }
 
-.customer-filter-buttons .filter-btn.active:hover {
-    background-color: #0056b3;
-    border-color: #0056b3;
+.customersDashboardBackLink:hover {
+  color: var(--clr-golden-yellow-2);
+}
+
+/* Overall Customer Summary Section */
+.customerSummarySection {
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background-color: var(--clr-neutral-200); /* Slightly lighter dark background */
+  border-radius: 0.1rem;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.customerSummaryHeadline {
+  font-size: 1.5em;
+  color: var(--clr-soap-stone);
+  margin-bottom: 1rem;
+}
+
+.customerSummaryCards {
+  display: flex;
+  flex-wrap: wrap; /* Allow cards to wrap on smaller screens */
+  justify-content: center;
+  gap: 1rem; /* Space between summary cards */
+}
+
+.customerSummaryCard {
+  background-color: var(--clr-neutral-300); /* Even lighter dark background for cards */
+  padding: 1rem;
+  border-radius: 0.1rem;
+  flex: 1; /* Allow cards to grow and shrink */
+  min-width: 180px; /* Minimum width for cards */
+  max-width: 250px; /* Max width for cards */
+  color: var(--clr-white);
+}
+
+.customerSummaryCard h3 {
+  font-size: 1.1em;
+  margin-bottom: 0.5rem;
+  color: var(--clr-golden-yellow);
+}
+
+.customerSummaryCard p {
+  font-size: 1.8em;
+  font-weight: bold;
+  color: var(--clr-soap-stone);
+}
+
+/* Action Buttons (Add New Customer, Add Loan) */
+.customerActionButtons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.customerActionButtons a,
+.customerActionButtons button {
+  display: inline-block; /* Keep them inline-block for side-by-side layout */
+  padding: 0.75rem 1.5rem;
+  background-color: var(--clr-golden-yellow);
+  color: var(--clr-zeus);
+  border: none;
+  border-radius: 0.1rem;
+  font-size: 1em;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  text-decoration: none;
+  box-sizing: border-box;
+  min-width: 180px; /* Ensure buttons have a minimum width */
+}
+
+.customerActionButtons a:hover,
+.customerActionButtons button:hover {
+  background-color: var(--clr-golden-yellow-2);
+}
+
+/* Filter Buttons */
+.customerFilterButtons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+  padding: 0.5rem;
+  background-color: var(--clr-neutral-200);
+  border-radius: 0.1rem;
+}
+
+.customerFilterButtons button {
+  padding: 0.5rem 1rem;
+  background-color: var(--clr-neutral-300); /* Default filter button background */
+  color: var(--clr-soap-stone);
+  border: 1px solid var(--clr-neutral-400);
+  border-radius: 0.1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.customerFilterButtons button:hover {
+  background-color: var(--clr-neutral-400);
+}
+
+.customerFilterButtons button.active-filter {
+  background-color: var(--clr-golden-yellow); /* Active filter button */
+  color: var(--clr-zeus);
+  border-color: var(--clr-golden-yellow);
+  font-weight: bold;
+}
+
+/* Detailed Customers List Section */
+.customersListSection {
+  width: 100%;
+}
+
+.customersListHeadline {
+  font-size: 1.5em;
+  color: var(--clr-soap-stone);
+  margin-bottom: 1rem;
+}
+
+.customersTableContainer {
+  overflow-x: auto; /* Enable horizontal scrolling for tables on small screens */
+  width: 100%;
+}
+
+.customersTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  background-color: var(--clr-neutral-200); /* Table background */
+  color: var(--clr-white);
+}
+
+.customersTable th,
+.customersTable td {
+  padding: 0.8rem;
+  border: 1px solid var(--clr-neutral-300);
+  text-align: left;
+  white-space: nowrap; /* Prevent text wrapping in table cells */
+}
+
+.customersTable th {
+  background-color: var(--clr-neutral-400); /* Header background */
+  color: var(--clr-soap-stone);
+  font-weight: bold;
+}
+
+.customersTable tbody tr:nth-child(even) {
+  background-color: var(--clr-neutral-200); /* Alternate row color */
+}
+
+.customersTable tbody tr:hover {
+  background-color: var(--clr-neutral-300); /* Hover effect for rows */
+}
+
+/* Status cell styling */
+.customer-status {
+  padding: 0.3em 0.6em;
+  border-radius: 0.1rem;
+  font-weight: bold;
+  font-size: 0.85em;
+  text-transform: uppercase;
+}
+
+.customer-status.active {
+  background-color: hsl(110, 50%, 40%); /* Greenish for active */
+  color: var(--clr-white);
+}
+
+.customer-status.inactive {
+  background-color: hsl(0, 50%, 40%); /* Reddish for inactive */
+  color: var(--clr-white);
+}
+
+/* Actions cell styling */
+.customersTable .actions-cell {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.customersTable .actions-cell a {
+  padding: 0.4rem 0.8rem;
+  background-color: var(--clr-golden-yellow);
+  color: var(--clr-zeus);
+  border-radius: 0.1rem;
+  text-decoration: none;
+  font-size: 0.85em;
+  transition: background-color 0.2s ease;
+}
+
+.customersTable .actions-cell a:hover {
+  background-color: var(--clr-golden-yellow-2);
+}
+
+/* Message for no customers found */
+.no-customers-message {
+  color: var(--clr-soap-stone);
+  font-size: 1.1em;
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background-color: var(--clr-neutral-200);
+  border-radius: 0.1rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .customersDashboardContent {
+    padding: 1.5rem;
+  }
+
+  .customersDashboardHeadline {
+    font-size: 1.8em;
+  }
+
+  .customerSummaryCards {
+    flex-direction: column; /* Stack summary cards vertically */
+    align-items: center;
+  }
+
+  .customerSummaryCard {
+    width: 100%; /* Full width when stacked */
+    max-width: none; /* Remove max-width constraint */
+  }
+
+  .customerActionButtons {
+    flex-direction: column; /* Stack action buttons vertically */
+  }
+
+  .customerFilterButtons {
+    flex-direction: column; /* Stack filter buttons vertically */
+    align-items: stretch; /* Stretch buttons to fill width */
+  }
+
+  .customersTable th,
+  .customersTable td {
+    padding: 0.6rem;
+    font-size: 0.9em;
+  }
 }

@@ -1,0 +1,207 @@
+/* components/css/EditLoanPage.css */
+
+/* Main container for the edit loan page */
+.editLoanPageContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start; /* Align content to top, allowing scroll */
+  min-height: 100vh; /* Ensure it takes full viewport height */
+  width: 100%;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+/* Inner content area for the form, mimicking the styled boxes of other pages */
+.editLoanPageContent {
+  background-color: var(--clr-neutral-100); /* Dark background */
+  padding: 2.5rem;
+  border-radius: 0.1rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  max-width: var(--max-width-md); /* Consistent max-width for forms */
+  width: 100%;
+  text-align: center;
+  margin-top: 1rem; /* Add some margin from the top if it's not full height */
+  margin-bottom: 2rem; /* Space before footer */
+}
+
+/* Back to Loans Overview link */
+.editLoanBackLink {
+  display: inline-block;
+  margin-bottom: 1.5rem;
+  color: var(--clr-golden-yellow); /* Consistent link color */
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1rem;
+  transition: color 0.2s ease;
+}
+
+.editLoanBackLink:hover {
+  color: var(--clr-golden-yellow-2);
+}
+
+/* Headline styling */
+.editLoanHeadline {
+  font-size: 2em;
+  color: var(--clr-soap-stone); /* Light text color for headline */
+  margin-bottom: 1.5rem;
+  font-weight: bold;
+}
+
+/* Form styling */
+.editLoanForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem; /* Space between form groups */
+  text-align: left; /* Align labels/inputs to the left */
+}
+
+.editLoanFormGroup {
+  margin-bottom: 1rem; /* Space between form groups */
+}
+
+.editLoanFormGroup label {
+  display: block; /* Make label a block to put input on new line */
+  margin-bottom: 0.5rem;
+  color: var(--clr-neutral-600); /* Lighter text for labels */
+  font-size: 0.9em;
+  font-weight: bold;
+}
+
+.editLoanInput,
+.editLoanSelect,
+.editLoanTextarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--clr-neutral-300);
+  border-radius: 0.1rem; /* Consistent border radius */
+  background-color: var(--clr-neutral-200); /* Darker input background */
+  color: var(--clr-white); /* Input text color */
+  box-sizing: border-box; /* Include padding in element's total width/height */
+}
+
+.editLoanInput:focus,
+.editLoanSelect:focus,
+.editLoanTextarea:focus {
+  outline: none;
+  border-color: var(--clr-golden-yellow);
+  box-shadow: 0 0 0 2px rgba(var(--clr-golden-yellow-2), 0.5);
+}
+
+/* Collateral Section Styling */
+.collateralSection {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px dashed var(--clr-neutral-300);
+}
+
+.collateralHeadline {
+  font-size: 1.5em;
+  color: var(--clr-golden-yellow);
+  margin-bottom: 1rem;
+}
+
+/* Action buttons (Update and Cancel) */
+.editLoanActionButtons {
+  display: flex;
+  justify-content: flex-end; /* Align buttons to the right */
+  gap: 1rem; /* Space between buttons */
+  margin-top: 1.5rem;
+}
+
+.editLoanSubmitBtn,
+.editLoanCancelBtn {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 0.1rem;
+  font-size: 1em;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  box-sizing: border-box;
+}
+
+.editLoanSubmitBtn {
+  background-color: var(--clr-golden-yellow);
+  color: var(--clr-zeus); /* Dark text on golden button */
+}
+
+.editLoanSubmitBtn:hover:not(:disabled) {
+  background-color: var(--clr-golden-yellow-2);
+}
+
+.editLoanSubmitBtn:disabled {
+  background-color: var(--clr-neutral-400);
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.editLoanCancelBtn {
+  background-color: var(--clr-neutral-500); /* Neutral color for cancel */
+  color: var(--clr-soap-stone); /* Light text on neutral button */
+}
+
+.editLoanCancelBtn:hover {
+  background-color: var(--clr-neutral-600);
+}
+
+/* Message styling */
+.editLoanSuccessMessage {
+  color: var(--clr-success-msg); /* Green for success */
+  margin-top: 1rem;
+  font-weight: bold;
+}
+
+.editLoanErrorMessage {
+  color: var(--clr-warning-msg); /* Red for error */
+  margin-top: 1rem;
+  font-weight: bold;
+}
+
+/* Loading and error messages */
+.editLoanLoading,
+.editLoanError,
+.editLoanNotFound {
+  text-align: center;
+  font-size: 1.2rem;
+  margin-top: 3rem;
+  color: var(--clr-neutral-500);
+}
+
+.editLoanError {
+  color: var(--clr-lava-red);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .editLoanPageContent {
+    padding: 1.5rem;
+  }
+
+  .editLoanHeadline {
+    font-size: 1.8em;
+  }
+
+  .editLoanFormGroup label {
+    font-size: 0.8em;
+  }
+
+  .editLoanInput,
+  .editLoanSelect,
+  .editLoanTextarea {
+    padding: 0.6rem;
+    font-size: 0.9em;
+  }
+
+  .editLoanActionButtons {
+    flex-direction: column; /* Stack buttons vertically */
+    align-items: center;
+    gap: 0.8rem;
+  }
+
+  .editLoanSubmitBtn,
+  .editLoanCancelBtn {
+    width: calc(100% - 2rem); /* Full width minus margin */
+    margin: 0.4rem auto;
+  }
+}

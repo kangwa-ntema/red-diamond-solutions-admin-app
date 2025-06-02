@@ -1,0 +1,111 @@
+/* Dashboard.css */
+
+/* .mainDashboardContainer will wrap the entire dashboard content.
+   It should provide the full viewport height centering, similar to how your login/landing pages are styled. */
+.mainDashboardContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh; /* Ensures it takes full viewport height for centering */
+  width: 100%;
+  padding: 1rem;
+  box-sizing: border-box; /* Ensures padding is included in element's total width/height */
+
+  /* Apply background consistent with the body background from App.css or similar */
+  /* If App.css handles the body background, you might not need this here,
+     but if you want a specific background for this section, add it.
+     For consistency with Login/Landing, the main background should be handled globally or within a specific container.
+     Assuming the background is set on body or a top-level app container, this element will just contain the content box. */
+}
+
+/* This targets the main content area, mimicking the login form's background and box shadow */
+.mainDashboardContainer { /* The mainDashboardContainer itself acts as the content box in this setup */
+  background-color: var(--clr-neutral-100); /* Dark background from colors.css */
+  padding: 2.5rem; /* Consistent padding with login/landing pages */
+  border-radius: 0.1rem; /* Consistent border radius */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Consistent shadow */
+  max-width: var(--max-width-md); /* Use your defined max-width variable for consistency (assuming it's in colors.css or App.css) */
+  width: 100%;
+  text-align: center;
+  margin: auto; /* Centers the block if its width is less than 100% */
+}
+
+
+/* Headline styling */
+.mainDashboardHeadline {
+  font-size: 2em;
+  color: var(--clr-soap-stone); /* Light text color for headline */
+  margin-bottom: 2rem;
+  font-weight: bold;
+}
+
+/* Navigation specific styling */
+.mainDashboardNav {
+  width: 100%; /* Ensure the nav takes full width of its parent (.mainDashboardContainer) */
+}
+
+.mainDashboardNavList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column; /* Stack links vertically */
+  gap: 1rem; /* Space between navigation items */
+}
+
+.mainDashboardNavLink {
+  width: 100%;
+}
+
+/* Styling for both Link components and the Logout button within nav links */
+.mainDashboardNavLink a,
+.mainDashboardNavLink button {
+  display: block; /* Make them block-level to take full width */
+  width: 100%;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 0.1rem;
+  font-size: 1em;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  text-decoration: none; /* Remove underline from links */
+  box-sizing: border-box; /* Include padding in element's total width/height */
+
+  /* Apply consistent button colors from your variables */
+  background-color: var(--clr-golden-yellow);
+  color: var(--clr-zeus); /* Dark text on golden button */
+}
+
+.mainDashboardNavLink a:hover,
+.mainDashboardNavLink button:hover:not(:disabled) {
+  background-color: var(--clr-golden-yellow-2); /* Darker golden on hover */
+}
+
+/* Specific styling for the logout button */
+.logout-btn {
+  background-color: var(--clr-lava-red); /* Distinct red color for logout */
+  color: var(--clr-soap-stone); /* Light text on red button */
+}
+
+.logout-btn:hover {
+  background-color: var(--clr-coral-red); /* Lighter red on hover */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .mainDashboardContainer {
+    padding: 1.5rem; /* Reduce padding on smaller screens */
+  }
+
+  .mainDashboardHeadline {
+    font-size: 1.5em;
+  }
+
+  .mainDashboardNavLink a,
+  .mainDashboardNavLink button {
+    padding: 0.6rem 1rem;
+    font-size: 0.9em;
+  }
+}

@@ -1,114 +1,174 @@
-/* src/pages/ViewClientPage.css */
+/* components/css/ViewClientPage.css */
 
-.view-client-container {
-    max-width: 800px;
-    margin: 40px auto;
-    padding: 25px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+/* Main container for the view client page */
+.viewClientContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start; /* Align content to top, allowing scroll */
+  min-height: 100vh; /* Ensure it takes full viewport height */
+  width: 100%;
+  padding: 1rem;
+  box-sizing: border-box;
 }
 
-.back-to-list-btn {
-    display: inline-block;
-    margin-bottom: 25px;
-    color: #007bff;
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 1rem;
+/* Inner content area, mimicking the styled boxes of other pages */
+.viewClientContent {
+  background-color: var(--clr-neutral-100); /* Dark background */
+  padding: 2.5rem;
+  border-radius: 0.1rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  max-width: var(--max-width-md); /* Consistent max-width */
+  width: 100%;
+  text-align: center;
+  margin-top: 1rem; /* Add some margin from the top if it's not full height */
+  margin-bottom: 2rem; /* Space before footer */
 }
 
-.back-to-list-btn:hover {
-    text-decoration: underline;
+/* Back to Clients List link */
+.viewClientBackLink {
+  display: inline-block;
+  margin-bottom: 1.5rem;
+  color: var(--clr-golden-yellow); /* Consistent link color */
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1rem;
+  transition: color 0.2s ease;
 }
 
-.view-client-headline {
-    text-align: center;
-    color: #333;
-    margin-bottom: 30px;
-    font-size: 2.2rem;
+.viewClientBackLink:hover {
+  color: var(--clr-golden-yellow-2);
 }
 
-.client-details-card {
-    background-color: white;
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    padding: 30px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+/* Headline styling */
+.viewClientHeadline {
+  font-size: 2em;
+  color: var(--clr-soap-stone); /* Light text color for headline */
+  margin-bottom: 1.5rem;
+  font-weight: bold;
 }
 
-.client-details-card h2 {
-    color: #007bff;
-    margin-top: 0;
-    margin-bottom: 20px;
-    font-size: 1.8rem;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 10px;
+/* Client details card */
+.clientDetailsCard {
+  background-color: var(--clr-neutral-200); /* Slightly lighter dark background for card */
+  border: 1px solid var(--clr-neutral-300); /* Darker border */
+  border-radius: 0.1rem; /* Consistent border radius */
+  padding: 2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  text-align: left; /* Align text left within the card */
+  color: var(--clr-white); /* Light text color */
 }
 
-.client-details-card p {
-    margin-bottom: 10px;
-    font-size: 1.1rem;
-    color: #444;
+.clientDetailsCard h2 {
+  color: var(--clr-golden-yellow); /* Highlight client name */
+  margin-top: 0;
+  margin-bottom: 1.2rem;
+  font-size: 1.8rem;
+  border-bottom: 1px solid var(--clr-neutral-300); /* Subtle separator */
+  padding-bottom: 0.8rem;
 }
 
-.client-details-card p strong {
-    color: #333;
+.clientDetailsCard p {
+  margin-bottom: 0.8rem;
+  font-size: 1.1rem;
+  color: var(--clr-white);
 }
 
-.client-address-details {
-    margin-top: 20px;
-    padding-top: 15px;
-    border-top: 1px dashed #eee;
+.clientDetailsCard p strong {
+  color: var(--clr-soap-stone); /* Slightly brighter for labels */
 }
 
-.client-address-details p {
-    margin-left: 15px;
+/* Client address details */
+.clientAddressDetails {
+  margin-top: 1.5rem;
+  padding-top: 1.2rem;
+  border-top: 1px dashed var(--clr-neutral-300); /* Dashed separator */
 }
 
-.client-actions {
-    margin-top: 30px;
-    text-align: right;
+.clientAddressDetails p {
+  margin-left: 1.5rem; /* Indent address lines */
 }
 
-.client-actions .edit-btn,
-.client-actions .delete-btn {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin-left: 15px;
+/* Action buttons section */
+.clientActions {
+  margin-top: 2rem;
+  text-align: right; /* Align buttons to the right */
 }
 
-.client-actions .edit-btn {
-    background-color: #007bff;
-    color: white;
+.clientActions .editBtn,
+.clientActions .deleteBtn {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 0.1rem; /* Consistent border radius */
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  margin-left: 1rem; /* Space between buttons */
+  font-weight: bold;
 }
 
-.client-actions .edit-btn:hover {
-    background-color: #0056b3;
+.clientActions .editBtn {
+  background-color: var(--clr-golden-yellow); /* Primary action color */
+  color: var(--clr-zeus); /* Dark text on golden button */
 }
 
-.client-actions .delete-btn {
-    background-color: #dc3545;
-    color: white;
+.clientActions .editBtn:hover {
+  background-color: var(--clr-golden-yellow-2);
 }
 
-.client-actions .delete-btn:hover {
-    background-color: #c82333;
+.clientActions .deleteBtn {
+  background-color: var(--clr-lava-red); /* Danger color for delete */
+  color: var(--clr-soap-stone); /* Light text on red button */
 }
 
-.view-client-loading,
-.view-client-error,
-.view-client-not-found {
-    text-align: center;
-    font-size: 1.2rem;
-    margin-top: 50px;
-    color: #666;
+.clientActions .deleteBtn:hover {
+  background-color: var(--clr-coral-red);
 }
 
-.view-client-error {
-    color: #dc3545;
+/* Loading, error, not found messages */
+.viewClientLoading,
+.viewClientError,
+.viewClientNotFound {
+  text-align: center;
+  font-size: 1.2rem;
+  margin-top: 3rem;
+  color: var(--clr-neutral-500); /* Neutral color for messages */
+}
+
+.viewClientError {
+  color: var(--clr-lava-red); /* Red for error messages */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .viewClientContent {
+    padding: 1.5rem;
+  }
+
+  .viewClientHeadline {
+    font-size: 1.8em;
+  }
+
+  .clientDetailsCard {
+    padding: 1.5rem;
+  }
+
+  .clientDetailsCard h2 {
+    font-size: 1.5rem;
+  }
+
+  .clientDetailsCard p {
+    font-size: 1em;
+  }
+
+  .clientActions {
+    text-align: center; /* Center buttons on small screens */
+  }
+
+  .clientActions .editBtn,
+  .clientActions .deleteBtn {
+    display: block; /* Stack buttons vertically */
+    width: calc(100% - 2rem); /* Full width minus margin */
+    margin: 0.5rem auto; /* Center stacked buttons */
+  }
 }
