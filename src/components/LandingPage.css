@@ -5,25 +5,24 @@
   justify-content: center;
   min-height: 100vh; /* Make it take full viewport height */
   width: 100%;
-  padding: 1rem;
+  padding: 1rem; /* Consistent padding around the container */
+  box-sizing: border-box; /* Ensure padding is included in width/height */
 }
 
 .landingPageContent {
-  background-color: var(
-    --clr-neutral-100
-  ); /* Similar to loginForm background */
+  background-color: var(--clr-neutral-100);
   padding: 2.5rem;
-  border-radius: 0.1rem; /* Consistent border radius */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Consistent shadow */
+  border-radius: 0.1rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   max-width: var(--max-width-sm); /* Adjusted max-width for content */
-  width: 100%;
+  width: 100%; /* Ensures it takes full width up to max-width */
   text-align: center;
 }
 
 .landingPageHeadline {
   font-size: 2em;
-  color: var(--clr-soap-stone); /* Consistent headline color */
-  margin-bottom: 2rem; /* Increased margin for better spacing */
+  color: var(--clr-soap-stone);
+  margin-bottom: 2rem;
   font-weight: bold;
 }
 
@@ -35,13 +34,13 @@
 
 .loginBtn {
   width: 100%; /* Make button take full width of its container */
-  color: var(--clr-zeus); /* Consistent text color on button */
+  color: var(--clr-zeus);
   border: none;
-  border-radius: 0.1rem; /* Consistent border radius */
+  border-radius: 0.1rem;
   font-size: 1em;
   font-weight: bold;
   margin: 1rem auto;
-  padding: 0.5rem 5rem;
+  padding: 0.5rem 5rem; /* Base padding */
   outline: none;
   background-color: var(--clr-golden-yellow);
   cursor: pointer;
@@ -49,22 +48,44 @@
 }
 
 .loginBtn:hover {
-  background-color: var(--clr-golden-yellow-2); /* Consistent hover effect */
+  background-color: var(--clr-golden-yellow-2);
 }
 
 .loginBtn:focus {
   outline: none; /* Remove default outline */
 }
 
-.landingPageContainer {
+/* --- Responsive Adjustments --- */
+@media (max-width: 768px) {
+  .landingPageContent {
+    padding: 2rem; /* Slightly less padding on smaller screens */
+  }
+
+  .landingPageHeadline {
+    font-size: 1.8em; /* Slightly smaller headline */
+    margin-bottom: 1.5rem;
+  }
+
+  .loginBtn {
+    /* For smaller screens, make the button take more horizontal space */
+    padding: 0.75rem 2rem; /* Adjusted padding for better touch target */
+    font-size: 0.95em; /* Slightly smaller font size */
+  }
 }
 
-.loginBtn {
-}
+@media (max-width: 480px) {
+  .landingPageContent {
+    padding: 1.5rem; /* Even less padding on very small screens */
+  }
 
-.loginBtn:hover {
-  background-color: var(--clr-golden-yellow-2);
-}
+  .landingPageHeadline {
+    font-size: 1.5em; /* Smaller headline for very small screens */
+    margin-bottom: 1rem;
+  }
 
-.loginBtn:focus {
+  .loginBtn {
+    padding: 0.75rem 1.5rem; /* Optimize padding further */
+    font-size: 0.9em; /* Smallest font size */
+    width: 90%; /* Give a small margin on the sides */
+  }
 }

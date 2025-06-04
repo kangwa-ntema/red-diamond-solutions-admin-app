@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { getToken, clearAuthData } from "../utils/authUtils";
-import "./LoansDashboard.css"; // Ensure this CSS file is correctly imported
+import "./LoansDashboardPage.css"; // Ensure this CSS file is correctly imported
 
-const LoansDashboard = () => {
+const LoansDashboardPage = () => {
     const [loans, setLoans] = useState([]);
     const [filteredLoans, setFilteredLoans] = useState([]); // State to hold filtered loans
     const [overallSummary, setOverallSummary] = useState({
@@ -101,7 +101,7 @@ const LoansDashboard = () => {
         <div className="loansDashboardContainer">
             <div className="loansDashboardContent">
                 <Link to="/dashboard" className="loansDashboardBackLink">
-                    {"<"} Back to Main Dashboard
+                    Back to Main Dashboard
                 </Link>
 
                 <h1 className="loansDashboardHeadline">Loans Overview</h1>
@@ -242,4 +242,4 @@ const LoansDashboard = () => {
     );
 };
 
-export default LoansDashboard;
+export default LoansDashboardPage;

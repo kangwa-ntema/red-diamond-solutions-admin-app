@@ -1,289 +1,133 @@
-/* components/css/CustomersDashboard.css */
-
-/* Main container for the dashboard, consistent with other main pages */
 .customersDashboardContainer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start; /* Align content to top, allowing scroll */
-  min-height: 100vh; /* Ensure it takes full viewport height */
-  width: 100%;
+  background-color: var(--clr-zeus);
   padding: 1rem;
-  box-sizing: border-box;
-}
-
-/* Inner content area, mimicking the styled boxes of other pages */
-.customersDashboardContent {
-  background-color: var(--clr-neutral-100); /* Dark background */
-  padding: 2.5rem;
-  border-radius: 0.1rem;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  max-width: var(--max-width-lg); /* Slightly wider for tables */
-  width: 100%;
-  text-align: center;
-  margin-top: 1rem; /* Add some margin from the top if it's not full height */
-  margin-bottom: 2rem; /* Space before footer */
-}
-
-/* Headline styling */
-.customersDashboardHeadline {
-  font-size: 2em;
   color: var(--clr-soap-stone);
-  margin-bottom: 1.5rem;
-  font-weight: bold;
-}
+  font-family: "Raleway";
+  margin: 1rem 0;
+  }
 
-/* Back to Dashboard link */
+  @media (min-width: 50rem){
+
+    .customersDashboard{
+      display: grid;
+      grid-template-columns: 1fr 5fr;
+      gap: 1rem;
+    }
+    
+  }
+
 .customersDashboardBackLink {
-  display: inline-block; /* Allows text to flow, but keeps button-like padding */
-  margin-bottom: 1.5rem;
-  color: var(--clr-golden-yellow); /* Color for links */
-  text-decoration: none;
-  font-weight: bold;
-  transition: color 0.2s ease;
-}
-
-.customersDashboardBackLink:hover {
-  color: var(--clr-golden-yellow-2);
-}
-
-/* Overall Customer Summary Section */
-.customerSummarySection {
-  margin-bottom: 2rem;
-  padding: 1.5rem;
-  background-color: var(--clr-neutral-200); /* Slightly lighter dark background */
-  border-radius: 0.1rem;
-  box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
-}
-
-.customerSummaryHeadline {
-  font-size: 1.5em;
+  font-size: 0.6em;
+  margin-block: 1rem;
+  background-color: var(--clr-coral-red);
   color: var(--clr-soap-stone);
+  cursor: pointer;
+  border: none;
+  padding: .5rem 1rem;
+  border-radius: .1rem;
+}
+
+.customersDashboardHeadline{
+  font-size: 1.5em;
+  text-align: center;
+  margin: 2rem 0 1rem;
+  font-family: "Raleway";
+}
+
+.customerSummaryHeadline{
+  color: var(--clr-golden-yellow);
+  text-align: center;
+}
+
+.customerSummaryCards{
+  background-color: var(--clr-zeus-blend-5);
+  padding: .5rem;
+  border-radius: .1rem;
+  margin-block: 1rem;
+}
+
+.customerSummaryCard{ 
+  border-bottom: .1rem solid var(--clr-soap-stone);
   margin-bottom: 1rem;
 }
 
-.customerSummaryCards {
-  display: flex;
-  flex-wrap: wrap; /* Allow cards to wrap on smaller screens */
-  justify-content: center;
-  gap: 1rem; /* Space between summary cards */
-}
-
-.customerSummaryCard {
-  background-color: var(--clr-neutral-300); /* Even lighter dark background for cards */
-  padding: 1rem;
-  border-radius: 0.1rem;
-  flex: 1; /* Allow cards to grow and shrink */
-  min-width: 180px; /* Minimum width for cards */
-  max-width: 250px; /* Max width for cards */
-  color: var(--clr-white);
-}
-
-.customerSummaryCard h3 {
-  font-size: 1.1em;
-  margin-bottom: 0.5rem;
+.customerSummaryCardTitle{
   color: var(--clr-golden-yellow);
 }
 
-.customerSummaryCard p {
-  font-size: 1.8em;
-  font-weight: bold;
-  color: var(--clr-soap-stone);
-}
-
-/* Action Buttons (Add New Customer, Add Loan) */
-.customerActionButtons {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 1rem;
-  margin-bottom: 2rem;
-}
-
-.customerActionButtons a,
-.customerActionButtons button {
-  display: inline-block; /* Keep them inline-block for side-by-side layout */
-  padding: 0.75rem 1.5rem;
-  background-color: var(--clr-golden-yellow);
-  color: var(--clr-zeus);
-  border: none;
-  border-radius: 0.1rem;
-  font-size: 1em;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-  text-decoration: none;
-  box-sizing: border-box;
-  min-width: 180px; /* Ensure buttons have a minimum width */
-}
-
-.customerActionButtons a:hover,
-.customerActionButtons button:hover {
-  background-color: var(--clr-golden-yellow-2);
-}
-
-/* Filter Buttons */
-.customerFilterButtons {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 0.5rem;
-  margin-bottom: 2rem;
-  padding: 0.5rem;
-  background-color: var(--clr-neutral-200);
-  border-radius: 0.1rem;
-}
-
-.customerFilterButtons button {
-  padding: 0.5rem 1rem;
-  background-color: var(--clr-neutral-300); /* Default filter button background */
-  color: var(--clr-soap-stone);
-  border: 1px solid var(--clr-neutral-400);
-  border-radius: 0.1rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.customerFilterButtons button:hover {
-  background-color: var(--clr-neutral-400);
-}
-
-.customerFilterButtons button.active-filter {
-  background-color: var(--clr-golden-yellow); /* Active filter button */
-  color: var(--clr-zeus);
-  border-color: var(--clr-golden-yellow);
-  font-weight: bold;
-}
-
-/* Detailed Customers List Section */
-.customersListSection {
-  width: 100%;
-}
-
-.customersListHeadline {
+.customerSummaryCardValue{
   font-size: 1.5em;
-  color: var(--clr-soap-stone);
-  margin-bottom: 1rem;
+  font-weight: 700;
 }
 
-.customersTableContainer {
-  overflow-x: auto; /* Enable horizontal scrolling for tables on small screens */
-  width: 100%;
-}
-
-.customersTable {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 1rem;
-  background-color: var(--clr-neutral-200); /* Table background */
-  color: var(--clr-white);
-}
-
-.customersTable th,
-.customersTable td {
-  padding: 0.8rem;
-  border: 1px solid var(--clr-neutral-300);
-  text-align: left;
-  white-space: nowrap; /* Prevent text wrapping in table cells */
-}
-
-.customersTable th {
-  background-color: var(--clr-neutral-400); /* Header background */
-  color: var(--clr-soap-stone);
-  font-weight: bold;
-}
-
-.customersTable tbody tr:nth-child(even) {
-  background-color: var(--clr-neutral-200); /* Alternate row color */
-}
-
-.customersTable tbody tr:hover {
-  background-color: var(--clr-neutral-300); /* Hover effect for rows */
-}
-
-/* Status cell styling */
-.customer-status {
-  padding: 0.3em 0.6em;
-  border-radius: 0.1rem;
-  font-weight: bold;
-  font-size: 0.85em;
-  text-transform: uppercase;
-}
-
-.customer-status.active {
-  background-color: hsl(110, 50%, 40%); /* Greenish for active */
-  color: var(--clr-white);
-}
-
-.customer-status.inactive {
-  background-color: hsl(0, 50%, 40%); /* Reddish for inactive */
-  color: var(--clr-white);
-}
-
-/* Actions cell styling */
-.customersTable .actions-cell {
+.customerActionBtns{
+  margin-block: 2rem;
   display: flex;
-  gap: 0.5rem;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column;
+  gap: 1rem;
+  font-size: .75em;
 }
 
-.customersTable .actions-cell a {
-  padding: 0.4rem 0.8rem;
+
+.customerActionBtn{
+  width: 100%;
+  padding: .5rem;
+  cursor: pointer;
+  border: none;
+  border-radius: .1rem;
+}
+
+.customerActionBtn.newCustomerBtn{
   background-color: var(--clr-golden-yellow);
-  color: var(--clr-zeus);
-  border-radius: 0.1rem;
-  text-decoration: none;
-  font-size: 0.85em;
-  transition: background-color 0.2s ease;
 }
 
-.customersTable .actions-cell a:hover {
-  background-color: var(--clr-golden-yellow-2);
+.customerActionBtn.newLoanBtn{
+  background-color: var(--clr-soap-stone);
+
 }
 
-/* Message for no customers found */
-.no-customers-message {
-  color: var(--clr-soap-stone);
-  font-size: 1.1em;
-  margin-top: 1.5rem;
+.customersDashboardContent{
+    background-color: var(--clr-zeus-blend-5);
   padding: 1rem;
-  background-color: var(--clr-neutral-200);
-  border-radius: 0.1rem;
+  border-radius: .1rem;
+  margin-block: 1rem;
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .customersDashboardContent {
-    padding: 1.5rem;
-  }
+.customerFilterBtns{
+  margin-block: 1rem;
+  display: flex;
+  gap: 1rem;
+  font-size: .75em;
+}
 
-  .customersDashboardHeadline {
-    font-size: 1.8em;
-  }
+.customerFilterBtns button{
+  background-color: var(--clr-golden-yellow);
+  width: 100%;
+  padding: .5rem;
+  cursor: pointer;
+  border: none;
+  border-radius: .1rem;
+}
 
-  .customerSummaryCards {
-    flex-direction: column; /* Stack summary cards vertically */
-    align-items: center;
-  }
+.customersListSection{
+  font-size: clamp(.75em, 1.25vw, 1.25em);
+}
 
-  .customerSummaryCard {
-    width: 100%; /* Full width when stacked */
-    max-width: none; /* Remove max-width constraint */
-  }
+.customersListHeadline{
+  text-align: center;
+  margin: 2rem 0 0rem;
+  font-size: 1.5em;
+  color: var(--clr-golden-yellow-2);
+  text-decoration: underline;
+}
 
-  .customerActionButtons {
-    flex-direction: column; /* Stack action buttons vertically */
-  }
+.customersTable{
+  background-color: var(--clr-soap-stone-blend-2);
+  padding-inline: .5rem;
+  width: 100%;
+  margin-block: .5rem;
+}
 
-  .customerFilterButtons {
-    flex-direction: column; /* Stack filter buttons vertically */
-    align-items: stretch; /* Stretch buttons to fill width */
-  }
-
-  .customersTable th,
-  .customersTable td {
-    padding: 0.6rem;
-    font-size: 0.9em;
-  }
+.customersTableHead{
+  background-color: green;
 }

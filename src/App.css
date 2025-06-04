@@ -34,7 +34,6 @@
 .outletSection {
   /* border: .1rem solid black; */
   max-width: var(--max-width-xl);
-  margin: 1rem 0;
   padding-inline: 1rem;
   display: flex;
   flex-direction: column;

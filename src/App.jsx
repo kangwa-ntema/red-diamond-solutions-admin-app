@@ -12,7 +12,7 @@ import AddCustomerForm from "./components/AddCustomerForm";
 import ClientDashboard from "./components/ClientDashboard";
 import EditCustomerPage from "./components/EditCustomerPage";
 /* Loans */
-import LoansDashboard from "./components/LoansDashboard";
+import LoansDashboardPage from "./components/LoansDashboardPage";
 import LoanDetailsPage from "./components/LoansDetailsPage";
 import LoansList from "./components/LoansList";
 import AddLoanPage from "./components/AddLoanPage";
@@ -59,7 +59,7 @@ function App() {
             <Route path="/customers/:id" element={<ClientDashboard />} />
             <Route path="/customers/edit/:id" element={<EditCustomerPage />} />
             {/* LOANS ROUTES */}
-            <Route path="/loans" element={<LoansDashboard />} />
+            <Route path="/loans" element={<LoansDashboardPage />} />
             <Route path="/loans/list" element={<LoansList />} />
             <Route path="/loans/add" element={<AddLoanPage />} />
             <Route path="/loans/edit/:id" element={<EditLoanPage />} />

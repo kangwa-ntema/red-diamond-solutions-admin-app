@@ -2,12 +2,17 @@
   --clr-golden-yellow: hsl(56, 90%, 51%);
   --clr-golden-yellow-2: hsl(56, 60%, 50%);
   --clr-soap-stone: #f6fefc;
-  --clr-zeus: #1f2022;
+  --clr-zeus: hsl(220, 5%, 13%);
   --clr-lava-red: #ec1a25;
   --clr-coral-red: #ee4c41;
   --clr-rose-gold: #f8c4c6;
 
+  --clr-zeus-blend-5: hsla(207, 7%, 25%, 0.5);
+  --clr-soap-stone-blend-2: hsla(165, 7%, 55%, 0.2);
+
+
   --clr-white: hsl(0, 0%, 100%);
+  --clr-green: hsl(120, 68%, 55%);
 
   --clr-success-msg: hsl(110, 90%, 50%);
   --clr-warning-msg: hsl(0, 100%, 50%);

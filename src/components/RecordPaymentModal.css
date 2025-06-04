@@ -1,0 +1,173 @@
+/* src/components/RecordPaymentModal.css */
+
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7); /* Dark overlay */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Ensure it's on top of other content */
+    padding: 1rem; /* Add padding for small screens */
+    box-sizing: border-box;
+}
+
+.modalContent {
+    background-color: var(--clr-neutral-100); /* Consistent background */
+    padding: 2.5rem;
+    border-radius: 0.1rem;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    max-width: 500px; /* Max width for the modal */
+    width: 100%;
+    position: relative;
+    text-align: center;
+    color: var(--clr-white);
+    max-height: 90vh; /* Limit height to prevent overflow on small screens */
+    overflow-y: auto; /* Enable scrolling if content exceeds height */
+}
+
+.modalCloseButton {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    font-size: 1.8em;
+    color: var(--clr-soap-stone);
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.modalCloseButton:hover {
+    color: var(--clr-lava-red);
+}
+
+.modalHeadline {
+    font-size: 1.8em;
+    color: var(--clr-golden-yellow);
+    margin-bottom: 0.5rem;
+}
+
+.modalSubheadline {
+    font-size: 1em;
+    color: var(--clr-neutral-600);
+    margin-bottom: 1rem;
+}
+
+.modalCurrentBalance {
+    font-size: 1.2em;
+    color: var(--clr-soap-stone);
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+}
+
+.modalErrorMessage {
+    color: var(--clr-warning-msg);
+    margin-bottom: 1rem;
+    font-weight: bold;
+}
+
+.paymentForm .formGroup {
+    margin-bottom: 1rem;
+    text-align: left;
+}
+
+.paymentForm label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--clr-neutral-600);
+    font-weight: bold;
+}
+
+.paymentForm .formInput,
+.paymentForm .formSelect,
+.paymentForm .formTextarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--clr-neutral-300);
+    border-radius: 0.1rem;
+    background-color: var(--clr-neutral-200);
+    color: var(--clr-white);
+    box-sizing: border-box;
+}
+
+.paymentForm .formInput:focus,
+.paymentForm .formSelect:focus,
+.paymentForm .formTextarea:focus {
+    outline: none;
+    border-color: var(--clr-golden-yellow);
+    box-shadow: 0 0 0 2px rgba(var(--clr-golden-yellow-2), 0.5);
+}
+
+.paymentForm .formInput:disabled,
+.paymentForm .formSelect:disabled,
+.paymentForm .formTextarea:disabled {
+    background-color: var(--clr-neutral-300);
+    color: var(--clr-neutral-500);
+    cursor: not-allowed;
+}
+
+.submitPaymentBtn {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: var(--clr-golden-yellow);
+    color: var(--clr-zeus);
+    border: none;
+    border-radius: 0.1rem;
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    margin-top: 1.5rem;
+}
+
+.submitPaymentBtn:hover:not(:disabled) {
+    background-color: var(--clr-golden-yellow-2);
+}
+
+.submitPaymentBtn:disabled {
+    background-color: var(--clr-neutral-400);
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+/* Responsive adjustments for modal */
+@media (max-width: 768px) {
+    .modalContent {
+        padding: 1.5rem;
+    }
+    .modalHeadline {
+        font-size: 1.5em;
+    }
+    .modalCurrentBalance {
+        font-size: 1em;
+    }
+    .paymentForm .formInput,
+    .paymentForm .formSelect,
+    .paymentForm .formTextarea {
+        padding: 0.6rem;
+        font-size: 0.9em;
+    }
+    .submitPaymentBtn {
+        padding: 0.6rem;
+        font-size: 0.9em;
+    }
+}
+
+@media (max-width: 480px) {
+    .modalContent {
+        padding: 1rem;
+        margin: 0.5rem; /* Add some margin from screen edges */
+    }
+    .modalHeadline {
+        font-size: 1.3em;
+    }
+    .modalCloseButton {
+        font-size: 1.5em;
+        top: 0.5rem;
+        right: 0.5rem;
+    }
+}
