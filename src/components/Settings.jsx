@@ -22,12 +22,12 @@ const Settings = () => {
           errorData.message || "Server error during logout."
         );
         // Even if backend reports an error, for UX, still redirect to login
-        navigate("/loginform");
+        navigate("/");
       }
     } catch (err) {
       console.error("Network error during logout:", err);
       // For network errors, still attempt to redirect
-      navigate('/loginform');
+      navigate('/');
     }
   };
 
@@ -37,7 +37,7 @@ const Settings = () => {
         <nav>
           <ul role='list' className="settingsNavList">
             <li className="settingsNavLink">
-              <Link to="/dashboard">{"<"} Back to Dashboard</Link>
+              <Link to="/mainDashboard">{"<"} Back to Dashboard</Link>
             </li>
           </ul>
         </nav>
