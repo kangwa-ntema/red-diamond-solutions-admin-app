@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { getToken, clearAuthData } from '../utils/authUtils'; // Assuming authUtils.js exists
 import './EditLoanPage.css'; // Import the new CSS file
+import { toast } from 'react-toastify'; // Import toast for notifications
 
 const EditLoanPage = () => {
     const { id } = useParams();
@@ -9,7 +10,7 @@ const EditLoanPage = () => {
     const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
     const [formData, setFormData] = useState({
-        customer: '',
+        client: '',
         loanAmount: '',
         interestRate: '',
         loanTerm: '',
@@ -25,13 +26,13 @@ const EditLoanPage = () => {
         collateralValue: '',
         collateralDescription: ''
     });
-    const [customers, setCustomers] = useState([]);
+    const [clients, setclients] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [successMessage, setSuccessMessage] = useState(null);
     const [interestAmount, setInterestAmount] = useState(''); // State for calculated interest amount
 
-    // --- Fetch Customers and Loan Data ---
+    // --- Fetch clients and Loan Data ---
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true);
@@ -45,17 +46,17 @@ const EditLoanPage = () => {
             }
 
             try {
-                // Fetch Customers
-                const customersResponse = await fetch(`${BACKEND_URL}/api/customers`, {
+                // Fetch clients
+                const clientsResponse = await fetch(`${BACKEND_URL}/api/clients`, {
                     method: 'GET',
                     headers: { 'Authorization': `Bearer ${token}` },
                     credentials: 'include',
                 });
-                if (!customersResponse.ok) {
-                    throw new Error('Failed to fetch customers.');
+                if (!clientsResponse.ok) {
+                    throw new Error('Failed to fetch clients.');
                 }
-                const customersData = await customersResponse.json();
-                setCustomers(customersData.customers); // Access .customers array
+                const clientsData = await clientsResponse.json();
+                setclients(clientsData.clients); // Access .clients array
 
                 // Fetch Loan by ID
                 const loanResponse = await fetch(`${BACKEND_URL}/api/loans/${id}`, {
@@ -79,11 +80,11 @@ const EditLoanPage = () => {
                 const formattedStartDate = loanData.startDate ? new Date(loanData.startDate).toISOString().split('T')[0] : '';
                 const formattedDueDate = loanData.dueDate ? new Date(loanData.dueDate).toISOString().split('T')[0] : '';
 
-                // Ensure customer is an ID string (if populated as object)
-                const customerId = loanData.customer?._id || loanData.customer;
+                // Ensure client is an ID string (if populated as object)
+                const clientId = loanData.client?._id || loanData.client;
 
                 setFormData({
-                    customer: customerId,
+                    client: clientId,
                     loanAmount: loanData.loanAmount || '',
                     interestRate: loanData.interestRate || '',
                     loanTerm: loanData.loanTerm || '',
@@ -231,8 +232,8 @@ const EditLoanPage = () => {
         }
 
         // Basic validation
-        if (!formData.customer || !formData.loanAmount || !formData.interestRate || !formData.loanTerm || !formData.dueDate) {
-            setError('Please fill in all required fields (Customer, Loan Amount, Interest Rate, Loan Term, Due Date).');
+        if (!formData.client || !formData.loanAmount || !formData.interestRate || !formData.loanTerm || !formData.dueDate) {
+            setError('Please fill in all required fields (client, Loan Amount, Interest Rate, Loan Term, Due Date).');
             return;
         }
 
@@ -260,13 +261,14 @@ const EditLoanPage = () => {
 
             const data = await response.json();
             console.log('Loan updated successfully:', data);
-            setSuccessMessage('Loan updated successfully!');
+            toast.success('Loan updated successfully!'); // Changed alert to toast
             setTimeout(() => {
                 navigate(`/loans/${id}`); // Redirect back to loan details page
             }, 1500);
         } catch (err) {
             console.error("Error updating loan:", err);
             setError(err.message || "Network error or server unavailable.");
+            toast.error(err.message || "Network error or server unavailable."); // Added toast for error
         }
     };
 
@@ -279,7 +281,7 @@ const EditLoanPage = () => {
     }
 
     // If no loan data is found after loading, and no error, display not found
-    if (!formData.customer && !loading && !error) {
+    if (!formData.client && !loading && !error) {
         return <div className="editLoanPageContainer editLoanNotFound">Loan not found or invalid ID.</div>;
     }
 
@@ -296,19 +298,19 @@ const EditLoanPage = () => {
 
                 <form onSubmit={handleSubmit} className="editLoanForm">
                     <div className="editLoanFormGroup">
-                        <label htmlFor="customer">Customer:</label>
+                        <label htmlFor="client">client:</label>
                         <select
-                            id="customer"
-                            name="customer"
-                            value={formData.customer}
+                            id="client"
+                            name="client"
+                            value={formData.client}
                             onChange={handleChange}
                             className="editLoanSelect"
                             required
                         >
-                            <option value="">Select a Customer</option>
-                            {customers.map(customer => (
-                                <option key={customer._id} value={customer._id}>
-                                    {customer.name} ({customer.email})
+                            <option value="">Select a client</option>
+                            {clients.map(client => (
+                                <option key={client._id} value={client._id}>
+                                    {client.name} ({client.email})
                                 </option>
                             ))}
                         </select>

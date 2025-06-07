@@ -1,361 +1,278 @@
-/* components/css/LoansDashboard.css */
 
-/* Main container for the loans dashboard page */
 .loansDashboardContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start; /* Align content to top, allowing scroll */
-    min-height: 100vh; /* Ensure it takes full viewport height */
-    width: 100%;
+    background-color: var(--clr-zeus);
     padding: 1rem;
-    box-sizing: border-box; /* Ensure padding is included in width/height */
+    color: var(--clr-soap-stone);
+    font-family: "Raleway";
+    margin: 1rem 0;
 }
 
-/* Inner content area, mimicking the styled boxes of other pages */
-.loansDashboardContent {
-    background-color: var(--clr-neutral-100); /* Dark background */
-    padding: 2.5rem;
-    border-radius: 0.1rem;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    max-width: var(--max-width-lg); /* Wider for tables */
-    width: 100%;
-    text-align: center;
-    margin-top: 1rem; /* Add some margin from the top if it's not full height */
-    margin-bottom: 2rem; /* Space before footer */
+@media (min-width: 50rem) {
+    .loansDashboard { /* This is the main grid for the loans page */
+        display: grid;
+        grid-template-columns: 1fr 5fr; /* Left panel (1fr) and Right content (5fr) */
+        gap: 1rem;
+    }
 }
 
-/* Back to Main Dashboard link */
+.loansDashboardHeading { /* New class for the top section containing backlink, headline, and summary headline */
+    background-color: var(--clr-zeus-blend-5); /* Matches customerSummaryCards background */
+    padding: 1rem;
+    border-radius: .1rem;
+    margin-block: 1rem;
+    text-align: center; /* Center the headline and summary headline */
+}
+
 .loansDashboardBackLink {
-    display: inline-block;
-    margin-bottom: 1.5rem;
-    color: var(--clr-golden-yellow); /* Consistent link color */
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 1rem;
-    transition: color 0.2s ease;
+    font-size: 0.6em;
+    margin-block: 1rem;
+    background-color: var(--clr-coral-red);
+    color: var(--clr-soap-stone);
+    cursor: pointer;
+    border: none;
+    padding: .5rem 1rem;
+    border-radius: .1rem;
+    display: inline-block; /* To allow margin-block to work */
 }
 
-.loansDashboardBackLink:hover {
-    color: var(--clr-golden-yellow-2);
-}
-
-/* Main headline styling */
 .loansDashboardHeadline {
-    font-size: 2em;
-    color: var(--clr-soap-stone); /* Light text color for headline */
-    margin-bottom: 1.5rem;
-    font-weight: bold;
-}
-
-/* Overall Loan Summary Section */
-.loanSummarySection {
-    margin-bottom: 2rem;
-    padding: 1.5rem;
-    background-color: var(--clr-neutral-200); /* Slightly lighter dark background */
-    border-radius: 0.1rem;
-    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
-}
-
-.loanSummaryHeadline {
     font-size: 1.5em;
-    color: var(--clr-golden-yellow); /* Highlight headline */
-    margin-bottom: 1rem;
+    text-align: center;
+    margin: 2rem 0 1rem;
+    font-family: "Raleway";
 }
 
-.loanSummaryCards {
-    display: flex;
-    flex-wrap: wrap; /* Allow cards to wrap on smaller screens */
-    justify-content: center;
-    gap: 1rem; /* Space between summary cards */
+.loanSummaryHeadline { /* Renamed for loans */
+    color: var(--clr-golden-yellow);
+    text-align: center;
+    margin-top: 1rem; /* Added margin for separation */
 }
 
-.loanSummaryCard {
-    background-color: var(--clr-neutral-300); /* Even lighter dark background for cards */
+.loansDashboardPanel { /* New class for the left panel in the grid */
+    background-color: var(--clr-zeus-blend-5);
     padding: 1rem;
-    border-radius: 0.1rem;
-    flex: 1; /* Allow cards to grow and shrink */
-    min-width: 150px; /* Minimum width for cards */
-    max-width: 200px; /* Max width for cards */
-    color: var(--clr-white);
-    /* For responsiveness, ensure flex-basis allows wrapping before min-width */
-    flex-basis: calc(33.333% - 1rem); /* Roughly 3 cards per row on larger screens */
-    box-sizing: border-box; /* Include padding in width calculation */
+    border-radius: .1rem;
+    margin-block: 1rem; /* Adjust if the parent grid handles this */
+}
+
+.loanSummarySection { /* Renamed for loans */
+    /* background-color: var(--clr-zeus-blend-5); Removed background, now in loansDashboardPanel */
+    padding: .5rem;
+    border-radius: .1rem;
+    margin-block: 1rem;
+}
+
+.loanSummaryCards { /* Renamed for loans */
+    display: grid; /* Make it a grid for flexible card layout */
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Responsive columns */
+    gap: 1rem; /* Space between cards */
+}
+
+.loanSummaryCard { /* Renamed for loans */
+    border-bottom: .1rem solid var(--clr-soap-stone); /* Retaining separator */
+    padding-bottom: 0.5rem; /* Add some padding to bottom */
+    text-align: center;
+    background-color: var(--clr-zeus); /* Slightly darker background for cards */
+    border-radius: .1rem;
+    padding: 1rem;
 }
 
 .loanSummaryCard h3 {
-    font-size: 1.1em;
-    margin-bottom: 0.5rem;
     color: var(--clr-golden-yellow);
+    margin-bottom: 0.5rem;
 }
 
 .loanSummaryCard p {
-    font-size: 1.8em;
-    font-weight: bold;
-    color: var(--clr-soap-stone);
+    font-size: 1.5em;
+    font-weight: 700;
 }
 
-/* Action Buttons (Add New Loan) */
-.loanActionButtons {
+.loanActionButtons { /* Renamed for loans */
+    margin-block: 2rem;
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+    flex-direction: column; /* Stack buttons on smaller screens */
     gap: 1rem;
-    margin-bottom: 2rem;
+    font-size: .75em;
+    align-items: center; /* Center buttons horizontally */
 }
 
-.addLoanButton {
-    display: inline-block;
-    padding: 0.75rem 1.5rem;
-    background-color: var(--clr-golden-yellow);
-    color: var(--clr-zeus);
-    border: none;
-    border-radius: 0.1rem;
-    font-size: 1em;
-    font-weight: bold;
+.addLoanButton { /* Renamed for loans */
+    width: 100%;
+    max-width: 200px; /* Limit button width on larger screens */
+    padding: .75rem 1.5rem;
     cursor: pointer;
-    transition: background-color 0.2s ease;
-    text-decoration: none;
-    box-sizing: border-box;
-    min-width: 180px; /* Ensure buttons have a minimum width */
+    border: none;
+    border-radius: .3rem;
+    background-color: var(--clr-golden-yellow); /* Example color */
+    color: var(--clr-zeus);
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .addLoanButton:hover {
     background-color: var(--clr-golden-yellow-2);
+    transform: translateY(-2px);
 }
 
-/* Filter Buttons */
-.loanFilterButtons {
+.loansDashboardContent { /* Existing: Right panel, analogous to customersDashboardContent */
+    background-color: var(--clr-zeus-blend-5);
+    padding: 1rem;
+    border-radius: .1rem;
+    margin-block: 1rem; /* Adjust if parent grid handles this */
+}
+
+.loanFilterButtons { /* Renamed for loans */
+    margin-block: 1rem;
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 0.5rem;
-    margin-bottom: 2rem;
-    padding: 0.5rem;
-    background-color: var(--clr-neutral-200);
-    border-radius: 0.1rem;
+    flex-wrap: wrap; /* Allow buttons to wrap to next line */
+    gap: 0.5rem; /* Smaller gap for more buttons */
+    font-size: .75em;
+    justify-content: center; /* Center filter buttons */
 }
 
-.loanFilterButton {
-    padding: 0.5rem 1rem;
-    background-color: var(--clr-neutral-300); /* Default filter button background */
+.loanFilterButtons button {
+    background-color: var(--clr-peter-river); /* Use a distinct blue for filters */
     color: var(--clr-soap-stone);
-    border: 1px solid var(--clr-neutral-400);
-    border-radius: 0.1rem;
+    padding: .5rem 1rem;
     cursor: pointer;
-    transition: all 0.2s ease;
-    /* Added flex-basis to ensure buttons wrap nicely */
-    flex-basis: auto; /* Default for auto-sizing */
+    border: none;
+    border-radius: .1rem;
+    flex-grow: 1; /* Allow buttons to grow to fill space */
+    min-width: 80px; /* Minimum width for each button */
+    transition: background-color 0.3s ease;
 }
 
-.loanFilterButton:hover {
-    background-color: var(--clr-neutral-400);
-}
-
-.loanFilterButton.active-filter {
-    background-color: var(--clr-golden-yellow); /* Active filter button */
-    color: var(--clr-zeus);
-    border-color: var(--clr-golden-yellow);
+.loanFilterButtons button.active-filter {
+    background-color: var(--clr-emerald); /* Highlight active filter */
     font-weight: bold;
 }
 
-/* Detailed Loans List Section */
-.loansListSection {
-    width: 100%;
+.loanFilterButtons button:hover:not(.active-filter) {
+    background-color: #5dade2; /* Lighter blue on hover */
 }
 
-.loansListHeadline {
+
+.loansListSection { /* Renamed for loans */
+    font-size: clamp(.75em, 1.25vw, 1em); /* Adjusted max font size slightly */
+    margin-top: 2rem; /* Add some top margin for separation */
+}
+
+.loansListHeadline { /* Renamed for loans */
+    text-align: center;
+    margin: 2rem 0 1rem; /* Adjusted margin */
     font-size: 1.5em;
-    color: var(--clr-soap-stone);
-    margin-bottom: 1rem;
+    color: var(--clr-golden-yellow-2);
+    text-decoration: underline;
 }
 
-.noLoansMessage {
-    color: var(--clr-soap-stone);
-    font-size: 1.1em;
-    margin-top: 1.5rem;
-    padding: 1rem;
-    background-color: var(--clr-neutral-200);
-    border-radius: 0.1rem;
-}
-
-.loansTableContainer {
-    overflow-x: auto; /* Enable horizontal scrolling for tables on small screens */
-    width: 100%;
-}
-
-.loansTable {
-    width: 100%;
-    border-collapse: collapse;
+.loansTableContainer { /* Renamed for loans */
+    overflow-x: auto; /* Enable horizontal scrolling for small screens */
+    border-radius: .1rem;
     margin-top: 1rem;
-    background-color: var(--clr-neutral-200); /* Table background */
-    color: var(--clr-white);
-    min-width: 700px; /* Ensure table doesn't shrink below a readable width, forcing scroll */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
-.loansTable th,
-.loansTable td {
+.loansTable { /* Renamed for loans */
+    background-color: var(--clr-soap-stone-blend-2);
+    width: 100%; /* Ensure table takes full width of its container */
+    border-collapse: collapse; /* Remove space between cells */
+}
+
+.loansTable th, .loansTable td {
     padding: 0.8rem;
-    border: 1px solid var(--clr-neutral-300);
     text-align: left;
-    white-space: nowrap; /* Prevent text wrapping in table cells */
+    border-bottom: 1px solid var(--clr-soap-stone);
+    color: var(--clr-zeus); /* Dark text for table content */
+    font-weight: normal; /* Reset font-weight for td */
+}
+
+.loansTable thead {
+    background-color: var(--clr-zeus); /* Darker header background */
+    color: var(--clr-soap-stone);
 }
 
 .loansTable th {
-    background-color: var(--clr-neutral-400); /* Header background */
-    color: var(--clr-soap-stone);
     font-weight: bold;
+    font-size: 0.9em;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
 }
 
 .loansTable tbody tr:nth-child(even) {
-    background-color: var(--clr-neutral-200); /* Alternate row color */
+    background-color: var(--clr-soap-stone-blend-2); /* Slightly different background for even rows */
 }
 
 .loansTable tbody tr:hover {
-    background-color: var(--clr-neutral-300); /* Hover effect for rows */
+    background-color: var(--clr-soap-stone); /* Lighten on hover */
 }
 
-/* Status cell styling */
 .loanStatus {
-    padding: 0.3em 0.6em;
-    border-radius: 0.1rem;
+    padding: 0.2em 0.6em;
+    border-radius: 0.5em;
     font-weight: bold;
-    font-size: 0.85em;
-    text-transform: uppercase;
-    color: var(--clr-white); /* Default text color */
+    color: white;
+    text-transform: capitalize;
+    font-size: 0.8em;
 }
 
-.loanStatus.active { background-color: hsl(110, 50%, 40%); }
-.loanStatus.paid { background-color: hsl(200, 50%, 40%); } /* Blueish for paid */
-.loanStatus.overdue { background-color: hsl(40, 70%, 50%); } /* Orangish for overdue */
-.loanStatus.default { background-color: hsl(0, 70%, 50%); } /* Strong red for default */
-.loanStatus.pending { background-color: hsl(240, 30%, 50%); } /* Purplish for pending */
+/* Status specific colors */
+.loanStatus.active { background-color: var(--clr-emerald); }
+.loanStatus.pending { background-color: var(--clr-carrot); }
+.loanStatus.overdue { background-color: var(--clr-coral-red); }
+.loanStatus.default { background-color: var(--clr-zeus); } /* Using zeus for defaulted */
+.loanStatus.paid { background-color: var(--clr-peter-river); } /* Using blue for paid */
 
 
-/* Actions cell styling */
 .loanActionsCell {
-    display: flex;
-    gap: 0.5rem;
-    justify-content: center;
-    align-items: center;
+    white-space: nowrap; /* Keep buttons on one line */
 }
 
 .viewLoanDetailsLink {
+    display: inline-block;
+    background-color: var(--clr-peter-river);
+    color: white;
     padding: 0.4rem 0.8rem;
-    background-color: var(--clr-golden-yellow);
-    color: var(--clr-zeus);
-    border-radius: 0.1rem;
+    border-radius: 0.3rem;
     text-decoration: none;
-    font-size: 0.85em;
-    transition: background-color 0.2s ease;
+    font-size: 0.8em;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .viewLoanDetailsLink:hover {
-    background-color: var(--clr-golden-yellow-2);
+    background-color: #5dade2;
+    transform: translateY(-1px);
 }
 
-/* --- Responsive Adjustments --- */
-@media (max-width: 1024px) {
-    .loansDashboardContent {
-        padding: 2rem;
-    }
-    .loanSummaryCard {
-        /* Adjust for 2 cards per row on wider tablets/small laptops */
-        flex-basis: calc(50% - 1rem);
-        max-width: 300px; /* Allow cards to be larger if needed */
-    }
+/* No loans message */
+.noLoansMessage {
+    text-align: center;
+    padding: 2rem;
+    font-style: italic;
+    color: var(--clr-soap-stone);
 }
 
-@media (max-width: 768px) {
-    .loansDashboardContent {
-        padding: 1.5rem;
-    }
 
-    .loansDashboardHeadline,
-    .loanSummaryHeadline,
-    .loansListHeadline {
-        font-size: 1.8em; /* Slightly smaller headlines */
-        margin-bottom: 1rem;
+/* Responsive Adjustments for smaller screens */
+@media (max-width: 49.99rem) {
+    .loansDashboard {
+        grid-template-columns: 1fr; /* Stack panels on small screens */
     }
 
     .loanSummaryCards {
-        flex-direction: column; /* Stack summary cards vertically */
-        align-items: center;
-    }
-
-    .loanSummaryCard {
-        width: 100%; /* Full width when stacked */
-        max-width: none; /* Remove max-width constraint for full width */
-        margin-bottom: 0.5rem; /* Add some space between stacked cards */
+        grid-template-columns: 1fr; /* Stack summary cards on small screens */
     }
 
     .loanActionButtons {
-        flex-direction: column; /* Stack action buttons vertically */
-        align-items: center;
-    }
-
-    .addLoanButton {
-        width: 100%; /* Make buttons full width */
-        max-width: 300px; /* Limit max width for readability */
-        margin-bottom: 0.5rem;
+        flex-direction: column; /* Ensure buttons stack on small screens */
     }
 
     .loanFilterButtons {
-        flex-direction: column; /* Stack filter buttons vertically */
-        align-items: stretch; /* Stretch buttons to fill width */
+        flex-direction: column; /* Stack filter buttons on small screens */
+        align-items: stretch; /* Stretch to fill width */
     }
 
-    .loanFilterButton {
-        width: 100%; /* Ensure filter buttons take full width */
-        margin-bottom: 0.5rem; /* Space out stacked filter buttons */
-    }
-
-    .loansTable th,
-    .loansTable td {
-        padding: 0.6rem;
-        font-size: 0.9em;
-    }
-}
-
-@media (max-width: 480px) {
-    .loansDashboardContent {
-        padding: 1rem; /* Even less padding on very small screens */
-    }
-
-    .loansDashboardHeadline {
-        font-size: 1.5em; /* Smaller headline for very small screens */
-    }
-
-    .loanSummaryHeadline,
-    .loansListHeadline {
-        font-size: 1.3em;
-    }
-
-    .loanSummaryCard h3 {
-        font-size: 1em;
-    }
-
-    .loanSummaryCard p {
-        font-size: 1.5em; /* Slightly smaller summary numbers */
-    }
-
-    .loansTable th,
-    .loansTable td {
-        padding: 0.5rem;
-        font-size: 0.8em; /* Smaller font size for table cells */
-    }
-
-    .loanActionsCell {
-        flex-direction: column; /* Stack action buttons within table cells */
-        gap: 0.25rem;
-    }
-
-    .viewLoanDetailsLink {
-        padding: 0.3rem 0.6rem;
-        font-size: 0.75em;
-    }
-
-    .loanStatus {
-        font-size: 0.7em; /* Smaller status text */
+    .loanFilterButtons button {
+        width: 100%; /* Full width for filter buttons */
     }
 }

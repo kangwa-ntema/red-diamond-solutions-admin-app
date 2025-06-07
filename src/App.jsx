@@ -5,19 +5,24 @@ import { BrowserRouter, Routes, Route, NavLink } from "react-router-dom";
 import LandingPage from "./components/LandingPage";
 import LoginForm from "./components/LoginForm";
 import ChangePasswordForm from "./components/ChangePasswordForm";
-import Dashboard from "./components/Dashboard";
-/* Customers */
-import CustomersDashboard from "./components/CustomersDashboard";
-import AddCustomerForm from "./components/AddCustomerForm";
+import MainDashboard from "./components/MainDashboard";
+/* Clients */
+import ClientsDashboard from "./components/ClientsDashboard/ClientsDashboard";
+import AddClientForm from "./components/AddClientForm";
 import ClientDashboard from "./components/ClientDashboard";
-import EditCustomerPage from "./components/EditCustomerPage";
+import EditClientPage from "./components/EditClientPage";
 /* Loans */
 import LoansDashboardPage from "./components/LoansDashboardPage";
 import LoanDetailsPage from "./components/LoansDetailsPage";
 import LoansList from "./components/LoansList";
 import AddLoanPage from "./components/AddLoanPage";
 import EditLoanPage from "./components/EditLoanPage";
-import Accounting from "./components/Accounting";
+
+
+/* ACCOUNTING */
+import AccountingDashboardPage from "./components/AccountingDashboardPage/AccountingDashboardPage";
+import ChartOfAccountsPage from "./components/ChartOfAccountsPage/ChartOfAccountsPage";
+
 /* IMAGES */
 import PrimaryNavLogo from "./assets/logo-images/red-diamond-primary-logo-white-typeface.png";
 
@@ -48,16 +53,16 @@ function App() {
           <Routes>
             <Route path="/" element={<LandingPage />} />
             <Route path="/loginForm" element={<LoginForm />} />
-            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/mainDashboard" element={<MainDashboard />} />
             <Route
               path="/changePasswordForm"
               element={<ChangePasswordForm />}
             />
-            {/* CUSTOMER ROUTES */}
-            <Route path="/customers" element={<CustomersDashboard />} />
-            <Route path="/customers/add" element={<AddCustomerForm />} />
-            <Route path="/customers/:id" element={<ClientDashboard />} />
-            <Route path="/customers/edit/:id" element={<EditCustomerPage />} />
+            {/* CLIENT ROUTES */}
+            <Route path="/clients" element={<ClientsDashboard />} />
+            <Route path="/clients/add" element={<AddClientForm />} />
+            <Route path="/clients/:id" element={<ClientDashboard />} />
+            <Route path="/clients/edit/:id" element={<EditClientPage />} />
             {/* LOANS ROUTES */}
             <Route path="/loans" element={<LoansDashboardPage />} />
             <Route path="/loans/list" element={<LoansList />} />
@@ -65,9 +70,11 @@ function App() {
             <Route path="/loans/edit/:id" element={<EditLoanPage />} />
             <Route path="/loans/:id" element={<LoanDetailsPage />} />
             {/* ACCOUNTING ROUTES */}
-            <Route path="/accounting" element={<Accounting />} />
+            <Route path="/transactions" element={<AccountingDashboardPage />} />
+            <Route path="/accounts" element={<ChartOfAccountsPage />} />
+
             {/* SETTINGS ROUTES */}
-            <Route path="/settings" element={<Settings/>}/>
+            <Route path="/settings" element={<Settings />} />
           </Routes>
         </div>
         <footer className="appFooter">

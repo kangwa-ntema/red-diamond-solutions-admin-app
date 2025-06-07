@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
-import "./Dashboard.css"; // Ensure this CSS file is correctly imported
+import "./MainDashboard.css"; // Ensure this CSS file is correctly imported
 
-const Dashboard = () => {
+const MainDashboard = () => {
   const navigate = useNavigate(); // Initialize useNavigate
 
   // handleLogout function is now moved to Settings.jsx
@@ -16,13 +16,16 @@ const Dashboard = () => {
         <nav className="mainDashboardNav">
           <ul role="list" className="mainDashboardNavList">
             <li className="mainDashboardNavLink" >
-              <Link to="/customers">Manage Clients</Link>
+              <Link to="/clients">Manage Clients</Link>
             </li>
             <li className="mainDashboardNavLink" >
               <Link to="/loans">Manage Loans</Link>
             </li>
             <li className="mainDashboardNavLink" >
-              <Link to="/accounting">Manage Accounting</Link>
+              <Link to="/transactions">Manage Accounting</Link>
+            </li>
+            <li className="mainDashboardNavLink" >
+              <Link to="/accounts">Chart Of Accounts</Link>
             </li>
             <li className="mainDashboardNavLink" >
               <Link to="/settings">Settings</Link> {/* Updated link to /settings */}
@@ -35,4 +38,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default MainDashboard;

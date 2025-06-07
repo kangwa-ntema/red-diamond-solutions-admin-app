@@ -1,7 +1,7 @@
-/* components/css/EditCustomerPage.css */
+/* components/css/AddClientForm.css */
 
-/* Main container for the edit customer form page */
-.editCustomerPageContainer {
+/* Main container for the add client form page */
+.addClientFormContainer {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -13,7 +13,7 @@
 }
 
 /* Inner content area for the form, mimicking the styled boxes of other pages */
-.editCustomerPageContent {
+.addClientFormContent {
   background-color: var(--clr-neutral-100); /* Dark background */
   padding: 2.5rem;
   border-radius: 0.1rem;
@@ -26,7 +26,7 @@
 }
 
 /* Back to Clients List link */
-.editCustomerBackLink {
+.addClientBackLink {
   display: inline-block;
   margin-bottom: 1.5rem;
   color: var(--clr-golden-yellow); /* Consistent link color */
@@ -36,12 +36,12 @@
   transition: color 0.2s ease;
 }
 
-.editCustomerBackLink:hover {
+.addClientBackLink:hover {
   color: var(--clr-golden-yellow-2);
 }
 
 /* Headline styling */
-.editCustomerHeadline {
+.addClientHeadline {
   font-size: 2em;
   color: var(--clr-soap-stone); /* Light text color for headline */
   margin-bottom: 1.5rem;
@@ -49,18 +49,18 @@
 }
 
 /* Form styling */
-.editCustomerForm {
+.addClientForm {
   display: flex;
   flex-direction: column;
   gap: 1rem; /* Space between form groups */
   text-align: left; /* Align labels/inputs to the left */
 }
 
-.editCustomerFormGroup {
+.addClientFormGroup {
   margin-bottom: 1rem; /* Space between form groups */
 }
 
-.editCustomerFormGroup label {
+.addClientFormGroup label {
   display: block; /* Make label a block to put input on new line */
   margin-bottom: 0.5rem;
   color: var(--clr-neutral-600); /* Lighter text for labels */
@@ -68,11 +68,11 @@
   font-weight: bold;
 }
 
-.editCustomerFormGroup input[type="text"],
-.editCustomerFormGroup input[type="email"],
-.editCustomerFormGroup input[type="tel"],
-.editCustomerFormGroup input[type="date"],
-.editCustomerFormGroup textarea {
+.addClientFormGroup input[type="text"],
+.addClientFormGroup input[type="email"],
+.addClientFormGroup input[type="tel"],
+.addClientFormGroup input[type="date"],
+.addClientFormGroup textarea {
   width: 100%;
   padding: 0.75rem;
   border: 1px solid var(--clr-neutral-300);
@@ -82,99 +82,73 @@
   box-sizing: border-box; /* Include padding in element's total width/height */
 }
 
-.editCustomerFormGroup input:focus,
-.editCustomerFormGroup textarea:focus {
+.addClientFormGroup input:focus,
+.addClientFormGroup textarea:focus {
   outline: none;
   border-color: var(--clr-golden-yellow);
   box-shadow: 0 0 0 2px rgba(var(--clr-golden-yellow-2), 0.5);
 }
 
-/* Action buttons (Update and Cancel) */
-.editCustomerActionButtons {
-  display: flex;
-  justify-content: flex-end; /* Align buttons to the right */
-  gap: 1rem; /* Space between buttons */
-  margin-top: 1.5rem;
-}
-
-.editCustomerSubmitBtn,
-.editCustomerCancelBtn {
-  padding: 0.75rem 1.5rem;
+/* Submit button styling */
+.addClientSubmitBtn {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: var(--clr-golden-yellow);
+  color: var(--clr-zeus); /* Dark text on golden button */
   border: none;
   border-radius: 0.1rem;
   font-size: 1em;
   font-weight: bold;
   cursor: pointer;
   transition: background-color 0.2s ease;
-  box-sizing: border-box;
+  margin-top: 1.5rem; /* Space above button */
 }
 
-.editCustomerSubmitBtn {
-  background-color: var(--clr-golden-yellow);
-  color: var(--clr-zeus); /* Dark text on golden button */
-}
-
-.editCustomerSubmitBtn:hover:not(:disabled) {
+.addClientSubmitBtn:hover:not(:disabled) {
   background-color: var(--clr-golden-yellow-2);
 }
 
-.editCustomerSubmitBtn:disabled {
+.addClientSubmitBtn:disabled {
   background-color: var(--clr-neutral-400);
   cursor: not-allowed;
   opacity: 0.7;
 }
 
-.editCustomerCancelBtn {
-  background-color: var(--clr-neutral-500); /* Neutral color for cancel */
-  color: var(--clr-soap-stone); /* Light text on neutral button */
+/* Message styling */
+.addClientSuccessMessage {
+  color: var(--clr-success-msg); /* Green for success */
+  margin-top: 1rem;
+  font-weight: bold;
 }
 
-.editCustomerCancelBtn:hover {
-  background-color: var(--clr-neutral-600);
-}
-
-/* Loading and error messages */
-.editCustomerLoading,
-.editCustomerError {
-  text-align: center;
-  font-size: 1.2rem;
-  margin-top: 3rem;
-  color: var(--clr-neutral-500);
-}
-
-.editCustomerError {
-  color: var(--clr-lava-red);
+.addClientErrorMessage {
+  color: var(--clr-warning-msg); /* Red for error */
+  margin-top: 1rem;
+  font-weight: bold;
 }
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
-  .editCustomerPageContent {
+  .addClientFormContent {
     padding: 1.5rem;
   }
 
-  .editCustomerHeadline {
+  .addClientHeadline {
     font-size: 1.8em;
   }
 
-  .editCustomerFormGroup label {
+  .addClientFormGroup label {
     font-size: 0.8em;
   }
 
-  .editCustomerFormGroup input,
-  .editCustomerFormGroup textarea {
+  .addClientFormGroup input,
+  .addClientFormGroup textarea {
     padding: 0.6rem;
     font-size: 0.9em;
   }
 
-  .editCustomerActionButtons {
-    flex-direction: column; /* Stack buttons vertically */
-    align-items: center;
-    gap: 0.8rem;
-  }
-
-  .editCustomerSubmitBtn,
-  .editCustomerCancelBtn {
-    width: calc(100% - 2rem); /* Full width minus margin */
-    margin: 0.4rem auto;
+  .addClientSubmitBtn {
+    padding: 0.6rem;
+    font-size: 0.9em;
   }
 }

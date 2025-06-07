@@ -32,7 +32,7 @@ const LoginForm = () => {
           localStorage.setItem("jwtToken", responseData.token); // Store the token
           // You might also store user info if available in responseData
           localStorage.setItem("userInfo", JSON.stringify(responseData.user));
-          navigate("/dashboard");
+          navigate("/mainDashboard");
         } else {
           // This should ideally not happen if backend sends token
           setError("Login successful, but no token received.");

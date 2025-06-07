@@ -1,83 +1,115 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { getToken, clearAuthData } from '../utils/authUtils'; // Assuming authUtils.js exists
-import './ViewClientPage.css'; // Import the new CSS file
+import { getToken, clearAuthData } from '../utils/authUtils'; // Imports functions for authentication token management
+import './ViewClientPage.css'; // Imports the CSS file for styling this component
+import { toast } from 'react-toastify'; // Imports toast for displaying non-blocking notifications
 
+/**
+ * ViewClientPage Component
+ * This component displays the detailed information of a single client.
+ * It fetches client data from the backend based on the ID from the URL,
+ * handles loading and error states, and provides options to edit or delete the client.
+ */
 const ViewClientPage = () => {
-    const { id } = useParams(); // Get the customer ID from the URL (e.g., /customers/123)
+    // useParams hook to extract the 'id' parameter from the URL
+    // e.g., if the URL is /clients/123, 'id' will be '123'
+    const { id } = useParams();
+    // useNavigate hook to programmatically navigate to different routes
     const navigate = useNavigate();
+    // Access the backend URL from environment variables for API calls
     const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
-    const [customer, setCustomer] = useState(null);
+    // State variable to store the fetched client data
+    const [client, setClient] = useState(null);
+    // State variable to manage the loading status during API calls
     const [loading, setLoading] = useState(true);
+    // State variable to store any error messages encountered during data fetching
     const [error, setError] = useState(null);
 
-    // --- Fetch Single Customer Details ---
+    /**
+     * useEffect hook to fetch single client details when the component mounts
+     * or when 'id', 'navigate', or 'BACKEND_URL' dependencies change.
+     */
     useEffect(() => {
-        const fetchCustomerDetails = async () => {
-            setLoading(true);
-            setError(null);
-            const token = getToken();
+        /**
+         * Asynchronous function to fetch client details from the backend.
+         */
+        const fetchClientDetails = async () => {
+            setLoading(true); // Set loading to true before starting the fetch operation
+            setError(null);   // Clear any previous errors
 
+            const token = getToken(); // Retrieve the authentication token
+            console.log(token);
+            // If no token is found, log an error, clear auth data, and redirect to the login page
             if (!token) {
                 console.error('No authentication token found. Redirecting to login.');
-                clearAuthData();
-                navigate('/login');
-                return;
+                clearAuthData(); // Clears any stored authentication data
+                navigate('/'); // Redirects to the login route
+                return; // Exit the function
             }
 
             try {
-                const response = await fetch(`${BACKEND_URL}/api/customers/${id}`, {
+                // Make a GET request to the backend API to fetch client details by ID
+                const response = await fetch(`${BACKEND_URL}/api/clients/${id}`, {
                     method: 'GET',
                     headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
+                        'Content-Type': 'application/json', // Specify content type as JSON
+                        'Authorization': `Bearer ${token}` // Include the JWT token in the Authorization header
                     },
-                    credentials: 'include',
+                    credentials: 'include', // Ensures cookies (if any) are sent with the request
                 });
 
+                // Handle 401 Unauthorized response (e.g., expired token)
                 if (response.status === 401) {
                     console.error('Authentication expired or invalid. Logging out.');
-                    clearAuthData();
-                    navigate('/login');
+                    clearAuthData(); // Clear authentication data
+                    navigate('/'); // Redirect to login
                     return;
                 }
+                // Handle 404 Not Found response (client with the given ID doesn't exist)
                 if (response.status === 404) {
-                    setError("Customer not found.");
-                    setLoading(false);
+                    setError("Client not found."); // Set a user-friendly error message
+                    setLoading(false); // Stop loading
                     return;
                 }
+                // Handle other non-OK responses (e.g., 500 Internal Server Error)
                 if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(errorData.message || 'Failed to fetch customer details.');
+                    const errorData = await response.json(); // Attempt to parse error message from response body
+                    throw new Error(errorData.message || 'Failed to fetch client details.'); // Throw an error
                 }
 
-                const data = await response.json();
-                setCustomer(data);
-
+                const data = await response.json(); // Parse the JSON response body
+                setClient(data.client); // Update the 'client' state with the fetched client data
             } catch (err) {
-                console.error("Error fetching customer details:", err);
-                setError(err.message || "Failed to load customer details.");
+                console.error("Error fetching client details:", err); // Log the error to the console
+                setError(err.message || "Failed to load client details."); // Set error state for display
             } finally {
-                setLoading(false);
+                setLoading(false); // Set loading to false once the fetch operation is complete (success or error)
             }
         };
 
-        fetchCustomerDetails();
-    }, [id, navigate, BACKEND_URL]); // Re-fetch if ID changes, or navigate/backend URL changes
+        fetchClientDetails(); // Call the fetch function when the component renders or dependencies change
+    }, [id, navigate, BACKEND_URL]); // Dependencies array for useEffect
 
-    // --- Handle Delete (moved here from Customers.jsx) ---
+    /**
+     * Asynchronous function to handle client deletion.
+     * It prompts the user for confirmation and then sends a DELETE request to the backend.
+     */
     const handleDelete = async () => {
-        if (window.confirm("Are you sure you want to delete this customer? This action cannot be undone.")) {
-            const token = getToken();
+        // Show a confirmation dialog to the user
+        if (window.confirm("Are you sure you want to delete this client? This action cannot be undone.")) {
+            const token = getToken(); // Retrieve the authentication token
+
+            // If no token, show an error and redirect to login
             if (!token) {
-                alert("Authentication required to delete customer.");
+                toast.error("Authentication required to delete client."); // Display a toast notification
                 navigate('/login');
                 return;
             }
 
             try {
-                const response = await fetch(`${BACKEND_URL}/api/customers/${id}`, {
+                // Send a DELETE request to the backend API to delete the client by ID
+                const response = await fetch(`${BACKEND_URL}/api/clients/${id}`, {
                     method: 'DELETE',
                     headers: {
                         'Content-Type': 'application/json',
@@ -86,64 +118,86 @@ const ViewClientPage = () => {
                     credentials: 'include',
                 });
 
+                // If the deletion was successful
                 if (response.ok) {
-                    alert("Customer deleted successfully!");
-                    navigate('/customers'); // Redirect back to the main customers list
-                } else if (response.status === 401 || response.status === 403) {
-                    alert("Authentication expired or unauthorized. Please log in again.");
+                    toast.success("Client deleted successfully!"); // Display success toast
+                    navigate('/clientsDashboard'); // Redirect back to the main clients list
+                }
+                // If authentication failed or unauthorized
+                else if (response.status === 401 || response.status === 403) {
+                    toast.error("Authentication expired or unauthorized. Please log in again.");
                     clearAuthData();
-                    navigate('/login');
-                } else {
+                    navigate('/');
+                }
+                // Handle other errors during deletion
+                else {
                     const errorData = await response.json();
-                    throw new Error(errorData.message || 'Failed to delete customer.');
+                    throw new Error(errorData.message || 'Failed to delete client.');
                 }
             } catch (err) {
-                console.error("Error deleting customer:", err);
-                alert(`Error deleting customer: ${err.message}`);
+                console.error("Error deleting client:", err);
+                toast.error(`Error deleting client: ${err.message}`); // Display error toast
             }
         }
     };
 
-    // --- Handle Edit (will navigate to EditCustomerPage) ---
+    /**
+     * Function to handle navigation to the edit client page.
+     */
     const handleEdit = () => {
-        navigate(`/customers/edit/${id}`);
+        navigate(`/clients/edit/${id}`); // Navigate to the edit client route for the current client ID
     };
 
     // --- Render Logic ---
+
+    // Display a loading message while client data is being fetched
     if (loading) {
         return <div className="viewClientLoading">Loading client details...</div>;
     }
 
+    // Display an error message if data fetching failed
     if (error) {
         return <div className="viewClientError" style={{ color: "red" }}>Error: {error}</div>;
     }
 
-    if (!customer) {
+    // Display a "Client not found" message if no client data is available after loading
+    if (!client) {
         return <div className="viewClientNotFound">Client not found.</div>;
     }
 
+    // Render the client details once the data is successfully fetched
     return (
         <div className="viewClientContainer">
             <div className="viewClientContent">
-                <Link to="/customers" className="viewClientBackLink">
+                {/* Link to navigate back to the clients list */}
+                <Link to="/clientsDahsboard" className="viewClientBackLink">
                     {"<"} Back to Clients List
                 </Link>
                 <h1 className="viewClientHeadline">Client Details</h1>
                 <div className="clientDetailsCard">
-                    <h2>{customer.name}</h2>
-                    <p><strong>Email:</strong> {customer.email}</p>
-                    <p><strong>Phone:</strong> {customer.phone || 'N/A'}</p>
-                    <p><strong>Secondary Phone:</strong> {customer.secondaryPhone || 'N/A'}</p>
-                    <p><strong>NRC:</strong> {customer.nrc || 'N/A'}</p>
-                    <p><strong>Date Registered:</strong> {new Date(customer.dateRegistered).toLocaleDateString()}</p>
-                    {customer.address && (
+                    {/* Display client's name */}
+                    <h2>{client.name}</h2>
+                    {/* Display client's email */}
+                    <p><strong>Email:</strong> {client.email}</p>
+                    {/* Display client's primary phone, or 'N/A' if not provided */}
+                    <p><strong>Phone:</strong> {client.phone || 'N/A'}</p>
+                    {/* Display client's secondary phone, or 'N/A' if not provided */}
+                    <p><strong>Secondary Phone:</strong> {client.secondaryPhone || 'N/A'}</p>
+                    {/* Display client's NRC, or 'N/A' if not provided */}
+                    <p><strong>NRC:</strong> {client.nrc || 'N/A'}</p>
+                    {/* Display client's registration date, formatted as a local date string */}
+                    <p><strong>Date Registered:</strong> {new Date(client.dateRegistered).toLocaleDateString()}</p>
+                    {/* Conditionally render address details if an address exists */}
+                    {client.address && (
                         <div className="clientAddressDetails">
                             <p><strong>Address:</strong></p>
-                            <p>{customer.address}</p> {/* Assuming address is a single string now */}
+                            <p>{client.address}</p> {/* Assuming address is a single string field */}
                         </div>
                     )}
                     <div className="clientActions">
+                        {/* Button to navigate to the edit client page */}
                         <button onClick={handleEdit} className="editBtn">Edit Client</button>
+                        {/* Button to trigger the client deletion process */}
                         <button onClick={handleDelete} className="deleteBtn">Delete Client</button>
                     </div>
                 </div>

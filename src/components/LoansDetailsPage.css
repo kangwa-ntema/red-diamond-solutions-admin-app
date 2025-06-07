@@ -166,3 +166,8 @@
     margin: 0.4rem auto;
   }
 }
+
+
+.paymentsHistorySection{
+  color: var(--clr-neutral-400);
+}
