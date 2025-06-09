@@ -18,6 +18,52 @@ const LoanDetailsPage = () => {
     const navigate = useNavigate();
     const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
+    // Helper function to dynamically determine the loan's display status text
+    const getLoanDisplayStatusText = (loanData) => {
+        if (!loanData) return 'N/A';
+
+        // 1. Prioritize Paid if balance is zero or less
+        if (loanData.balanceDue <= 0) {
+            return "Paid";
+        }
+
+        // 2. Prioritize Default if explicitly marked by backend
+        if (loanData.status === 'default') {
+            return "Defaulted";
+        }
+
+        // 3. Determine Overdue based on due date and outstanding balance
+        const now = new Date();
+        const dueDate = new Date(loanData.dueDate);
+        if (dueDate < now && loanData.balanceDue > 0) {
+            return "Overdue";
+        }
+
+        // 4. Otherwise, use the status provided by the backend (e.g., active, pending)
+        return loanData.status;
+    };
+
+    // Helper function to determine the CSS class for the loan status
+    const getLoanDisplayStatusClass = (loanData) => {
+        if (!loanData) return '';
+
+        if (loanData.balanceDue <= 0) {
+            return "paid";
+        }
+
+        if (loanData.status === 'default') {
+            return "default";
+        }
+
+        const now = new Date();
+        const dueDate = new Date(loanData.dueDate);
+        if (dueDate < now && loanData.balanceDue > 0) {
+            return "overdue";
+        }
+
+        return loanData.status; // Use backend status for active/pending
+    };
+
     // Helper function to fetch all loan details and payments
     const fetchLoanAndPayments = async () => {
         setLoading(true);
@@ -70,10 +116,10 @@ const LoanDetailsPage = () => {
             }
             setPayments(paymentsData);
 
-            // Determine if loan can be renewed (e.g., if it's paid or defaulted and no other active loans for client)
-            // This logic will need to be refined based on your specific renewal rules
-            // For now, let's assume it can be renewed if the loan is 'paid' or 'default' and the client has no other active loans
-            const clientLoansResponse = await fetch(`${BACKEND_URL}/api/clients/${loanData.client._id}?loanStatus=active`, {
+            // Determine if loan can be renewed:
+            // - The current loan must be 'paid' or 'default'.
+            // - The client must not have any other 'active', 'overdue', or 'default' loans.
+            const clientLoansResponse = await fetch(`${BACKEND_URL}/api/clients/${loanData.client._id}?exclude_active_loan_clients=true`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -83,15 +129,49 @@ const LoanDetailsPage = () => {
             });
             const clientLoansData = await clientLoansResponse.json();
 
-            // Check if there are other active loans for this client, excluding the current loan if it's active.
-            // A loan can be renewed if it's paid/defaulted AND the client has no other active loans.
-            const hasOtherActiveLoans = clientLoansData.loans.filter(
-                (l) => l.status === 'active' && l._id !== loanData._id
-            ).length > 0;
+            // The 'exclude_active_loan_clients=true' filter returns clients WITHOUT active/overdue/default loans.
+            // If the current client's ID is *not* in this list, it means they *do* have an active/overdue/default loan.
+            // So, a client can renew if the current loan is eligible AND they don't have other active loans.
+            // The `clientLoansData.clients` array will only contain the current client if they have NO outstanding loans.
+            // If the current client is found in this list, it means they are currently eligible for a new loan.
+
+            // To refine the renewal logic for this specific loan details page:
+            // The loan can be renewed IF:
+            // 1. Its status is 'paid' OR 'default'.
+            // 2. The client associated with this loan has no other active, overdue, or defaulted loans.
+            //    We can check this by seeing if the `clientLoanSummary` from the client's dashboard API
+            //    (which gives full loan summary for the client) shows 0 for active/overdue/default,
+            //    OR by using the `exclude_active_loan_clients` param on the client API.
+
+            // Let's re-fetch the full client summary to accurately check for other active loans
+            const clientSummaryResponse = await fetch(`${BACKEND_URL}/api/clients/${loanData.client._id}`, {
+                method: 'GET',
+                headers: { 'Authorization': `Bearer ${token}` },
+                credentials: 'include',
+            });
+            const clientSummaryData = await clientSummaryResponse.json();
+            const clientLoanSummaryForRenewal = clientSummaryData.clientLoanSummary;
 
             const currentLoanEligibleForRenewal = (loanData.status === 'paid' || loanData.status === 'default');
 
-            setCanRenew(currentLoanEligibleForRenewal && !hasOtherActiveLoans);
+            // Check if there are any outstanding loans for this client *other than the current one*
+            // This is slightly complex because the client summary includes the current loan.
+            // A more robust check might be:
+            // total active/overdue/default loans for client - (1 if current loan is active/overdue/default) === 0
+            const outstandingLoanStatuses = ['active', 'overdue', 'default'];
+            const totalOutstandingClientLoans = clientLoanSummaryForRenewal.activeLoans + clientLoanSummaryForRenewal.overdueLoans + clientLoanSummaryForRenewal.defaultedLoans;
+
+            let hasOtherOutstandingLoans = false;
+            if (outstandingLoanStatuses.includes(loanData.status)) {
+                // If the current loan is itself outstanding, check if there are other outstanding loans besides this one.
+                hasOtherOutstandingLoans = totalOutstandingClientLoans > 1;
+            } else {
+                // If the current loan is not outstanding (e.g., pending or paid), any outstanding loans means others exist.
+                hasOtherOutstandingLoans = totalOutstandingClientLoans > 0;
+            }
+
+            setCanRenew(currentLoanEligibleForRenewal && !hasOtherOutstandingLoans);
+
 
         } catch (err) {
             console.error('LoanDetailsPage: Error in fetchLoanAndPayments:', err);
@@ -162,6 +242,11 @@ const LoanDetailsPage = () => {
                 credentials: 'include',
             })).json();
 
+            // Ensure the loan data is valid before proceeding
+            if (!currentLoanDetails || !currentLoanDetails.client || !currentLoanDetails.client._id) {
+                throw new Error('Could not retrieve current loan or client details for renewal.');
+            }
+
             const newLoanData = {
                 client: currentLoanDetails.client._id, // Assuming client is populated
                 loanAmount: currentLoanDetails.loanAmount, // Example: renew with same amount
@@ -171,8 +256,8 @@ const LoanDetailsPage = () => {
                 startDate: new Date().toISOString().split('T')[0], // New start date
                 dueDate: new Date(new Date().setMonth(new Date().getMonth() + currentLoanDetails.loanTerm)).toISOString().split('T')[0], // Example new due date
                 paymentsMade: 0,
-                balanceDue: currentLoanDetails.totalRepaymentAmount, // Start with full repayment amount
-                totalRepaymentAmount: currentLoanDetails.totalRepaymentAmount,
+                balanceDue: (parseFloat(currentLoanDetails.loanAmount) * (1 + parseFloat(currentLoanDetails.interestRate) / 100) * parseFloat(currentLoanDetails.loanTerm)).toFixed(2), // Calculate initial balance for new loan
+                totalRepaymentAmount: (parseFloat(currentLoanDetails.loanAmount) * (1 + parseFloat(currentLoanDetails.interestRate) / 100) * parseFloat(currentLoanDetails.loanTerm)).toFixed(2),
                 status: 'pending', // New loan starts as pending
                 description: `Renewal of Loan ID: ${currentLoanDetails._id}`,
                 collateralType: currentLoanDetails.collateralType,
@@ -204,7 +289,6 @@ const LoanDetailsPage = () => {
         } catch (err) {
             console.error('Error renewing loan:', err);
             toast.error(`Error renewing loan: ${err.message}`);
-        } finally {
             setLoading(false);
         }
     };
@@ -242,9 +326,9 @@ const LoanDetailsPage = () => {
                 <h2>Loan for {clientName}</h2>
                 <div className="loanDetailGrid">
                     <p><strong>Loan ID:</strong> {loan._id}</p>
-                    <p><strong>client Email:</strong> {clientEmail}</p>
-                    <p><strong>client Phone:</strong> {clientPhone}</p>
-                    <p><strong>client NRC:</strong> {clientNrc}</p>
+                    <p><strong>Client Email:</strong> {clientEmail}</p>
+                    <p><strong>Client Phone:</strong> {clientPhone}</p>
+                    <p><strong>Client NRC:</strong> {clientNrc}</p>
                     <p><strong>Loan Amount:</strong> ZMW {loan.loanAmount.toFixed(2)}</p>
                     <p><strong>Interest Rate:</strong> {loan.interestRate}%</p>
                     <p><strong>Loan Term:</strong> {loan.loanTerm} {loan.termUnit}</p>
@@ -255,7 +339,7 @@ const LoanDetailsPage = () => {
                     <p className={`balanceDue ${loan.balanceDue > 0 ? 'outstanding' : 'paid'}`}>
                         <strong>Balance Due:</strong> ZMW {loan.balanceDue.toFixed(2)}
                     </p>
-                    <p><strong>Status:</strong> <span className={`loanStatusTag ${loan.status}`}>{loan.status}</span></p>
+                    <p><strong>Status:</strong> <span className={`loanStatusTag ${getLoanDisplayStatusClass(loan)}`}>{getLoanDisplayStatusText(loan)}</span></p>
                     <p><strong>Description:</strong> {loan.description || 'N/A'}</p>
                     <p><strong>Collateral Type:</strong> {loan.collateralType || 'N/A'}</p>
                     <p><strong>Collateral Value:</strong> ZMW {loan.collateralValue ? loan.collateralValue.toFixed(2) : '0.00'}</p>
@@ -268,7 +352,7 @@ const LoanDetailsPage = () => {
                     <button
                         onClick={() => setShowRecordPaymentModal(true)}
                         className="recordPaymentBtn"
-                        disabled={loan.status === 'paid' || loan.status === 'default'} // Disable if loan is paid or defaulted
+                        disabled={loan.balanceDue <= 0 || loan.status === 'default'} // Disable if loan is paid or defaulted
                     >
                         Record Payment
                     </button>
@@ -279,7 +363,7 @@ const LoanDetailsPage = () => {
                         onClick={handleRenewLoan}
                         className="renewLoanBtn"
                         disabled={!canRenew}
-                        title={canRenew ? "Renew this loan" : "Client has an active loan or loan is not yet eligible for renewal."}
+                        title={canRenew ? "Renew this loan" : "Client has an outstanding loan or loan is not yet eligible for renewal (must be Paid or Defaulted)."}
                     >
                         Renew Loan
                     </button>
@@ -325,8 +409,8 @@ const LoanDetailsPage = () => {
                     loanId={loan._id}
                     clientId={loan.client._id}
                     clientName={loan.client.name}
-                    clientPhoneNumber={loan.client.phone} // Pass client's primary phone
-                    clientEmail={loan.client.email} // Pass client's email
+                    clientPhoneNumber={loan.client.phone}
+                    clientEmail={loan.client.email}
                     currentBalanceDue={loan.balanceDue}
                     onClose={() => setShowRecordPaymentModal(false)}
                     onPaymentRecorded={handlePaymentRecorded}
