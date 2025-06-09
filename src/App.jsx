@@ -18,10 +18,12 @@ import LoansList from "./components/LoansList";
 import AddLoanPage from "./components/AddLoanPage";
 import EditLoanPage from "./components/EditLoanPage";
 
-
 /* ACCOUNTING */
 import AccountingDashboardPage from "./components/AccountingDashboardPage/AccountingDashboardPage";
 import ChartOfAccountsPage from "./components/ChartOfAccountsPage/ChartOfAccountsPage";
+import JournalEntriesListPage from './components/JournalEntriesListPage/JournalEntriesListPage';
+import AddJournalEntryPage from './components/AddJournalEntryPage/AddJournalEntryPage';
+import JournalEntryDetailsPage from './components/JournalEntryDetailsPage/JournalEntryDetailsPage';
 
 /* IMAGES */
 import PrimaryNavLogo from "./assets/logo-images/red-diamond-primary-logo-white-typeface.png";
@@ -72,9 +74,26 @@ function App() {
             {/* ACCOUNTING ROUTES */}
             <Route path="/transactions" element={<AccountingDashboardPage />} />
             <Route path="/accounts" element={<ChartOfAccountsPage />} />
-
+            <Route
+              path="/journal-entries"
+              element={<JournalEntriesListPage />}
+            />
+            <Route
+              path="/journal-entries/add"
+              element={<AddJournalEntryPage />}
+            />
+            <Route
+              path="/journal-entries/:id"
+              element={<JournalEntryDetailsPage />}
+            />
+            <Route
+              path="/journal-entries/edit/:id"
+              element={<AddJournalEntryPage />}
+            />{" "}
+            {/* Use same component for edit */}
             {/* SETTINGS ROUTES */}
             <Route path="/settings" element={<Settings />} />
+            {/*  */}
           </Routes>
         </div>
         <footer className="appFooter">

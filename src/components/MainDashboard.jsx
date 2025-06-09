@@ -24,9 +24,7 @@ const MainDashboard = () => {
             <li className="mainDashboardNavLink" >
               <Link to="/transactions">Manage Accounting</Link>
             </li>
-            <li className="mainDashboardNavLink" >
-              <Link to="/accounts">Chart Of Accounts</Link>
-            </li>
+            
             <li className="mainDashboardNavLink" >
               <Link to="/settings">Settings</Link> {/* Updated link to /settings */}
             </li>

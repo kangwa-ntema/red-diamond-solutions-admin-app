@@ -54,7 +54,7 @@ const ClientsDashboard = () => {
           "ClientsDashboard: No authentication token found. Redirecting to login."
         );
         clearAuthData(); // Clear potentially stale auth data
-        navigate("/"); // Redirect unauthenticated users
+        navigate("/LandingPage"); // Redirect unauthenticated users
         return;
       }
 
@@ -151,7 +151,8 @@ const ClientsDashboard = () => {
       const token = getToken(); // Get authentication token
       if (!token) {
         alert("Authentication required to delete a client."); // Updated message
-        navigate("/");
+        navigate("/LandingPage"); // Redirect to login if no token
+        clearAuthData(); // Clear any stale auth data
         return;
       }
 
@@ -178,7 +179,7 @@ const ClientsDashboard = () => {
         else if (response.status === 401 || response.status === 403) {
           alert("Authentication expired or unauthorized. Please log in again.");
           clearAuthData();
-          navigate("/login");
+          navigate("/loginForm");
         }
         // Handle other API errors.
         else {

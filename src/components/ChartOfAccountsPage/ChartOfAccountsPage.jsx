@@ -57,7 +57,7 @@ const ChartOfAccountsPage = () => {
 
             if (response.status === 401 || response.status === 403) {
                 clearAuthData();
-                navigate('/login');
+                navigate('/loginForm');
                 toast.error('Authentication expired or unauthorized. Please log in again.');
                 return;
             }
@@ -115,7 +115,7 @@ const ChartOfAccountsPage = () => {
 
             if (!token) {
                 clearAuthData();
-                navigate('/');
+                navigate('/loginForm');
                 return;
             }
 
@@ -166,7 +166,7 @@ const ChartOfAccountsPage = () => {
     return (
         <div className="coaContainer">
             <div className="coaContent">
-                <Link to="/mainDashboard" className="coaBackLink">
+                <Link to="/transactions" className="coaBackLink">
                      Back to Main Dashboard
                 </Link>
                 <h1 className="coaHeadline">Chart of Accounts</h1>
