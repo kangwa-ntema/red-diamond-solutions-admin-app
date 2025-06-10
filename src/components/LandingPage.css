@@ -4,33 +4,25 @@
   align-items: center;
   justify-content: center;
   min-height: 100vh; /* Make it take full viewport height */
+  min-height: calc(100vh - 10rem); /* Adjust for header and footer height */
   width: 100%;
-  padding: 1rem; /* Consistent padding around the container */
-  box-sizing: border-box; /* Ensure padding is included in width/height */
 }
 
 .landingPageContent {
-  background-color: var(--clr-neutral-100);
-  padding: 2.5rem;
+  padding: 2rem;
   border-radius: 0.1rem;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  max-width: var(--max-width-sm); /* Adjusted max-width for content */
-  width: 100%; /* Ensures it takes full width up to max-width */
+  max-width: var(--max-width-xsm); /* Adjusted max-width for content */
   text-align: center;
+  background-color: var(--clr-charcoal-gray); /* Dark background for contrast */
 }
 
 .landingPageHeadline {
-  font-size: 2em;
+  font-size: clamp(1em, 2vw, 2em); /* Responsive font size */
   color: var(--clr-soap-stone);
   margin-bottom: 2rem;
-  font-weight: bold;
 }
 
-.signInContainer {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-}
 
 .loginBtn {
   width: 100%; /* Make button take full width of its container */
@@ -38,54 +30,17 @@
   border: none;
   border-radius: 0.1rem;
   font-size: 1em;
-  font-weight: bold;
-  margin: 1rem auto;
   padding: 0.5rem 5rem; /* Base padding */
   outline: none;
   background-color: var(--clr-golden-yellow);
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  margin: 1rem 0;
 }
 
 .loginBtn:hover {
-  background-color: var(--clr-golden-yellow-2);
+  background-color: var(--clr-citron);
 }
 
 .loginBtn:focus {
   outline: none; /* Remove default outline */
-}
-
-/* --- Responsive Adjustments --- */
-@media (max-width: 768px) {
-  .landingPageContent {
-    padding: 2rem; /* Slightly less padding on smaller screens */
-  }
-
-  .landingPageHeadline {
-    font-size: 1.8em; /* Slightly smaller headline */
-    margin-bottom: 1.5rem;
-  }
-
-  .loginBtn {
-    /* For smaller screens, make the button take more horizontal space */
-    padding: 0.75rem 2rem; /* Adjusted padding for better touch target */
-    font-size: 0.95em; /* Slightly smaller font size */
-  }
-}
-
-@media (max-width: 480px) {
-  .landingPageContent {
-    padding: 1.5rem; /* Even less padding on very small screens */
-  }
-
-  .landingPageHeadline {
-    font-size: 1.5em; /* Smaller headline for very small screens */
-    margin-bottom: 1rem;
-  }
-
-  .loginBtn {
-    padding: 0.75rem 1.5rem; /* Optimize padding further */
-    font-size: 0.9em; /* Smallest font size */
-    width: 90%; /* Give a small margin on the sides */
-  }
 }

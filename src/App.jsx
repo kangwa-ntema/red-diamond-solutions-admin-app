@@ -24,6 +24,10 @@ import ChartOfAccountsPage from "./components/ChartOfAccountsPage/ChartOfAccount
 import JournalEntriesListPage from './components/JournalEntriesListPage/JournalEntriesListPage';
 import AddJournalEntryPage from './components/AddJournalEntryPage/AddJournalEntryPage';
 import JournalEntryDetailsPage from './components/JournalEntryDetailsPage/JournalEntryDetailsPage';
+import GeneralLedgerPage from './components/GeneralLedgerPage/GeneralLedgerPage';
+import TrialBalancePage from "./components/TrailBalancePage/TrailBalancePage";
+import IncomeStatementPage from './components/IncomeStatementPage/IncomeStatementPage'; 
+import BalanceSheetPage from "./components/BalanceSheetPage/BalanceSheetPage";
 
 /* IMAGES */
 import PrimaryNavLogo from "./assets/logo-images/red-diamond-primary-logo-white-typeface.png";
@@ -37,7 +41,7 @@ import Settings from "./components/Settings";
 function App() {
   return (
     <BrowserRouter>
-      {/* <ScrollToTop /> */}
+      <ScrollToTop />
       <div className="appContainer">
         <div className="appPrimaryNavbarContainer">
           <header className="appPrimaryNavbar">
@@ -90,6 +94,12 @@ function App() {
               path="/journal-entries/edit/:id"
               element={<AddJournalEntryPage />}
             />{" "}
+            <Route path="/general-ledger" element={<GeneralLedgerPage />} /> {/* <-- Add this route */}
+            <Route path="/reports" element={<TrialBalancePage />} /> {/* <-- Add this route */}
+            <Route path="/income-statement" element={<IncomeStatementPage />} /> {/* <-- Add this route */}
+            <Route path="/balance-sheet" element={<BalanceSheetPage />} /> {/* <-- Add this route */}
+
+
             {/* Use same component for edit */}
             {/* SETTINGS ROUTES */}
             <Route path="/settings" element={<Settings />} />

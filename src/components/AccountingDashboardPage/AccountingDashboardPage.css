@@ -1,0 +1,17 @@
+.accountingDashboardContainer{
+    color: var(--clr-soap-stone);
+}
+
+.accountingDashboardPanel{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(5rem, 1fr));
+    justify-content: center;
+    padding: 2rem;
+    gap: 1rem;
+}
+
+.accountingDashboardNavLink a{
+    background-color: var(--clr-golden-yellow);
+    padding: 1rem;
+    color: var(--clr-zeus);
+}

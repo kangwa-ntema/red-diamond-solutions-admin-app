@@ -216,16 +216,30 @@ const AccountingDashboardPage = () => {
     <div className="accountingDashboardContainer">
       <div className="accountingDashboardContent">
         <Link to="/mainDashboard" className="journalEntryBackLink">
-                        {"<"} Back to Main Dashboard
-                    </Link>
-        <h1 className="accountingHeadline">Accounting Overview</h1>
-        <li className="mainDashboardNavLink">
-          <Link to="/accounts">Chart Of Accounts</Link>
-        </li>
-        <li className="mainDashboardNavLink">
-          <Link to="/journal-entries">Journal Entries</Link>
-        </li>
+          {"<"} Back to Main Dashboard
+        </Link>
+        <div className="accountingDashboardPanel">
+          <li className="accountingDashboardNavLink">
+            <Link to="/accounts">Chart Of Accounts</Link>
+          </li>
+          <li className="accountingDashboardNavLink">
+            <Link to="/journal-entries">Journal Entries</Link>
+          </li>
+          <li className="accountingDashboardNavLink">
+            <Link to="/general-ledger">General Ledger</Link>
+          </li>
+          <li className="accountingDashboardNavLink">
+            <Link to="/reports">Trail Balance</Link>
+          </li>
+          <li className="accountingDashboardNavLink">
+            <Link to="/income-statement">Income Statement</Link>
+          </li>
+          <li className="accountingDashboardNavLink">
+            <Link to="/balance-sheet">Balance Sheet</Link>
+          </li>
+        </div>
         <section className="summaryCardsGrid">
+          <h1 className="accountingHeadline">Accounting Overview</h1>
           <div className="summaryCard totalDebits">
             <h3>Total Disbursements</h3>
             <p>ZMW {overallSummary.totalDebits.toFixed(2)}</p>

@@ -1,18 +1,19 @@
-/* @import "./components/css/abstract/fonts.css"; */
+@import "./components/css/abstract/fonts.css";
 @import "./components/css/abstract/colors.css";
 @import "./components/css/abstract/resets.css";
-/* @import "./components/css/abstract/transitions.css"; */
+@import "./components/css/abstract/transitions.css";
 
 .appContainer {
   color: var(--clr-zeus);
   background-color: var(--clr-soap-stone);
+  font-family: "Raleway-Medium", sans-serif;
   display: grid;
   grid-template-rows: auto 1fr auto; /* Header (auto), Main (1fr), Footer (auto) */
   min-height: 100vh; /* Make the grid container at least the height of the viewport */
 }
 
 .appPrimaryNavbarContainer {
-  background-color: var(--clr-zeus);
+  background-color: var(--clr-charcoal-gray);
   padding: 1rem;
 }
 
@@ -24,19 +25,20 @@
 
 
 .primaryNavLogo {
-  max-height: 2.5rem;
+  max-height: 2rem;
 }
 
 .appPrimaryNavbarHeadline{
   color: var(--clr-soap-stone);
+  font-family: "Raleway-Light";
 }
 
 .outletSection {
-  /* border: .1rem solid black; */
-  max-width: var(--max-width-xl);
-  padding-inline: 1rem;
+  padding: 1rem;
   display: flex;
   flex-direction: column;
+  min-height: calc(100vh - 10rem); /* Adjust for header and footer height */
+  background-color: var(--clr-zeus);
 }
 
 .appFooter {
@@ -49,5 +51,5 @@
 .appFooterCopyright {
   color: var(--clr-soap-stone);
   text-align: center;
-  font-size: 0.5em;
+  font-size: 0.4em;
 }

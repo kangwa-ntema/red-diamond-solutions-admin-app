@@ -2,50 +2,58 @@
 
 /* Main container for the add client form page */
 .addClientFormContainer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start; /* Align content to top, allowing scroll */
-  min-height: 100vh; /* Ensure it takes full viewport height */
-  width: 100%;
+  margin: 0 auto;
+  min-height: 100vh; 
+  min-width: var(--max-width-sm);
   padding: 1rem;
-  box-sizing: border-box;
 }
 
 /* Inner content area for the form, mimicking the styled boxes of other pages */
 .addClientFormContent {
-  background-color: var(--clr-neutral-100); /* Dark background */
-  padding: 2.5rem;
+  background-color: var(--clr-charcoal-gray); 
+  padding: 1rem;
   border-radius: 0.1rem;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  max-width: var(--max-width-md); /* Consistent max-width for forms */
-  width: 100%;
-  text-align: center;
-  margin-top: 1rem; /* Add some margin from the top if it's not full height */
-  margin-bottom: 2rem; /* Space before footer */
+  max-width: var(--max-width-md); 
 }
 
 /* Back to Clients List link */
 .addClientBackLink {
-  display: inline-block;
-  margin-bottom: 1.5rem;
-  color: var(--clr-golden-yellow); /* Consistent link color */
+  color: var(--clr-charcoal-gray);
+  background-color: var(--clr-soap-stone);
   text-decoration: none;
-  font-weight: bold;
-  font-size: 1rem;
+  font-size: 0.75em;
   transition: color 0.2s ease;
+  border: none;
+  border-radius: 0.1rem;
+  padding: 0.5rem 1rem;
+  margin-bottom: 2rem;
+  cursor: pointer;
+  justify-self: start;
 }
 
 .addClientBackLink:hover {
-  color: var(--clr-golden-yellow-2);
+  background-color: var(--clr-davy-grey);
+
 }
 
 /* Headline styling */
 .addClientHeadline {
+  position: relative;
   font-size: 2em;
-  color: var(--clr-soap-stone); /* Light text color for headline */
+  color: var(--clr-golden-yellow);
   margin-bottom: 1.5rem;
   font-weight: bold;
+}
+
+.addClientHeadline::after{
+  content: "";
+  position: absolute;
+  bottom: 0rem;
+  left: 0;
+  background-color: var(--clr-golden-yellow);
+  width: 2rem;
+  height: .2rem;
 }
 
 /* Form styling */
@@ -86,7 +94,7 @@
 .addClientFormGroup textarea:focus {
   outline: none;
   border-color: var(--clr-golden-yellow);
-  box-shadow: 0 0 0 2px rgba(var(--clr-golden-yellow-2), 0.5);
+  box-shadow: 0 0 0 2px rgba(var(--clr-citron), 0.5);
 }
 
 /* Submit button styling */
@@ -105,7 +113,7 @@
 }
 
 .addClientSubmitBtn:hover:not(:disabled) {
-  background-color: var(--clr-golden-yellow-2);
+  background-color: var(--clr-citron);
 }
 
 .addClientSubmitBtn:disabled {

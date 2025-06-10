@@ -1,11 +1,17 @@
 :root {
-  --clr-golden-yellow: hsl(56, 90%, 51%);
-  --clr-golden-yellow-2: hsl(56, 60%, 50%);
-  --clr-soap-stone: #f6fefc;
+  --clr-golden-yellow: rgb(243, 228, 18);
+  --clr-sandy-yellow: hsl(56, 91%, 75%);
+  --clr-citron: hsl(56, 60%, 40%);
+  --clr-soap-stone: hsl(165, 80%, 98%);
+  --clr-wood-smoke: hsl(0, 15%, 5%);
   --clr-zeus: hsl(220, 5%, 13%);
+  --clr-charcoal-gray: hsl(180, 4%, 5%);
   --clr-lava-red: #ec1a25;
   --clr-coral-red: #ee4c41;
   --clr-rose-gold: #f8c4c6;
+  --clr-platinum: hsl(351, 14%, 90%);
+  --clr-davy-grey: hsl(240, 3%, 36%);
+  --clr-dark-mint: #378b68;
 
   --clr-zeus-blend-5: hsla(207, 7%, 25%, 0.5);
   --clr-soap-stone-blend-2: hsla(165, 7%, 55%, 0.2);
@@ -25,7 +31,7 @@
   --clr-neutral-600: hsl(0, 0%, 80%);
   --clr-neutral-700: hsl(0, 0%, 95%);
 
-  --max-width-xsm: 576px;
+  --max-width-xsm: 400px;
   --max-width-sm: 576px;
   --max-width-md: 768px;
   --max-width-lg: 922px;

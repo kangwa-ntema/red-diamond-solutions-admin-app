@@ -70,7 +70,7 @@ const AddClientForm = () => {
     if (!token) {
       setError("Authentication required. Please log in.");
       setLoading(false);
-      navigate("/login"); // Redirect to login page
+      navigate("/loginForm"); // Redirect to login page
       return;
     }
 
@@ -128,10 +128,13 @@ const AddClientForm = () => {
       {/* Wrapper div for content box, applies styling for layout (updated class) */}
       <div className="addClientFormContent">
         {/* Link to navigate back to the clients list */}
-        <Link className="addClientBackLink" to="/clients">
-          {" "}
+        <Link  to="/clients">
           {/* Updated URL and class */}
-          {"<"} Back to Clients List
+          <button className="addClientBackLink">
+            {" "}
+            {/* Button styled as a back link (updated class) */}
+          Back to Clients List
+          </button>
         </Link>
         {/* Headline for the form (updated class and text) */}
         <h2 className="addClientHeadline">Add New Client</h2>

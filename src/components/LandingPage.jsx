@@ -6,7 +6,7 @@ const LandingPage = () => {
     <section className="landingPageContainer">
       <div className="landingPageContent">
         <h1 className="landingPageHeadline">
-          Login to access and manage your information.
+          Login to Access and Manage Your Information.
         </h1>
         <div className="signInContainer">
           <Link to="LoginForm">

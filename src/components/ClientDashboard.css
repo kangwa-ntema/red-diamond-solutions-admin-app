@@ -27,13 +27,16 @@
 
 /* Back to Customers List link */
 .clientDashboardBackLink {
-  display: inline-block;
-  margin-bottom: 1.5rem;
-  color: var(--clr-golden-yellow); /* Consistent link color */
+  color: var(--clr-charcoal-gray);
+  background-color: var(--clr-platinum);
   text-decoration: none;
-  font-weight: bold;
-  font-size: 1rem;
+  font-size: .75em;
   transition: color 0.2s ease;
+  border: none;
+  border-radius: .1rem;
+  padding: .5rem 1rem;
+  margin-bottom: 2rem;
+  cursor: pointer;
 }
 
 .clientDashboardBackLink:hover {

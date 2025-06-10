@@ -45,6 +45,10 @@ body {
   overflow-x: hidden;
 }
 
+*{
+  transition: all 0.2s ease-in-out;
+}
+
 /* A elements that don't have a class get default styles */
 a:not([class]) {
   text-decoration-skip-ink: auto;

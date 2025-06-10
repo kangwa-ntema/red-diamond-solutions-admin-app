@@ -32,7 +32,7 @@ const LoginForm = () => {
           localStorage.setItem("jwtToken", responseData.token); // Store the token
           // You might also store user info if available in responseData
           localStorage.setItem("userInfo", JSON.stringify(responseData.user));
-          navigate("/mainDashboard");
+          navigate("/mainDashboard"); // Redirect to the landing page after successful login
         } else {
           // This should ideally not happen if backend sends token
           setError("Login successful, but no token received.");
@@ -50,12 +50,12 @@ const LoginForm = () => {
   return (
     <section className="loginFormContainer">
       <Link to="/" >
-        <button className="backHomeBtn">Back Home</button>
+        <button className="backHomeBtn">Landing Page</button>
       </Link>
       <div className="loginForm">
-        <p className="signInHeadline">LOG IN.</p>
+        <p className="loginInHeadline">LOG IN.</p>
         <form onSubmit={handleSubmit}>
-          <div className="signInFormElement">
+          <div className="loginInFormElement">
             <label htmlFor="username">
               <p>Username</p>
               <input
@@ -68,7 +68,7 @@ const LoginForm = () => {
             </label>
           </div>
           <div>
-            <div className="signInFormElement">
+            <div className="loginInFormElement">
               <label htmlFor="password">
                 <p>Password</p>
                 <input

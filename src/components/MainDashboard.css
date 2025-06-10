@@ -11,6 +11,7 @@
   width: 100%;
   padding: 1rem;
   box-sizing: border-box; /* Ensures padding is included in element's total width/height */
+  min-height: calc(100vh - 10rem); /* Adjust for header and footer height */
 
   /* Apply background consistent with the body background from App.css or similar */
   /* If App.css handles the body background, you might not need this here,
@@ -19,30 +20,15 @@
      Assuming the background is set on body or a top-level app container, this element will just contain the content box. */
 }
 
-/* This targets the main content area, mimicking the login form's background and box shadow */
-.mainDashboardContainer { /* The mainDashboardContainer itself acts as the content box in this setup */
-  background-color: var(--clr-neutral-100); /* Dark background from colors.css */
-  padding: 2.5rem; /* Consistent padding with login/landing pages */
-  border-radius: 0.1rem; /* Consistent border radius */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Consistent shadow */
-  max-width: var(--max-width-md); /* Use your defined max-width variable for consistency (assuming it's in colors.css or App.css) */
-  width: 100%;
-  text-align: center;
-  margin: auto; /* Centers the block if its width is less than 100% */
-}
+
 
 
 /* Headline styling */
 .mainDashboardHeadline {
-  font-size: 2em;
+  font-size: clamp(1em, 2vw, 2em); /* Responsive font size */
   color: var(--clr-soap-stone); /* Light text color for headline */
   margin-bottom: 2rem;
-  font-weight: bold;
-}
 
-/* Navigation specific styling */
-.mainDashboardNav {
-  width: 100%; /* Ensure the nav takes full width of its parent (.mainDashboardContainer) */
 }
 
 .mainDashboardNavList {
@@ -67,10 +53,10 @@
   border: none;
   border-radius: 0.1rem;
   font-size: 1em;
-  font-weight: bold;
   cursor: pointer;
   transition: background-color 0.2s ease;
   text-decoration: none; /* Remove underline from links */
+  text-align: center;
   box-sizing: border-box; /* Include padding in element's total width/height */
 
   /* Apply consistent button colors from your variables */
@@ -80,7 +66,7 @@
 
 .mainDashboardNavLink a:hover,
 .mainDashboardNavLink button:hover:not(:disabled) {
-  background-color: var(--clr-golden-yellow-2); /* Darker golden on hover */
+  background-color: var(--clr-citron); /* Darker golden on hover */
 }
 
 /* Specific styling for the logout button */

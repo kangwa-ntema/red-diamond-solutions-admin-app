@@ -1,15 +1,17 @@
 .backHomeBtn{
-  color: var(--clr-soap-stone);
-  background-color: var(--clr-lava-red);
+  color: var(--clr-charcoal-gray);
+  background-color: var(--clr-platinum);
   border: none;
   border-radius: .1rem;
-  padding: .5rem 3rem;
+  padding: .5rem 1rem;
   margin-bottom: 2rem;
   cursor: pointer;
+  font-size: .75em;
+
 }
 
 .backHomeBtn:hover{
-  background-color: var(--clr-coral-red);
+  background-color: var(--clr-davy-grey);
 }
 
 .loginFormContainer {
@@ -34,25 +36,25 @@
   text-align: center;
 }
 
-.signInHeadline {
-  font-size: 2em;
+.loginInHeadline {
+  font-size: 1em;
   color: var(--clr-soap-stone);
   margin-bottom: 1.5rem;
   font-weight: bold;
 }
 
-.signInFormElement {
+.loginInFormElement {
   margin-bottom: 1rem;
   text-align: left;
 }
 
-.signInFormElement label p {
+.loginInFormElement label p {
   font-size: 0.9em;
   color: var(--clr-neutral-600); /* Lighter text for labels */
   margin-bottom: 0.3rem;
 }
 
-.signInFormElement input {
+.loginInFormElement input {
   width: 100%;
   padding: 0.75rem;
   border: 1px solid var(--clr-neutral-300);
@@ -61,28 +63,28 @@
   color: var(--clr-white); /* Input text color */
 }
 
-.signInFormElement input:focus {
+.loginInFormElement input:focus {
   outline: none;
   border-color: var(--clr-golden-yellow);
-  box-shadow: 0 0 0 2px rgba(var(--clr-golden-yellow-2), 0.5);
+  box-shadow: 0 0 0 2px rgba(var(--clr-citron), 0.5);
 }
 
 .logInBtn {
-  width: 100%;
-  padding: 0.75rem;
-  background-color: var(--clr-golden-yellow);
-  color: var(--clr-zeus); /* Dark text on golden button */
+    width: 100%; /* Make button take full width of its container */
+  color: var(--clr-zeus);
   border: none;
-  border-radius: 4px;
+  border-radius: 0.1rem;
   font-size: 1em;
-  font-weight: bold;
+  padding: 0.5rem 5rem; /* Base padding */
+  outline: none;
+  background-color: var(--clr-golden-yellow);
   cursor: pointer;
   transition: background-color 0.2s ease;
-  margin-top: 1.5rem;
+  margin: 1rem 0;
 }
 
 .logInBtn:hover:not(:disabled) {
-  background-color: var(--clr-golden-yellow-2);
+  background-color: var(--clr-citron);
 }
 
 .logInBtn:disabled {
@@ -97,13 +99,4 @@
 
 .text-sm {
     font-size: 0.875em; /* 14px */
-}
-
-
-
-
-
-
-.loginForm{
-
 }

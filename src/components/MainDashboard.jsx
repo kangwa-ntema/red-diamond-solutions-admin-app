@@ -12,7 +12,7 @@ const MainDashboard = () => {
     <div className="mainDashboardContainer">
       {/* Content wrapper div */}
       <div className="mainDashboardContent"> {/* This was previously mainDashboardContainer, adjusted to reflect content box */}
-        <h1 className="mainDashboardHeadline">Hello, welcome to the dashboard.</h1>
+        <h1 className="mainDashboardHeadline">Hello, Welcome to the Main Dashboard.</h1>
         <nav className="mainDashboardNav">
           <ul role="list" className="mainDashboardNavList">
             <li className="mainDashboardNavLink" >

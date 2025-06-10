@@ -239,66 +239,71 @@ const ClientsDashboard = () => {
         {" "}
         {/* Flex container for dashboard panels (updated class) */}
         <div className="clientsDashboardPanel">
-          {" "}
-          {/* Left panel for summary and action buttons (updated class) */}
-          {/* Overall Client Summary Section */}
-          <section className="clientSummarySection">
+          <div className="dashboardPanel">
             {" "}
-            {/* Section for summary cards (updated class) */}
-            <div className="clientSummaryCards">
+            {/* Left panel for summary and action buttons (updated class) */}
+            {/* Overall Client Summary Section */}
+            <section className="clientSummarySection">
               {" "}
-              {/* Container for individual summary cards (updated class) */}
-              <div className="clientSummaryCard">
+              {/* Section for summary cards (updated class) */}
+              <div className="clientSummaryCards">
                 {" "}
-                {/* Card for Total Clients (updated class) */}
-                <h3 className="clientSummaryCardTitle">Total Clients</h3>{" "}
-                {/* Card title (updated class and text) */}
-                <p className="clientSummaryCardValue">
+                {/* Container for individual summary cards (updated class) */}
+                <div className="clientSummaryCard">
                   {" "}
-                  {/* Card value (updated class) */}
-                  {overallSummary.totalClients}
-                </p>
+                  {/* Card for Total Clients (updated class) */}
+                  <h3 className="clientSummaryCardTitle">Total Clients</h3>{" "}
+                  {/* Card title (updated class and text) */}
+                  <p className="clientSummaryCardValue">
+                    {" "}
+                    {/* Card value (updated class) */}
+                    {overallSummary.totalClients}
+                  </p>
+                </div>
+                <div className="clientSummaryCard">
+                  {" "}
+                  {/* Card for Active Clients (updated class) */}
+                  <h3 className="clientSummaryCardTitle">
+                    Active Clients
+                  </h3>{" "}
+                  {/* Card title (updated class and text) */}
+                  <p className="clientSummaryCardValue">
+                    {" "}
+                    {/* Card value (updated class) */}
+                    {overallSummary.activeClients}
+                  </p>
+                </div>
               </div>
-              <div className="clientSummaryCard">
+            </section>
+            {/* Action Buttons (Add New Client, Add Loan) */}
+            <div className="clientActionBtns">
+              {" "}
+              {/* Container for action buttons (updated class) */}
+              <Link to="/clients/add">
                 {" "}
-                {/* Card for Active Clients (updated class) */}
-                <h3 className="clientSummaryCardTitle">Active Clients</h3>{" "}
-                {/* Card title (updated class and text) */}
-                <p className="clientSummaryCardValue">
+                {/* Link to the Add New Client page (updated URL) */}
+                <button className="clientActionBtn newClientBtn">
                   {" "}
-                  {/* Card value (updated class) */}
-                  {overallSummary.activeClients}
-                </p>
-              </div>
+                  {/* Button to add new client (updated class and text) */}+ Add
+                  New Client
+                </button>
+              </Link>
+              <Link to="/loans/add">
+                {" "}
+                {/* Link to the Add Loan page */}
+                <button className="clientActionBtn newLoanBtn">
+                  + Add Loan
+                </button>{" "}
+                {/* Button to add loan (updated class) */}
+              </Link>
             </div>
-          </section>
-          {/* Action Buttons (Add New Client, Add Loan) */}
-          <div className="clientActionBtns">
-            {" "}
-            {/* Container for action buttons (updated class) */}
-            <Link to="/clients/add">
-              {" "}
-              {/* Link to the Add New Client page (updated URL) */}
-              <button className="clientActionBtn newClientBtn">
-                {" "}
-                {/* Button to add new client (updated class and text) */}
-                Add New Client
-              </button>
-            </Link>
-            <Link to="/loans/add">
-              {" "}
-              {/* Link to the Add Loan page */}
-              <button className="clientActionBtn newLoanBtn">
-                Add Loan
-              </button>{" "}
-              {/* Button to add loan (updated class) */}
-            </Link>
           </div>
         </div>
         <div className="clientsDashboardContent">
           {" "}
           {/* Right panel for filters and client list (updated class) */}
           {/* Filter Buttons */}
+          <h1 className="clientsFilterBtnHeadline">Clients Filter Buttons</h1>
           <div className="clientFilterBtns">
             {" "}
             {/* Container for filter buttons (updated class) */}
