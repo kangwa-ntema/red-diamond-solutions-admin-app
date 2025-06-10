@@ -4,7 +4,7 @@
 @import "./components/css/abstract/transitions.css";
 
 .appContainer {
-  color: var(--clr-zeus);
+  color: var(--clr-soap-stone);
   background-color: var(--clr-soap-stone);
   font-family: "Raleway-Medium", sans-serif;
   display: grid;
