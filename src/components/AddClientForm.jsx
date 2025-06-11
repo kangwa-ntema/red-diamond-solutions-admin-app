@@ -128,15 +128,11 @@ const AddClientForm = () => {
       {/* Wrapper div for content box, applies styling for layout (updated class) */}
       <div className="addClientFormContent">
         {/* Link to navigate back to the clients list */}
-        <Link  to="/clients">
+        <Link to="/clients">
           {/* Updated URL and class */}
-          <button className="addClientBackLink">
-            {" "}
-            {/* Button styled as a back link (updated class) */}
-          Back to Clients List
-          </button>
+          <button className="addClientBackLink">Back to Clients List</button>
         </Link>
-        {/* Headline for the form (updated class and text) */}
+        {/* Headline for the form */}
         <h2 className="addClientHeadline">Add New Client</h2>
         {/* Display success message if available */}
         {success && <p className="addClientSuccessMessage">{success}</p>}{" "}
@@ -145,115 +141,117 @@ const AddClientForm = () => {
         {error && <p className="addClientErrorMessage">{error}</p>}{" "}
         {/* Updated class */}
         {/* The form for adding a new client */}
-        <form onSubmit={handleSubmit} className="addClientForm">
-          {" "}
-          {/* Updated class */}
-          {/* Form Group: Name */}
-          <div className="addClientFormGroup">
+        <div className="addClientFormContainer">
+          <form onSubmit={handleSubmit} className="addClientForm">
             {" "}
             {/* Updated class */}
-            <label htmlFor="name">Name:</label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              required // HTML5 required attribute
-            />
-          </div>
-          {/* Form Group: Email */}
-          <div className="addClientFormGroup">
-            {" "}
-            {/* Updated class */}
-            <label htmlFor="email">Email:</label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          {/* Form Group: Primary Phone */}
-          <div className="addClientFormGroup">
-            {" "}
-            {/* Updated class */}
-            <label htmlFor="phone">Primary Phone:</label>
-            <input
-              type="tel" // Use tel for phone numbers
-              id="phone"
-              name="phone"
-              value={formData.phone}
-              onChange={handleChange}
-            />
-          </div>
-          {/* Form Group: Secondary Phone */}
-          <div className="addClientFormGroup">
-            {" "}
-            {/* Updated class */}
-            <label htmlFor="secondaryPhone">Secondary Phone:</label>
-            <input
-              type="tel"
-              id="secondaryPhone"
-              name="secondaryPhone"
-              value={formData.secondaryPhone}
-              onChange={handleChange}
-            />
-          </div>
-          {/* Form Group: NRC */}
-          <div className="addClientFormGroup">
-            {" "}
-            {/* Updated class */}
-            <label htmlFor="nrc">NRC:</label>
-            <input
-              type="text"
-              id="nrc"
-              name="nrc"
-              value={formData.nrc}
-              onChange={handleChange}
-            />
-          </div>
-          {/* Form Group: Address */}
-          <div className="addClientFormGroup">
-            {" "}
-            {/* Updated class */}
-            <label htmlFor="address">Address:</label>{" "}
-            {/* Label for the single address field */}
-            <textarea
-              id="address"
-              name="address"
-              value={formData.address}
-              onChange={handleChange}
-              rows="3" // Display 3 rows for multiline input
-            ></textarea>
-          </div>
-          {/* Form Group: Date Registered */}
-          <div className="addClientFormGroup">
-            {" "}
-            {/* Updated class */}
-            <label htmlFor="dateRegistered">Date Registered:</label>
-            <input
-              type="date" // HTML5 date input type
-              id="dateRegistered"
-              name="dateRegistered"
-              value={formData.dateRegistered}
-              onChange={handleChange}
-            />
-          </div>
-          {/* Submit Button */}
-          <button
-            type="submit"
-            disabled={loading}
-            className="addClientSubmitBtn"
-          >
-            {" "}
-            {/* Updated class */}
-            {loading ? "Adding..." : "Add Client"}{" "}
-            {/* Change button text based on loading state */}
-          </button>
-        </form>
+            {/* Form Group: Name */}
+            <div className="addClientFormGroup">
+              {" "}
+              {/* Updated class */}
+              <label htmlFor="name">Name:</label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                required // HTML5 required attribute
+              />
+            </div>
+            {/* Form Group: Email */}
+            <div className="addClientFormGroup">
+              {" "}
+              {/* Updated class */}
+              <label htmlFor="email">Email:</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            {/* Form Group: Primary Phone */}
+            <div className="addClientFormGroup">
+              {" "}
+              {/* Updated class */}
+              <label htmlFor="phone">Primary Phone:</label>
+              <input
+                type="tel" // Use tel for phone numbers
+                id="phone"
+                name="phone"
+                value={formData.phone}
+                onChange={handleChange}
+              />
+            </div>
+            {/* Form Group: Secondary Phone */}
+            <div className="addClientFormGroup">
+              {" "}
+              {/* Updated class */}
+              <label htmlFor="secondaryPhone">Secondary Phone:</label>
+              <input
+                type="tel"
+                id="secondaryPhone"
+                name="secondaryPhone"
+                value={formData.secondaryPhone}
+                onChange={handleChange}
+              />
+            </div>
+            {/* Form Group: NRC */}
+            <div className="addClientFormGroup">
+              {" "}
+              {/* Updated class */}
+              <label htmlFor="nrc">NRC:</label>
+              <input
+                type="text"
+                id="nrc"
+                name="nrc"
+                value={formData.nrc}
+                onChange={handleChange}
+              />
+            </div>
+            {/* Form Group: Address */}
+            <div className="addClientFormGroup">
+              {" "}
+              {/* Updated class */}
+              <label htmlFor="address">Address:</label>{" "}
+              {/* Label for the single address field */}
+              <textarea
+                id="address"
+                name="address"
+                value={formData.address}
+                onChange={handleChange}
+                rows="3" // Display 3 rows for multiline input
+              ></textarea>
+            </div>
+            {/* Form Group: Date Registered */}
+            <div className="addClientFormGroup">
+              {" "}
+              {/* Updated class */}
+              <label htmlFor="dateRegistered">Date Registered:</label>
+              <input
+                type="date" // HTML5 date input type
+                id="dateRegistered"
+                name="dateRegistered"
+                value={formData.dateRegistered}
+                onChange={handleChange}
+              />
+            </div>
+            {/* Submit Button */}
+            <button
+              type="submit"
+              disabled={loading}
+              className="addClientSubmitBtn"
+            >
+              {" "}
+              {/* Updated class */}
+              {loading ? "Adding..." : "Add Client"}{" "}
+              {/* Change button text based on loading state */}
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   );

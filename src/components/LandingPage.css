@@ -6,6 +6,7 @@
   min-height: 100vh; /* Make it take full viewport height */
   min-height: calc(100vh - 10rem); /* Adjust for header and footer height */
   width: 100%;
+  
 }
 
 .landingPageContent {

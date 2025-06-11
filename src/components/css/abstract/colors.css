@@ -21,7 +21,13 @@
   --clr-green: hsl(120, 68%, 55%);
 
   --clr-success-msg: hsl(110, 90%, 50%);
-  --clr-warning-msg: hsl(0, 100%, 50%);
+  --clr-warning-msg: hsl(0, 90%, 40%);
+
+  --clr-inactive: var(--clr-davy-grey);
+  --clr-pending: var(--clr-citron);
+  --clr-active: var(--clr-dark-mint);
+  --clr-overdue: var(--clr-lava-red);
+  --clr-paid: hsl(0, 90%, 40%);
 
   --clr-neutral-100: hsl(0, 0%, 5%);
   --clr-neutral-200: hsl(0, 0%, 20%);

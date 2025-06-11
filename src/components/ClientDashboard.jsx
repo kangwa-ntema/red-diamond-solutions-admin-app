@@ -2,8 +2,8 @@ import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import { getToken, clearAuthData } from "../utils/authUtils";
 import "./ClientDashboard.css"; // Import the new CSS file
-import RecordPaymentModal from '../components/RecordPaymentModal'; // Import the RecordPaymentModal
-import { toast } from 'react-toastify'; // Import toast for notifications
+import RecordPaymentModal from "../components/RecordPaymentModal"; // Import the RecordPaymentModal
+import { toast } from "react-toastify"; // Import toast for notifications
 
 const ClientDashboard = () => {
   const { id: clientId } = useParams(); // Changed from customerId to clientId
@@ -12,7 +12,8 @@ const ClientDashboard = () => {
 
   const [client, setClient] = useState(null); // Changed from customer to client
   const [clientLoans, setClientLoans] = useState([]); // Changed from customerLoans to clientLoans
-  const [clientLoanSummary, setClientLoanSummary] = useState({ // Changed from customerLoanSummary to clientLoanSummary
+  const [clientLoanSummary, setClientLoanSummary] = useState({
+    // Changed from customerLoanSummary to clientLoanSummary
     totalLoans: 0,
     totalLoanAmount: 0,
     totalBalanceDue: 0,
@@ -66,7 +67,7 @@ const ClientDashboard = () => {
             "ClientDashboard: Authentication expired or invalid. Logging out."
           );
           clearAuthData();
-          navigate("/login");
+          navigate("/loginForm");
           return;
         }
 
@@ -100,7 +101,9 @@ const ClientDashboard = () => {
   const handleLoanDelete = async (loanId) => {
     // Replaced window.confirm with a custom modal or toast for better UX
     // For now, using toast for simplicity in this example.
-    toast.info("Deletion confirmation functionality to be handled by a custom modal.");
+    toast.info(
+      "Deletion confirmation functionality to be handled by a custom modal."
+    );
     // In a real application, you would open a modal here.
     // Example: openConfirmationModal({
     //   message: "Are you sure you want to delete this loan? This action cannot be undone.",
@@ -109,14 +112,18 @@ const ClientDashboard = () => {
 
     // For now, if you proceed, it will directly call the delete endpoint.
     // It's crucial to replace window.confirm in production.
-    if (!window.confirm("Are you sure you want to delete this loan? This action cannot be undone.")) {
-        return; // User cancelled
+    if (
+      !window.confirm(
+        "Are you sure you want to delete this loan? This action cannot be undone."
+      )
+    ) {
+      return; // User cancelled
     }
 
     const token = getToken();
     if (!token) {
       toast.error("Authentication required to delete a loan.");
-      navigate("/login");
+      navigate("/loginForm");
       return;
     }
 
@@ -134,9 +141,11 @@ const ClientDashboard = () => {
         toast.success("Loan deleted successfully!");
         fetchClientData(loanFilterStatus);
       } else if (response.status === 401 || response.status === 403) {
-        toast.error("Authentication expired or unauthorized. Please log in again.");
+        toast.error(
+          "Authentication expired or unauthorized. Please log in again."
+        );
         clearAuthData();
-        navigate("/login");
+        navigate("/loginForm");
       } else {
         const errorData = await response.json();
         throw new Error(errorData.message || "Failed to delete loan.");
@@ -156,13 +165,17 @@ const ClientDashboard = () => {
       clientLoanSummary.defaultedLoans > 0;
 
     if (hasOutstandingLoans) {
-      toast.error("Cannot delete client: Client has active, overdue, or defaulted loans associated with them. Please clear all outstanding loans first.");
+      toast.error(
+        "Cannot delete client: Client has active, overdue, or defaulted loans associated with them. Please clear all outstanding loans first."
+      );
       return; // Prevent deletion if outstanding loans exist
     }
 
     // Replace window.confirm with a custom modal or toast for better UX
     // For now, using toast for simplicity in this example.
-    toast.info("Deletion confirmation functionality to be handled by a custom modal.");
+    toast.info(
+      "Deletion confirmation functionality to be handled by a custom modal."
+    );
     // In a real application, you would open a modal here.
     // Example: openConfirmationModal({
     //   message: "WARNING: Are you sure you want to delete this client and ALL their associated loans? This action cannot be undone.",
@@ -171,37 +184,40 @@ const ClientDashboard = () => {
 
     // For now, if you proceed, it will directly call the delete endpoint.
     // It's crucial to replace window.confirm in production.
-    if (!window.confirm("WARNING: Are you sure you want to delete this client? This action cannot be undone.")) {
-        return; // User cancelled
+    if (
+      !window.confirm(
+        "WARNING: Are you sure you want to delete this client? This action cannot be undone."
+      )
+    ) {
+      return; // User cancelled
     }
 
     const token = getToken();
     if (!token) {
       toast.error("Authentication required to delete a client.");
-      navigate("/login");
+      navigate("/loginForm");
       return;
     }
 
     try {
-      const response = await fetch(
-        `${BACKEND_URL}/api/clients/${clientId}`,
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          credentials: "include",
-        }
-      );
+      const response = await fetch(`${BACKEND_URL}/api/clients/${clientId}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        credentials: "include",
+      });
 
       if (response.ok) {
         toast.success("Client and all associated loans deleted successfully!");
         navigate("/clients");
       } else if (response.status === 401 || response.status === 403) {
-        toast.error("Authentication expired or unauthorized. Please log in again.");
+        toast.error(
+          "Authentication expired or unauthorized. Please log in again."
+        );
         clearAuthData();
-        navigate("/login");
+        navigate("/loginForm");
       } else {
         const errorData = await response.json();
         throw new Error(errorData.message || "Failed to delete client.");
@@ -230,9 +246,11 @@ const ClientDashboard = () => {
     // This callback is triggered after a payment (manual or electronic) is processed
     // The `transactionRef` is passed for electronic payments
     if (transactionRef) {
-        toast.info(`Electronic payment initiated. Transaction ID: ${transactionRef}. Awaiting confirmation.`);
+      toast.info(
+        `Electronic payment initiated. Transaction ID: ${transactionRef}. Awaiting confirmation.`
+      );
     } else {
-            toast.success('Manual payment recorded successfully!');
+      toast.success("Manual payment recorded successfully!");
     }
     handleClosePaymentModal(); // Close the modal
   };
@@ -271,13 +289,20 @@ const ClientDashboard = () => {
     return "inactive";
   };
 
-
   if (loading) {
-    return <div className="clientDashboardContainer">Loading client dashboard...</div>;
+    return (
+      <div className="clientDashboardContainer">
+        Loading client dashboard...
+      </div>
+    );
   }
 
   if (error) {
-    return <div className="clientDashboardContainer" style={{ color: "red" }}>Error: {error}</div>;
+    return (
+      <div className="clientDashboardContainer" style={{ color: "red" }}>
+        Error: {error}
+      </div>
+    );
   }
 
   if (!client) {
@@ -288,59 +313,88 @@ const ClientDashboard = () => {
     <div className="clientDashboardContainer">
       <div className="clientDashboardContent">
         <Link to="/clients" className="clientDashboardBackLink">
-          {"<"} Back to Clients List
+          Clients List
         </Link>
 
-        <h1 className="clientDashboardHeadline">Client Dashboard: {client.name}</h1>
+        <h1 className="clientDashboardHeadline">Client Details</h1>
 
         {/* Client Details Section */}
         <section className="clientDetailsSection">
-          <h2 className="clientDetailsHeadline">Client Details</h2>
           <div className="clientDetailsContent">
             <p className="clientDetailItem">
-              <strong className="clientDetailLabel">Name:</strong> {client.name}
+              <span className="clientDetailLabel">Name:</span>
+
+              <span className="clientDetailValue">{client.name}</span>
             </p>
             <p className="clientDetailItem">
-              <strong className="clientDetailLabel">Email:</strong> {client.email}
+              <span className="clientDetailLabel">Email: </span>
+
+              <span className="clientDetailValue">{client.email}</span>
             </p>
             <p className="clientDetailItem">
-              <strong className="clientDetailLabel">Primary Phone:</strong> {client.phone || "N/A"}
+              <span className="clientDetailLabel">Primary Phone:</span>
+
+              <span className="clientDetailValue">{client.phone || "N/A"}</span>
             </p>
             <p className="clientDetailItem">
-              <strong className="clientDetailLabel">Secondary Phone:</strong> {client.secondaryPhone || "N/A"}
+              <span className="clientDetailLabel">Secondary Phone:</span>
+
+              <span className="clientDetailValue">
+                {client.secondaryPhone || "N/A"}
+              </span>
             </p>
             <p className="clientDetailItem">
-              <strong className="clientDetailLabel">NRC:</strong> {client.nrc || "N/A"}
+              <span className="clientDetailLabel">NRC:</span>
+
+              <span className="clientDetailValue">{client.nrc || "N/A"}</span>
             </p>
             <p className="clientDetailItem">
-              <strong className="clientDetailLabel">Address:</strong> {client.address || "N/A"}
+              <span className="clientDetailLabel">Address:</span>
+
+              <span className="clientDetailValue">
+                {client.address || "N/A"}
+              </span>
             </p>
             <p className="clientDetailItem">
-              <strong className="clientDetailLabel">Status:</strong>{" "}
+              <span className="clientDetailLabel">Status:</span>{" "}
               <span className={`clientStatus ${getClientStatusClass()}`}>
                 {getClientStatusText()}
               </span>
             </p>
             <p className="clientDetailItem">
-              <strong className="clientDetailLabel">Date Registered:</strong>{" "}
+              <span className="clientDetailLabel">Date Registered:</span>{" "}
+              {new Date(client.dateRegistered).toLocaleDateString()}
+            </p>
+            <p className="clientDetailItem">
+              <span className="clientDetailLabel">Registered By:</span>{" "}
               {new Date(client.dateRegistered).toLocaleDateString()}
             </p>
             {/* Client action buttons */}
             <div className="clientActionButtons">
-              <button onClick={() => navigate(`/clients/edit/${client._id}`)} className="clientEditButton">
+              <button
+                onClick={() => navigate(`/clients/edit/${client._id}`)}
+                className="clientEditButton"
+              >
                 Edit Client Details
               </button>
               <button
                 onClick={handleClientDelete}
-                className={`clientDeleteButton ${!canDeleteClient ? 'disabled' : ''}`}
+                className={`clientDeleteButton ${
+                  !canDeleteClient ? "disabled" : ""
+                }`}
                 disabled={!canDeleteClient}
-                title={!canDeleteClient ? "Client has outstanding loans (active, overdue, or defaulted) and cannot be deleted." : "Delete Client"}
+                title={
+                  !canDeleteClient
+                    ? "Client has outstanding loans (active, overdue, or defaulted) and cannot be deleted."
+                    : "Delete Client"
+                }
               >
                 Delete Client
               </button>
               {!canDeleteClient && (
                 <p className="deleteClientRestrictionMessage">
-                  Client has outstanding loans (active, overdue, or defaulted) and cannot be deleted.
+                  Client has outstanding loans (active, overdue, or defaulted)
+                  and cannot be deleted!
                 </p>
               )}
             </div>
@@ -349,60 +403,110 @@ const ClientDashboard = () => {
 
         {/* Client's Loan Summary Section */}
         <section className="clientLoanSummarySection">
-          <h2 className="clientLoanSummaryHeadline">{client.name}'s Loan Summary</h2>
+          <h2 className="clientLoanSummaryHeadline">
+            {client.name}'s Loan Summary
+          </h2>
           <div className="clientLoanSummaryCards">
-            <div className="clientLoanSummaryCard">
-              <h3>Total Loans</h3>
-              <p>{clientLoanSummary.totalLoans}</p>
+            <div className="clientLoanSummaryTotals">
+              <div className="clientLoanSummaryCard">
+                <h3 className="clientLoanSummaryCardTitle">Total Loans</h3>
+                <p>{clientLoanSummary.totalLoans}</p>
+              </div>
+              <div className="clientLoanSummaryCard">
+                <h3 className="clientLoanSummaryCardTitle">
+                  Total Loan Amount
+                </h3>
+                <p>ZMW{clientLoanSummary.totalLoanAmount.toFixed(2)}</p>
+              </div>
+              <div className="clientLoanSummaryCard">
+                <h3 className="clientLoanSummaryCardTitle">
+                  Total Balance Due
+                </h3>
+                <p>ZMW{clientLoanSummary.totalBalanceDue.toFixed(2)}</p>
+              </div>
+              <div className="clientLoanSummaryCard">
+                <h3 className="clientLoanSummaryCardTitle">
+                  Total Payments Made
+                </h3>
+                <p>ZMW{clientLoanSummary.totalPaymentsMade.toFixed(2)}</p>
+              </div>
             </div>
-            <div className="clientLoanSummaryCard">
-              <h3>Total Loan Amount</h3>
-              <p>ZMW{clientLoanSummary.totalLoanAmount.toFixed(2)}</p>
-            </div>
-            <div className="clientLoanSummaryCard">
-              <h3>Total Balance Due</h3>
-              <p>ZMW{clientLoanSummary.totalBalanceDue.toFixed(2)}</p>
-            </div>
-            <div className="clientLoanSummaryCard">
-              <h3>Total Payments Made</h3>
-              <p>ZMW{clientLoanSummary.totalPaymentsMade.toFixed(2)}</p>
-            </div>
-            <div className="clientLoanSummaryCard">
-              <h3>Active Loans</h3>
-              <p>{clientLoanSummary.activeLoans}</p>
-            </div>
-            <div className="clientLoanSummaryCard">
-              <h3>Pending Loans</h3>
-              <p>{clientLoanSummary.pendingLoans}</p>
-            </div>
-            <div className="clientLoanSummaryCard">
-              <h3>Defaulted Loans</h3>
-              <p>{clientLoanSummary.defaultedLoans}</p>
-            </div>
-            <div className="clientLoanSummaryCard">
-              <h3>Paid Loans</h3>
-              <p>{clientLoanSummary.paidLoans}</p>
+            <div className="clientLoanSummaryLoanTotals">
+              <div className="clientLoanSummaryCard">
+                <h3 className="clientLoanSummaryCardTitle">Active Loans</h3>
+                <p>{clientLoanSummary.activeLoans}</p>
+              </div>
+              <div className="clientLoanSummaryCard">
+                <h3 className="clientLoanSummaryCardTitle">Pending Loans</h3>
+                <p>{clientLoanSummary.pendingLoans}</p>
+              </div>
+              <div className="clientLoanSummaryCard">
+                <h3 className="clientLoanSummaryCardTitle">Defaulted Loans</h3>
+                <p>{clientLoanSummary.defaultedLoans}</p>
+              </div>
+              <div className="clientLoanSummaryCard">
+                <h3 className="clientLoanSummaryCardTitle">Paid Loans</h3>
+                <p>{clientLoanSummary.paidLoans}</p>
+              </div>
             </div>
           </div>
         </section>
-
         {/* Loan Filter Buttons */}
         <div className="clientLoanFilterButtons">
-          <button onClick={() => setLoanFilterStatus("all")} className={loanFilterStatus === 'all' ? 'active-filter clientLoanFilterButton' : 'clientLoanFilterButton'}>All Loans</button>
-          <button onClick={() => setLoanFilterStatus("active")} className={loanFilterStatus === 'active' ? 'active-filter clientLoanFilterButton' : 'clientLoanFilterButton'}>
+          <button
+            onClick={() => setLoanFilterStatus("all")}
+            className={
+              loanFilterStatus === "all"
+                ? "active-filter clientLoanFilterButton"
+                : "clientLoanFilterButton"
+            }
+          >
+            All Loans
+          </button>
+          <button
+            onClick={() => setLoanFilterStatus("active")}
+            className={
+              loanFilterStatus === "active"
+                ? "active-filter clientLoanFilterButton"
+                : "clientLoanFilterButton"
+            }
+          >
             Active Loans
           </button>
-          <button onClick={() => setLoanFilterStatus("pending")} className={loanFilterStatus === 'pending' ? 'active-filter clientLoanFilterButton' : 'clientLoanFilterButton'}>
+          <button
+            onClick={() => setLoanFilterStatus("pending")}
+            className={
+              loanFilterStatus === "pending"
+                ? "active-filter clientLoanFilterButton"
+                : "clientLoanFilterButton"
+            }
+          >
             Pending Loans
           </button>
-          <button onClick={() => setLoanFilterStatus("defaulted")} className={loanFilterStatus === 'defaulted' ? 'active-filter clientLoanFilterButton' : 'clientLoanFilterButton'}>
+          <button
+            onClick={() => setLoanFilterStatus("defaulted")}
+            className={
+              loanFilterStatus === "defaulted"
+                ? "active-filter clientLoanFilterButton"
+                : "clientLoanFilterButton"
+            }
+          >
             Defaulted Loans
           </button>
-          <button onClick={() => setLoanFilterStatus("paid")} className={loanFilterStatus === 'paid' ? 'active-filter clientLoanFilterButton' : 'clientLoanFilterButton'}>Paid Loans</button>
+          <button
+            onClick={() => setLoanFilterStatus("paid")}
+            className={
+              loanFilterStatus === "paid"
+                ? "active-filter clientLoanFilterButton"
+                : "clientLoanFilterButton"
+            }
+          >
+            Paid Loans
+          </button>
         </div>
 
         {/* Client's Loans List Section */}
-        <section className="clientLoansListSection">
+         {/* {<section className="clientLoansListSection">
           <h2 className="clientLoansListHeadline">
             {client.name}'s{" "}
             {loanFilterStatus !== "all" ? `${loanFilterStatus} ` : ""}Loans
@@ -421,34 +525,50 @@ const ClientDashboard = () => {
                     <th className="clientLoansTableHeader">Amount (ZMW)</th>
                     <th className="clientLoansTableHeader">Loan Date</th>
                     <th className="clientLoansTableHeader">Due Date</th>
-                    <th className="clientLoansTableHeader">Interest Rate (%)</th>
+                    <th className="clientLoansTableHeader">
+                      Rate (%)
+                    </th>
                     <th className="clientLoansTableHeader">Status</th>
-                    <th className="clientLoansTableHeader">Balance Due (ZMW)</th>
+                    <th className="clientLoansTableHeader">
+                      Balance Due (ZMW)
+                    </th>
                     <th className="clientLoansTableHeader">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
                   {clientLoans.map((loan) => (
                     <tr key={loan._id}>
-                      <td className="clientLoansTableCell">{loan._id.substring(0, 8)}...</td>
-                      <td className="clientLoansTableCell">ZMW{loan.loanAmount.toFixed(2)}</td>
+                      <td className="clientLoansTableCell">
+                        {loan._id.substring(0, 8)}...
+                      </td>
+                      <td className="clientLoansTableCell">
+                        ZMW{loan.loanAmount.toFixed(2)}
+                      </td>
                       <td className="clientLoansTableCell">{loan.loanDate}</td>
                       <td className="clientLoansTableCell">{loan.dueDate}</td>
-                      <td className="clientLoansTableCell">{loan.interestRate}%</td>
+                      <td className="clientLoansTableCell">
+                        {loan.interestRate}%
+                      </td>
                       <td className="clientLoansTableCell">
                         <span className={`loanStatus ${loan.status}`}>
                           {loan.status}
                         </span>
                       </td>
-                      <td className="clientLoansTableCell">ZMW{loan.balanceDue.toFixed(2)}</td>
+                      <td className="clientLoansTableCell">
+                        ZMW{loan.balanceDue.toFixed(2)}
+                      </td>
                       <td className="loanActionsCell">
-                        <Link to={`/loans/${loan._id}`} className="viewLoanDetailsLink">View Details</Link>
-                        {/* Button to open payment modal */}
-                        <button
-                            onClick={() => handleOpenPaymentModal(loan)}
-                            className="recordPaymentBtn" // Add a class for styling
+                        <Link
+                          to={`/loans/${loan._id}`}
+                          className="viewLoanDetailsLink"
                         >
-                            Record Payment
+                          View Details
+                        </Link>
+                        <button
+                          onClick={() => handleOpenPaymentModal(loan)}
+                          className="recordPaymentBtn" // Add a class for styling
+                        >
+                          Record Payment
                         </button>
                       </td>
                     </tr>
@@ -457,7 +577,7 @@ const ClientDashboard = () => {
               </table>
             </div>
           )}
-        </section>
+        </section>} */}
       </div>
 
       {/* Render the RecordPaymentModal conditionally */}

@@ -22,13 +22,11 @@
   max-width: var(--max-width-xl);
 }
 
-
-
 .primaryNavLogo {
   max-height: 2rem;
 }
 
-.appPrimaryNavbarHeadline{
+.appPrimaryNavbarHeadline {
   color: var(--clr-soap-stone);
   font-family: "Raleway-Light";
 }
@@ -38,6 +36,7 @@
   display: flex;
   flex-direction: column;
   min-height: calc(100vh - 10rem); /* Adjust for header and footer height */
+  background-image: url("./assets/logo-images/red-diamond-icon-logo-app-bg.svg");
   background-color: var(--clr-zeus);
 }
 
