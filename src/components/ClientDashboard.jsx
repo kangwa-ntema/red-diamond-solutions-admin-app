@@ -506,7 +506,7 @@ const ClientDashboard = () => {
         </div>
 
         {/* Client's Loans List Section */}
-         {/* {<section className="clientLoansListSection">
+         {<section className="clientLoansListSection">
           <h2 className="clientLoansListHeadline">
             {client.name}'s{" "}
             {loanFilterStatus !== "all" ? `${loanFilterStatus} ` : ""}Loans
@@ -564,12 +564,12 @@ const ClientDashboard = () => {
                         >
                           View Details
                         </Link>
-                        <button
+                        {/* <button
                           onClick={() => handleOpenPaymentModal(loan)}
                           className="recordPaymentBtn" // Add a class for styling
                         >
                           Record Payment
-                        </button>
+                        </button> */}
                       </td>
                     </tr>
                   ))}
@@ -577,7 +577,7 @@ const ClientDashboard = () => {
               </table>
             </div>
           )}
-        </section>} */}
+        </section>}
       </div>
 
       {/* Render the RecordPaymentModal conditionally */}

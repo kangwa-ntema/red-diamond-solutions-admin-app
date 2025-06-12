@@ -1,8 +1,12 @@
 .clientsDashboardContainer {
-  background-color: var(--clr-zeus);
+  background-color: var(--clr-charcoal-gray);
   color: var(--clr-soap-stone);
   margin: 1rem 0;
   min-height: calc(100vh - 10rem); /* Adjust for header and footer height */
+}
+
+.clientsDashboardHeading{
+  padding: 1rem;
 }
 
 @media (min-width: 50rem) {
@@ -30,6 +34,10 @@
   background-color: var(--clr-davy-grey);
 }
 
+.clientsDashboard{
+  padding: 1rem;
+}
+
 .clientsDashboardHeadline {
   font-family: "Raleway-ExtraBold";
   font-size: clamp(1em, 2vw, 2em);
@@ -45,7 +53,7 @@
 }
 
 .clientSummaryCards {
-  background-color: var(--clr-zeus-blend-5);
+  background-color: var(--clr-zeus);
   padding: 0.5rem;
   border-radius: 0.1rem;
   margin-top: 1rem;
@@ -111,7 +119,7 @@
 }
 
 .clientsDashboardContent {
-  background-color: var(--clr-zeus-blend-5);
+  background-color: var(--clr-zeus);
   padding-inline: 1rem;
   border-radius: 0.1rem;
   margin-block: 1rem;
@@ -161,6 +169,8 @@
   background-color: var(--clr-soap-stone-blend-2);
   width: 100%;
   margin-block: 0.5rem;
+  border-collapse: collapse;
+
 }
 
 .clientsTableHead {
