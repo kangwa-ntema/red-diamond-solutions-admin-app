@@ -246,6 +246,7 @@
   padding: 1rem;
   background-color: var(--clr-zeus);
   border-radius: 0.1rem;
+  text-align: center;
 }
 
 .clientLoansTableContainer {
@@ -256,17 +257,17 @@
 .clientLoansTable {
   border-collapse: collapse;
   margin-top: 0.5rem;
-  background-color: var(--clr-zeus);
   color: var(--clr-soap-stone);
 }
 .clientLoansTable th,
 .clientLoansTable td {
-  padding: 0.2rem;
   border: 1px solid var(--clr-neutral-300);
   text-align: left;
   white-space: nowrap;
-  font-size: clamp(0.4em, 0.5vw, 0.5em);
+  font-size: clamp(0.5em, 1.25vw, 1.25em);
   font-family: "Raleway-Light";
+  padding: 0 .1rem;
+  margin: 0;
 }
 /* 
 
@@ -285,9 +286,7 @@
  */
 /* Loan status indicator */
 .loanStatus {
-  padding: 0.3em 0.6em;
   border-radius: 0.1rem;
-  font-size: clamp(0.5em, 0.75vw, 0.75em);
   text-transform: uppercase;
   color: var(--clr-white);
 }

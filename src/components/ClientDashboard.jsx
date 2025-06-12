@@ -522,7 +522,7 @@ const ClientDashboard = () => {
                 <thead>
                   <tr>
                     <th className="clientLoansTableHeader">Loan ID</th>
-                    <th className="clientLoansTableHeader">Amount (ZMW)</th>
+                    <th className="clientLoansTableHeader">Amount </th>
                     <th className="clientLoansTableHeader">Loan Date</th>
                     <th className="clientLoansTableHeader">Due Date</th>
                     <th className="clientLoansTableHeader">
@@ -530,7 +530,7 @@ const ClientDashboard = () => {
                     </th>
                     <th className="clientLoansTableHeader">Status</th>
                     <th className="clientLoansTableHeader">
-                      Balance Due (ZMW)
+                      Balance
                     </th>
                     <th className="clientLoansTableHeader">Actions</th>
                   </tr>

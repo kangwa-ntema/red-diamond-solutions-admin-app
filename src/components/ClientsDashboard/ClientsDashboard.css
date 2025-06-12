@@ -161,12 +161,13 @@
 .clientsListHeadline {
   text-align: center;
   margin: 3rem 0 0rem;
-  font-size: 1.25em;
-  color: var(--clr-golden-yellow-2);
+  font-size: clamp(1.25em, 2vw, 2em);
+  color: var(--clr-soap-stone);
+  text-decoration: underline;
 }
 
 .clientsTable {
-  background-color: var(--clr-soap-stone-blend-2);
+  background-color: var(--clr-zeus);
   width: 100%;
   margin-block: 0.5rem;
   border-collapse: collapse;
@@ -174,9 +175,19 @@
 }
 
 .clientsTableHead {
-  background-color: var(--clr-soap-stone);
-  color: var(--clr-zeus);
-  font-family: "Raleway-Bold";
+  color: var(--clr-soap-stone);
+  font-family: "Raleway-Light";
+}
+
+.clientsTable th,
+.clientsTable td {
+  border: 1px solid var(--clr-neutral-300);
+  text-align: left;
+  white-space: nowrap;
+  font-size: clamp(0.5em, 1.25vw, 1.25em);
+  font-family: "Raleway-Light";
+  padding: 0 .1rem;
+  margin: 0;
 }
 
 .actions-cell a {
