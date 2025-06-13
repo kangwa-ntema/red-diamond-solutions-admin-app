@@ -59,7 +59,7 @@ const AddJournalEntryPage = () => {
 
             if (response.status === 401 || response.status === 403) {
                 clearAuthData();
-                navigate('/login');
+                navigate('/landingPage');
                 toast.error('Authentication expired or unauthorized. Please log in again.');
                 return;
             }
@@ -104,7 +104,7 @@ const AddJournalEntryPage = () => {
 
             if (response.status === 401 || response.status === 403) {
                 clearAuthData();
-                navigate('/login');
+                navigate('/landingPage');
                 toast.error('Authentication expired or unauthorized. Please log in again.');
                 return;
             }
@@ -281,7 +281,7 @@ const AddJournalEntryPage = () => {
     return (
         <div className="journalEntryContainer">
             <Link to="/journal-entries" className="journalEntryBackLink">
-                {"<"} Back to Journal Entries List
+                Back to Journal Entries List
             </Link>
             <h1 className="journalEntryHeadline">{isEditMode ? 'Edit Journal Entry' : 'Create New Journal Entry'}</h1>
 

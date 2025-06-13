@@ -174,7 +174,7 @@ const ChartOfAccountsPage = () => {
                 {/* Button to open the Add Account Modal */}
                 <div className="addAccountButtonContainer">
                     <button className="addAccountBtn" onClick={handleOpenAddAccountModal}>
-                        Add New Account
+                        + Add New Account
                     </button>
                 </div>
 

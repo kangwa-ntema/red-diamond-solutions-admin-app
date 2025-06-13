@@ -158,7 +158,7 @@ const EditClientPage = () => {
     // If no token, show an error and redirect to login.
     if (!token) {
       toast.error("Authentication required to update client."); // Display a toast notification.
-      navigate("/");
+      navigate("/LandingPage");
       return;
     }
 
@@ -185,7 +185,7 @@ const EditClientPage = () => {
           "Authentication expired or unauthorized. Please log in again."
         );
         clearAuthData();
-        navigate("/login");
+        navigate("/landingPage");
       }
       // Handle other errors during update.
       else {
@@ -225,7 +225,7 @@ const EditClientPage = () => {
       <div className="editClientPageContent">
         {/* Link to navigate back to the clients list. */}
         <Link to="/clients" className="editClientBackLink">
-          {"<"} Back to Clients List
+          Clients List
         </Link>
         {/* Headline for the edit page, displaying the client's name or ID. */}
         <h1 className="editClientHeadline">

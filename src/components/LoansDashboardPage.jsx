@@ -123,46 +123,52 @@ const LoansDashboardPage = () => {
       <div className="loansDashboard">
         {" "}
         {/* New: Grid container, analogous to clientsDashboard */}
-        <div className="loansDashboardPanel">
-          {" "}
-          {/* New: Left panel, analogous to clientsDashboardPanel */}
-          {/* Overall Loan Summary Section */}
-          <section className="loanSummarySection">
-            <div className="loanSummaryCards">
-              <div className="loanSummaryCard">
-                <h3>Total Loans</h3>
-                <p>{overallSummary.totalLoans}</p>
-              </div>
-              <div className="loanSummaryCard">
-                <h3>Active Loans</h3>
-                <p>{overallSummary.totalActiveLoans}</p>
-              </div>
-              <div className="loanSummaryCard">
-                <h3>Paid Loans</h3>
-                <p>{overallSummary.totalPaidLoans}</p>
-              </div>
-              <div className="loanSummaryCard">
-                <h3>Overdue Loans</h3>
-                <p>{overallSummary.totalOverdueLoans}</p>
-              </div>
-              <div className="loanSummaryCard">
-                <h3>Pending Loans</h3>
-                <p>{overallSummary.totalPendingLoans}</p>
-              </div>
-              <div className="loanSummaryCard">
-                <h3>Defaulted Loans</h3>
-                <p>{overallSummary.totalDefaultLoans}</p>
-              </div>
+        <div className="loansDashboardPanelContainer">
+          <div className="loansDashboardPanel">
+            {" "}
+            {/* New: Left panel, analogous to clientsDashboardPanel */}
+            {/* Overall Loan Summary Section */}
+            <div className="loanActionButtons">
+              <Link to="/loans/add">
+                <button className="addLoanButton">+ Add New Loan</button>
+              </Link>
             </div>
-          </section>
-          {/* Action Buttons (Add New Loan) */}
-          <div className="loanActionButtons">
-            <Link to="/loans/add">
-              <button className="addLoanButton">Add New Loan</button>
-            </Link>
+            <section className="loanSummarySection">
+              <div className="loanSummaryCards">
+                <div className="loanSummaryCard">
+                  <h3 className="loanSummaryCardTitle" >Total Loans</h3>
+                  <p className="loanSummaryCardValue" >{overallSummary.totalLoans}</p>
+                </div>
+                <div className="loanSummaryCard">
+                  <h3 className="loanSummaryCardTitle" >Active Loans</h3>
+                  <p className="loanSummaryCardValue" >{overallSummary.totalActiveLoans}</p>
+                </div>
+                <div className="loanSummaryCard">
+                  <h3 className="loanSummaryCardTitle" >Paid Loans</h3>
+                  <p className="loanSummaryCardValue" >{overallSummary.totalPaidLoans}</p>
+                </div>
+                <div className="loanSummaryCard">
+                  <h3 className="loanSummaryCardTitle" >Overdue Loans</h3>
+                  <p className="loanSummaryCardValue" >{overallSummary.totalOverdueLoans}</p>
+                </div>
+                <div className="loanSummaryCard">
+                  <h3 className="loanSummaryCardTitle" >Pending Loans</h3>
+                  <p className="loanSummaryCardValue" >{overallSummary.totalPendingLoans}</p>
+                </div>
+                <div className="loanSummaryCard">
+                  <h3 className="loanSummaryCardTitle" >Defaulted Loans</h3>
+                  <p className="loanSummaryCardValue" >{overallSummary.totalDefaultLoans}</p>
+                </div>
+              </div>
+            </section>
+            {/* Action Buttons (Add New Loan) */}
+            
+          
           </div>
         </div>
         <div className="loansDashboardContent">
+          <h1 className="loansFilterBtnHeadline">Loans Filter Buttons</h1>
+
           {" "}
           {/* Existing: Right panel, analogous to clientsDashboardContent */}
           {/* Filter Buttons */}
@@ -241,7 +247,7 @@ const LoansDashboardPage = () => {
             ) : (
               <div className="loansTableContainer">
                 <table className="loansTable">
-                  <thead>
+                  <thead className="loansTableHead" >
                     <tr>
                       <th>Loan ID</th>
                       <th>client</th>

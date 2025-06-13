@@ -1,287 +1,351 @@
 /* frontend/src/pages/ChartOfAccountsPage.css */
 
 .coaContainer {
-    padding: 2rem;
-    max-width: 1200px;
-    margin: 0 auto;
-    font-family: 'Inter', sans-serif;
-    background-color: #f8f9fa;
-    min-height: 100vh;
+  background-color: var(--clr-charcoal-gray);
+  color: var(--clr-soap-stone);
+  margin: 1rem 0;
+  min-height: calc(100vh - 10rem);
+  padding: 1rem;
 }
 
 .coaContent {
-    background-color: #ffffff;
-    padding: 2.5rem;
-    border-radius: 0.75rem;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  border-radius: 0.75rem;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
 }
 
 .coaBackLink {
-    display: inline-block;
-    margin-bottom: 1.5rem;
-    color: #007bff;
-    text-decoration: none;
-    font-weight: 500;
-    transition: color 0.2s ease-in-out;
+  color: var(--clr-charcoal-gray);
+  background-color: var(--clr-soap-stone);
+  text-decoration: none;
+  font-size: 0.75em;
+  transition: color 0.2s ease;
+  border: none;
+  border-radius: 0.1rem;
+  padding: 0.5rem 1rem;
+  margin-bottom: 2rem;
+  cursor: pointer;
 }
 
 .coaBackLink:hover {
-    color: #0056b3;
-    text-decoration: underline;
+  background-color: var(--clr-davy-grey);
+
 }
 
 .coaHeadline {
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: #333;
-    margin-bottom: 2.5rem;
-    text-align: center;
-    border-bottom: 2px solid #e0e0e0;
-    padding-bottom: 1rem;
+  font-family: "Raleway-ExtraBold";
+  font-size: clamp(1em, 2vw, 2em);
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.addAccountBtn{
+      background-color: var(--clr-golden-yellow);
+  padding: 1rem;
+  cursor: pointer;
+  border: none;
+  border-radius: 0.1rem;
+  background-color: var(--clr-dark-mint);
+  color: var(--clr-platinum);
+  border: 0.01rem solid var(--clr-platinum);
+}
+.addAccountBtn:hover{
+  background-color: var(--clr-platinum);
+  color: var(--clr-dark-mint);
+  border: .01rem solid var(--clr-dark-mint);
+
 }
 
 /* Loading and Error States */
-.coaLoading, .coaErrorMessage {
-    text-align: center;
-    padding: 2rem;
-    font-size: 1.2rem;
-    color: #555;
+.coaLoading,
+.coaErrorMessage {
+  text-align: center;
+  padding: 2rem;
+  font-size: 1.2rem;
+  color: #555;
 }
 .coaErrorMessage {
-    color: #dc3545;
+  color: #dc3545;
 }
 
 /* Section Styling */
-.addAccountSection, .accountsListSection {
-    margin-bottom: 3rem;
+.addAccountSection,
+.accountsListSection {
+  margin-bottom: 3rem;
 }
 
+
+
+
+
 .sectionHeadline {
-    font-size: 1.8rem;
-    font-weight: 600;
-    color: #4a5568;
-    margin-bottom: 1.5rem;
-    text-align: center;
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: var(--clr-golden-yellow);
+  margin-bottom: 1.5rem;
+  text-align: center;
 }
 
 .sectionDivider {
-    border: 0;
-    height: 1px;
-    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0));
-    margin: 3rem 0;
+  border: 0;
+  height: 1px;
+  background-image: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0),
+    rgba(0, 0, 0, 0.1),
+    rgba(0, 0, 0, 0)
+  );
+  margin: 3rem 0;
 }
 
 /* Form Styling */
 .addAccountForm {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1.5rem;
-    background-color: #f9f9f9;
-    padding: 2rem;
-    border-radius: 0.6rem;
-    box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  padding: 2rem;
+  border-radius: 0.6rem;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 .formGroup {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .formGroup label {
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: #4a5568;
-    margin-bottom: 0.4rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #4a5568;
+  margin-bottom: 0.4rem;
 }
 
-.formInput, .formSelect, .formTextarea {
-    padding: 0.8rem 1rem;
-    border: 1px solid #dcdfe6;
-    border-radius: 0.5rem;
-    font-size: 1rem;
-    color: #333;
-    transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+.formInput,
+.formSelect,
+.formTextarea {
+  padding: 0.8rem 1rem;
+  border: 1px solid #dcdfe6;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  color: #333;
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
 
-.formInput:focus, .formSelect:focus, .formTextarea:focus {
-    border-color: #007bff;
-    outline: none;
-    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+.formInput:focus,
+.formSelect:focus,
+.formTextarea:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 }
 
 .formTextarea {
-    resize: vertical;
-    min-height: 60px;
+  resize: vertical;
+  min-height: 60px;
 }
 
 .checkboxGroup {
-    flex-direction: row;
-    align-items: center;
-    gap: 0.5rem;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .checkboxGroup input[type="checkbox"] {
-    width: 1.2rem;
-    height: 1.2rem;
-    accent-color: #007bff; /* Colors the checkbox itself */
+  width: 1.2rem;
+  height: 1.2rem;
+  accent-color: #007bff; /* Colors the checkbox itself */
 }
 
 .submitBtn {
-    grid-column: 1 / -1; /* Spans across all columns in the grid */
-    background-color: #28a745; /* Green for add action */
-    color: #fff;
-    padding: 1rem 1.5rem;
-    border: none;
-    border-radius: 0.6rem;
-    font-size: 1.1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
-    box-shadow: 0 4px 10px rgba(40, 167, 69, 0.2);
+  grid-column: 1 / -1; /* Spans across all columns in the grid */
+  background-color: #28a745; /* Green for add action */
+  color: #fff;
+  padding: 1rem 1.5rem;
+  border: none;
+  border-radius: 0.6rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
+  box-shadow: 0 4px 10px rgba(40, 167, 69, 0.2);
 }
 
 .submitBtn:hover:not(:disabled) {
-    background-color: #218838;
-    transform: translateY(-2px);
+  background-color: #218838;
+  transform: translateY(-2px);
 }
 
 .submitBtn:disabled {
-    background-color: #a7d9b7;
-    cursor: not-allowed;
-    box-shadow: none;
+  background-color: #a7d9b7;
+  cursor: not-allowed;
+  box-shadow: none;
 }
-
 
 /* Table Styling */
 .accountsTableContainer {
-    overflow-x: auto; /* Allows horizontal scrolling on small screens */
-    border-radius: 0.75rem;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  overflow-x: auto; /* Allows horizontal scrolling on small screens */
+  border-radius: 0.1rem;
 }
 
 .accountsTable {
-    width: 100%;
-    border-collapse: collapse;
-    background-color: #fff;
-    min-width: 700px; /* Ensure table doesn't get too squished */
+  background-color: var(--clr-zeus);
+  width: 100%;
+  margin-block: 0.5rem;
+  border-collapse: collapse;/* Ensure table doesn't get too squished */
 }
 
-.accountsTable thead tr {
-    background-color: #e9ecef;
-    color: #495057;
-    font-size: 0.95rem;
-    text-align: left;
+.accountsTable tbody tr:nth-child(even) {
+  background-color: var(
+    --clr-soap-stone-blend-2
+  ); /* Slightly different background for even rows */
 }
 
-.accountsTable th, .accountsTable td {
-    padding: 1rem 1.25rem;
-    border-bottom: 1px solid #dee2e6;
-    white-space: nowrap; /* Prevents text wrapping */
+.accountsTable th,
+.accountsTable td {
+  border: 1px solid var(--clr-neutral-300);
+  text-align: left;
+  white-space: nowrap;
+  font-size: clamp(0.5em, 1.25vw, 1.25em);
+  font-family: "Raleway-Light";
+  padding: 0 .1rem;
+  margin: 0;
 }
 
-.accountsTable tbody tr:hover {
-    background-color: #f1f5f9;
-}
 
 .accountsTable th {
-    font-weight: 600;
+  font-weight: 600;
 }
 
 /* Tags for account types and status */
-.accountTypeTag, .normalBalanceTag, .statusTag {
-    display: inline-block;
-    padding: 0.3em 0.7em;
-    border-radius: 0.5rem;
-    font-size: 0.8em;
-    font-weight: 600;
-    text-transform: uppercase;
+.accountTypeTag,
+.normalBalanceTag,
+.statusTag {
+  display: inline-block;
+  padding: 0.3em 0.7em;
+  border-radius: 0.5rem;
+  font-size: 0.8em;
+  font-weight: 600;
+  text-transform: uppercase;
 }
 
 /* Account Type Colors */
-.accountTypeTag.asset { background-color: #e0f2f7; color: #2196f3; }      /* Blue */
-.accountTypeTag.liability { background-color: #ffecb3; color: #ff9800; }  /* Orange */
-.accountTypeTag.equity { background-color: #e8eaf6; color: #3f51b5; }     /* Indigo */
-.accountTypeTag.revenue { background-color: #e8f5e9; color: #4caf50; }    /* Green */
-.accountTypeTag.expense { background-color: #ffebee; color: #f44336; }    /* Red */
+.accountTypeTag.asset {
+  background-color: #e0f2f7;
+  color: #2196f3;
+} /* Blue */
+.accountTypeTag.liability {
+  background-color: #ffecb3;
+  color: #ff9800;
+} /* Orange */
+.accountTypeTag.equity {
+  background-color: #e8eaf6;
+  color: #3f51b5;
+} /* Indigo */
+.accountTypeTag.revenue {
+  background-color: #e8f5e9;
+  color: #4caf50;
+} /* Green */
+.accountTypeTag.expense {
+  background-color: #ffebee;
+  color: #f44336;
+} /* Red */
 
 /* Normal Balance Colors */
-.normalBalanceTag.debit { background-color: #e3f2fd; color: #1976d2; }
-.normalBalanceTag.credit { background-color: #f3e5f5; color: #9c27b0; }
+.normalBalanceTag.debit {
+  background-color: #e3f2fd;
+  color: #1976d2;
+}
+.normalBalanceTag.credit {
+  background-color: #f3e5f5;
+  color: #9c27b0;
+}
 
 /* Status Colors */
-.statusTag.active { background-color: #e8f5e9; color: #4caf50; }
-.statusTag.inactive { background-color: #fbe9e7; color: #ff5722; }
+.statusTag.active {
+  background-color: #e8f5e9;
+  color: #4caf50;
+}
+.statusTag.inactive {
+  background-color: #fbe9e7;
+  color: #ff5722;
+}
 
 .noAccountsMessage {
-    text-align: center;
-    padding: 1.5rem;
-    font-style: italic;
-    color: #6c757d;
+  text-align: center;
+  padding: 1.5rem;
+  font-style: italic;
+  color: #6c757d;
 }
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
-    .coaContent {
-        padding: 1.5rem;
-    }
 
-    .coaHeadline {
-        font-size: 2rem;
-        margin-bottom: 1.5rem;
-    }
+  .addAccountForm {
+    grid-template-columns: 1fr; /* Stack inputs on small screens */
+    padding: 1.5rem;
+    gap: 1rem;
+  }
 
-    .addAccountForm {
-        grid-template-columns: 1fr; /* Stack inputs on small screens */
-        padding: 1.5rem;
-        gap: 1rem;
-    }
+  .sectionHeadline {
+    font-size: 1.5rem;
+  }
 
-    .sectionHeadline {
-        font-size: 1.5rem;
-    }
+  .accountsTable thead {
+    display: none; /* Hide header on small screens */
+  }
 
-    .accountsTable thead {
-        display: none; /* Hide header on small screens */
-    }
+  .accountsTable,
+  .accountsTable tbody,
+  .accountsTable tr,
+  .accountsTable td {
+    display: block;
+    width: 100%;
+  }
 
-    .accountsTable, .accountsTable tbody, .accountsTable tr, .accountsTable td {
-        display: block;
-        width: 100%;
-    }
+  .accountsTable tr {
+    margin-bottom: 1rem;
+    border: 1px solid #dee2e6;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  }
 
-    .accountsTable tr {
-        margin-bottom: 1rem;
-        border: 1px solid #dee2e6;
-        border-radius: 0.5rem;
-        overflow: hidden;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-    }
+  .accountsTable td {
+    text-align: right;
+    padding-left: 50%;
+    position: relative;
+    border-bottom: 1px dashed #e9ecef;
+  }
 
-    .accountsTable td {
-        text-align: right;
-        padding-left: 50%;
-        position: relative;
-        border-bottom: 1px dashed #e9ecef;
-    }
+  .accountsTable td::before {
+    content: attr(data-label); /* Use data-label for pseudo-elements */
+    position: absolute;
+    left: 0;
+    width: 45%;
+    padding-left: 1rem;
+    font-weight: 600;
+    text-align: left;
+    white-space: nowrap;
+    color: #6c757d;
+  }
 
-    .accountsTable td::before {
-        content: attr(data-label); /* Use data-label for pseudo-elements */
-        position: absolute;
-        left: 0;
-        width: 45%;
-        padding-left: 1rem;
-        font-weight: 600;
-        text-align: left;
-        white-space: nowrap;
-        color: #6c757d;
-    }
-
-    /* Data labels for table cells on mobile */
-    .accountsTable td:nth-child(1)::before { content: "Code:"; }
-    .accountsTable td:nth-child(2)::before { content: "Name:"; }
-    .accountsTable td:nth-child(3)::before { content: "Type:"; }
-    .accountsTable td:nth-child(4)::before { content: "Sub-Type:"; }
-    .accountsTable td:nth-child(5)::before { content: "Normal Balance:"; }
-    .accountsTable td:nth-child(6)::before { content: "Status:"; }
-    /* .accountsTable td:nth-child(7)::before { content: "Actions:"; } // For future actions */
+  /* Data labels for table cells on mobile */
+  .accountsTable td:nth-child(1)::before {
+    content: "Code:";
+  }
+  .accountsTable td:nth-child(2)::before {
+    content: "Name:";
+  }
+  .accountsTable td:nth-child(3)::before {
+    content: "Type:";
+  }
+  .accountsTable td:nth-child(4)::before {
+    content: "Sub-Type:";
+  }
+  .accountsTable td:nth-child(5)::before {
+    content: "Normal Balance:";
+  }
+  .accountsTable td:nth-child(6)::before {
+    content: "Status:";
+  }
+  /* .accountsTable td:nth-child(7)::before { content: "Actions:"; } // For future actions */
 }

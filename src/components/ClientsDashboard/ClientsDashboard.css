@@ -74,11 +74,18 @@
   font-family: "Raleway-Bold";
 }
 
-.dashboardPanel {
+.clientsDashboardPanel {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 1rem;
   align-items: flex-end;
+}
+
+.loanSummarySection { /* Renamed for loans */
+    /* background-color: var(--clr-zeus-blend-5); Removed background, now in loansDashboardPanel */
+    padding: .5rem;
+    border-radius: .1rem;
+    margin-block: 1rem;
 }
 
 .clientActionBtns {
@@ -190,6 +197,12 @@
   margin: 0;
 }
 
+.clientsTable tbody tr:nth-child(even) {
+  background-color: var(
+    --clr-soap-stone-blend-2
+  ); /* Slightly different background for even rows */
+}
+
 .actions-cell a {
   background-color: var(--clr-golden-yellow);
   padding: 0.2em 1rem;
@@ -202,3 +215,20 @@
 .actions-cell a:hover {
   background-color: var(--clr-citron);
 }
+
+/* Status specific colors */
+.loanStatus.active {
+  background-color: var(--clr-active);
+}
+.loanStatus.pending {
+  background-color: var(--clr-pending);
+}
+.loanStatus.overdue {
+  background-color: var(--clr-overdue);
+}
+.loanStatus.default {
+  background-color: var(--clr-default);
+} /* Using zeus for defaulted */
+.loanStatus.paid {
+  background-color: var(--clr-paid);
+} /* Using blue for paid */

@@ -41,7 +41,7 @@ const EditLoanPage = () => {
 
             if (!token) {
                 clearAuthData();
-                navigate('/login');
+                navigate('/landingPage');
                 return;
             }
 
@@ -67,7 +67,7 @@ const EditLoanPage = () => {
 
                 if (loanResponse.status === 401 || loanResponse.status === 403) {
                     clearAuthData();
-                    navigate('/login');
+                    navigate('/landingPage');
                     return;
                 }
 
@@ -227,7 +227,7 @@ const EditLoanPage = () => {
         const token = getToken();
         if (!token) {
             clearAuthData();
-            navigate('/login');
+            navigate('/landingPage');
             return;
         }
 
@@ -250,7 +250,7 @@ const EditLoanPage = () => {
 
             if (response.status === 401 || response.status === 403) {
                 clearAuthData();
-                navigate('/login');
+                navigate('/landingPage');
                 return;
             }
 
@@ -289,7 +289,7 @@ const EditLoanPage = () => {
         <div className="editLoanPageContainer">
             <div className="editLoanPageContent">
                 <Link to="/loans" className="editLoanBackLink">
-                    {"<"} Back to Loans Overview
+                    Back to Loans Overview
                 </Link>
                 <h1 className="editLoanHeadline">Edit Loan</h1>
 

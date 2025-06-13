@@ -238,13 +238,11 @@ const ClientsDashboard = () => {
       <div className="clientsDashboard">
         {" "}
         {/* Flex container for dashboard panels (updated class) */}
-        <div className="clientsDashboardPanel">
-          <div className="dashboardPanel">
-            {" "}
+        <div className="clientsDashboardPanelContainer">
+          <div className="clientsDashboardPanel">
             {/* Left panel for summary and action buttons (updated class) */}
             {/* Overall Client Summary Section */}
             <section className="clientSummarySection">
-              {" "}
               {/* Section for summary cards (updated class) */}
               <div className="clientSummaryCards">
                 {" "}

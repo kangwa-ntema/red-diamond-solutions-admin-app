@@ -1,0 +1,14 @@
+.journalEntryListContainer {
+  background-color: var(--clr-charcoal-gray);
+  color: var(--clr-soap-stone);
+  margin: 1rem 0;
+  min-height: calc(100vh - 10rem);
+  padding: 1rem;
+}
+
+.journalEntryBackLink:hover {
+  background-color: var(--clr-davy-grey);
+}
+
+
+

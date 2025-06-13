@@ -215,169 +215,203 @@ const AccountingDashboardPage = () => {
   return (
     <div className="accountingDashboardContainer">
       <div className="accountingDashboardContent">
-        <Link to="/mainDashboard" className="journalEntryBackLink">
-          {"<"} Back to Main Dashboard
-        </Link>
-        <div className="accountingDashboardPanel">
-          <li className="accountingDashboardNavLink">
-            <Link to="/accounts">Chart Of Accounts</Link>
-          </li>
-          <li className="accountingDashboardNavLink">
-            <Link to="/journal-entries">Journal Entries</Link>
-          </li>
-          <li className="accountingDashboardNavLink">
-            <Link to="/general-ledger">General Ledger</Link>
-          </li>
-          <li className="accountingDashboardNavLink">
-            <Link to="/reports">Trail Balance</Link>
-          </li>
-          <li className="accountingDashboardNavLink">
-            <Link to="/income-statement">Income Statement</Link>
-          </li>
-          <li className="accountingDashboardNavLink">
-            <Link to="/balance-sheet">Balance Sheet</Link>
-          </li>
-        </div>
-        <section className="summaryCardsGrid">
+        <div className="accountingDashboardHeading">
+          <Link to="/mainDashboard" className="accountingDashboardBackLink">
+            Back to Main Dashboard
+          </Link>
           <h1 className="accountingHeadline">Accounting Overview</h1>
-          <div className="summaryCard totalDebits">
-            <h3>Total Disbursements</h3>
-            <p>ZMW {overallSummary.totalDebits.toFixed(2)}</p>
+        </div>
+        <main className="accountingDashboard">
+          <div className="accountingDashboardPanel">
+            <Link to="/accounts">
+              <li className="accountingDashboardNavLink">Chart Of Accounts</li>
+            </Link>
+            <Link to="/journal-entries">
+              <li className="accountingDashboardNavLink">Journal Entries</li>
+            </Link>
+            <Link to="/general-ledger">
+              <li className="accountingDashboardNavLink">General Ledger</li>
+            </Link>
+            <Link to="/reports">
+              <li className="accountingDashboardNavLink">Trail Balance</li>
+            </Link>
+            <Link to="/income-statement">
+              <li className="accountingDashboardNavLink">Income Statement</li>
+            </Link>
+            <Link to="/balance-sheet">
+              <li className="accountingDashboardNavLink">Balance Sheet</li>
+            </Link>
           </div>
-          <div className="summaryCard totalCredits">
-            <h3>Total Payments Received</h3> {/* Updated label for clarity */}
-            <p>ZMW {overallSummary.totalCredits.toFixed(2)}</p>
-          </div>
-          <div className="summaryCard netCashFlow">
-            <h3>Net Cash Flow (Transactions)</h3>{" "}
-            {/* Updated label for clarity */}
-            <p>ZMW {overallSummary.netCashFlow.toFixed(2)}</p>
-          </div>
-          {/* NEW: Card for Total Loans Receivable */}
-          <div className="summaryCard loansReceivable">
-            <h3>Total Loans Receivable</h3>
-            <p>ZMW {totalLoansReceivable.toFixed(2)}</p>
-          </div>
-        </section>
+          <div className="accountingSummerContainer">
+            <section className="accountingSummaryCardsGrid">
+              <div className="accountingSummaryCard totalDebits">
+                <h3 className="accountingSummaryCardTitle">
+                  Total Disbursements
+                </h3>
+                <p classname="accountingSummaryCardValue">
+                  ZMW {overallSummary.totalDebits.toFixed(2)}
+                </p>
+              </div>
+              <div className="accountingSummaryCard totalCredits">
+                <h3 className="accountingSummaryCardTitle">
+                  Total Payments Received
+                </h3>{" "}
+                {/* Updated label for clarity */}
+                <p classname="accountingSummaryCardValue">
+                  ZMW {overallSummary.totalCredits.toFixed(2)}
+                </p>
+              </div>
+              <div className="accountingSummaryCard netCashFlow">
+                <h3 className="accountingSummaryCardTitle">
+                  Net Cash Flow (Transactions)
+                </h3>{" "}
+                {/* Updated label for clarity */}
+                <p classname="accountingSummaryCardValue">
+                  ZMW {overallSummary.netCashFlow.toFixed(2)}
+                </p>
+              </div>
+              {/* NEW: Card for Total Loans Receivable */}
+              <div className="accountingSummaryCard loansReceivable">
+                <h3 className="accountingSummaryCardTitle">
+                  Total Loans Receivable
+                </h3>
+                <p classname="accountingSummaryCardValue">
+                  ZMW {totalLoansReceivable.toFixed(2)}
+                </p>
+              </div>
+            </section>
 
-        <section className="typeSummarySection">
-          <h2>Summary by Transaction Type</h2>
-          {Object.keys(typeSummary).length > 0 ? (
-            <div className="typeSummaryGrid">
-              {Object.entries(typeSummary).map(([type, amount]) => (
-                <div key={type} className="typeSummaryCard">
-                  <h4>{type.charAt(0).toUpperCase() + type.slice(1)}</h4>{" "}
-                  {/* Capitalize type */}
-                  <p>ZMW {amount.toFixed(2)}</p>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <p>
-              No transaction type summaries available for the selected period.
-            </p>
-          )}
-        </section>
-
-        <section className="transactionsListSection">
-          <h2>Transaction History</h2>
-          <div className="filterControls">
-            <div className="filterGroup">
-              <label htmlFor="filterType">Filter by Type:</label>
-              <select
-                id="filterType"
-                name="filterType"
-                value={filterType}
-                onChange={handleFilterChange}
-                className="filterSelect"
-              >
-                <option value="">All Types</option>
-                {/* Populate options from uniqueTransactionTypes in overallSummary or hardcode if types are fixed */}
-                {overallSummary.uniqueTransactionTypes.map((type) => (
-                  <option key={type} value={type}>
-                    {type.charAt(0).toUpperCase() + type.slice(1)}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className="filterGroup">
-              <label htmlFor="filterStartDate">Start Date:</label>
-              <input
-                type="date"
-                id="filterStartDate"
-                name="filterStartDate"
-                value={filterStartDate}
-                onChange={handleFilterChange}
-                className="filterInput"
-              />
-            </div>
-            <div className="filterGroup">
-              <label htmlFor="filterEndDate">End Date:</label>
-              <input
-                type="date"
-                id="filterEndDate"
-                name="filterEndDate"
-                value={filterEndDate}
-                onChange={handleFilterChange}
-                className="filterInput"
-              />
-            </div>
-          </div>
-
-          {transactions.length > 0 ? (
-            <div className="transactionsTableContainer">
-              <table className="transactionsTable">
-                <thead>
-                  <tr>
-                    <th>Date</th>
-                    <th>Type</th>
-                    <th>Amount (ZMW)</th>
-                    <th>Direction</th>
-                    <th>Status</th>
-                    <th>Client</th>
-                    <th>Loan ID</th>
-                    <th>Description</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {transactions.map((t) => (
-                    <tr key={t._id}>
-                      <td>{t.date}</td>
-                      <td>
-                        <span className={`transactionTypeTag ${t.type}`}>
-                          {t.type.charAt(0).toUpperCase() + t.type.slice(1)}
-                        </span>
-                      </td>
-                      <td>{t.amount.toFixed(2)}</td>
-                      <td>
-                        <span
-                          className={`transactionDirectionTag ${t.direction}`}
-                        >
-                          {t.direction.charAt(0).toUpperCase() +
-                            t.direction.slice(1)}
-                        </span>
-                      </td>
-                      <td>
-                        <span
-                          className={`transactionStatusTag ${t.status?.toLowerCase()}`}
-                        >
-                          {t.status || "N/A"}
-                        </span>
-                      </td>
-                      <td>{t.clientName}</td>
-                      <td>
-                        {t.loan ? t.loan._id.substring(0, 8) + "..." : "N/A"}
-                      </td>
-                      <td>{t.description}</td>
-                    </tr>
+            <section className="accountingTypeSummarySection">
+              <h2 className="accountingTypeSummaryHeadline">
+                Summary by Transaction Type
+              </h2>
+              {Object.keys(typeSummary).length > 0 ? (
+                <div className="accountingTypeSummarySubHeadline">
+                  {Object.entries(typeSummary).map(([type, amount]) => (
+                    <div key={type} className="accountingTypeSummaryCard">
+                      <h4 className="accountingTypeSummaryCardTitle">
+                        {type.charAt(0).toUpperCase() + type.slice(1)}
+                      </h4>{" "}
+                      {/* Capitalize type */}
+                      <p className="accountingTypeSummaryCardValue">
+                        ZMW {amount.toFixed(2)}
+                      </p>
+                    </div>
                   ))}
-                </tbody>
-              </table>
-            </div>
-          ) : (
-            <p>No transactions found for the selected filters.</p>
-          )}
-        </section>
+                </div>
+              ) : (
+                <p>
+                  No transaction type summaries available for the selected
+                  period.
+                </p>
+              )}
+            </section>
+
+            <section className="transactionsListSection">
+              <h2 className="transactionsListTitle">Transaction History</h2>
+              <div className="transactionsFilterControls">
+                <div className="transactionsFilterGroup">
+                  <label htmlFor="filterType">Filter by Type:</label>
+                  <select
+                    id="filterType"
+                    name="filterType"
+                    value={filterType}
+                    onChange={handleFilterChange}
+                    className="filterSelect"
+                  >
+                    <option value="">All Types</option>
+                    {/* Populate options from uniqueTransactionTypes in overallSummary or hardcode if types are fixed */}
+                    {overallSummary.uniqueTransactionTypes.map((type) => (
+                      <option key={type} value={type}>
+                        {type.charAt(0).toUpperCase() + type.slice(1)}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="accountingDateFilterGroup">
+                  <div className="filterGroup">
+                    <label htmlFor="filterStartDate">Start Date: </label>
+                    <input
+                      type="date"
+                      id="filterStartDate"
+                      name="filterStartDate"
+                      value={filterStartDate}
+                      onChange={handleFilterChange}
+                      className="filterInput"
+                    />
+                  </div>
+                  <div className="filterGroup">
+                    <label htmlFor="filterEndDate">End Date: </label>
+                    <input
+                      type="date"
+                      id="filterEndDate"
+                      name="filterEndDate"
+                      value={filterEndDate}
+                      onChange={handleFilterChange}
+                      className="filterInput"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {transactions.length > 0 ? (
+                <div className="transactionsTableContainer">
+                  <table className="transactionsTable">
+                    <thead className="transactionsTableHead">
+                      <tr>
+                        <th>Date</th>
+                        <th>Type</th>
+                        <th>Amount (ZMW)</th>
+                        <th>Direction</th>
+                        <th>Status</th>
+                        <th>Client</th>
+                        <th>Loan ID</th>
+                        <th>Description</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {transactions.map((t) => (
+                        <tr key={t._id}>
+                          <td>{t.date}</td>
+                          <td>
+                            <span className={`transactionTypeTag ${t.type}`}>
+                              {t.type.charAt(0).toUpperCase() + t.type.slice(1)}
+                            </span>
+                          </td>
+                          <td>{t.amount.toFixed(2)}</td>
+                          <td>
+                            <span
+                              className={`transactionDirectionTag ${t.direction}`}
+                            >
+                              {t.direction.charAt(0).toUpperCase() +
+                                t.direction.slice(1)}
+                            </span>
+                          </td>
+                          <td>
+                            <span
+                              className={`transactionStatusTag ${t.status?.toLowerCase()}`}
+                            >
+                              {t.status || "N/A"}
+                            </span>
+                          </td>
+                          <td>{t.clientName}</td>
+                          <td>
+                            {t.loan
+                              ? t.loan._id.substring(0, 8) + "..."
+                              : "N/A"}
+                          </td>
+                          <td>{t.description}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              ) : (
+                <p>No transactions found for the selected filters.</p>
+              )}
+            </section>
+          </div>
+        </main>
       </div>
     </div>
   );
