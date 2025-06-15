@@ -2,25 +2,36 @@
 
 /* Container for the entire settings page, similar to landing/login/dashboard */
 .settingsContainer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh; /* Make it take full viewport height for centering */
-  width: 100%;
+  margin: 0 auto;
+  min-height: 100vh;
+  min-width: var(--max-width-sm);
   padding: 1rem;
-  box-sizing: border-box;
 }
 
 /* Inner content box for settings, mimicking the form/content areas */
 .settingsContent {
-  background-color: var(--clr-neutral-100); /* Dark background from colors.css */
-  padding: 2.5rem; /* Consistent padding */
-  border-radius: 0.1rem; /* Consistent border radius */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Consistent shadow */
-  max-width: var(--max-width-md); /* Use your defined max-width variable */
-  width: 100%;
-  text-align: center;
+  background-color: var(--clr-charcoal-gray);
+  padding: 1rem;
+  border-radius: 0.1rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  max-width: var(--max-width-md);
+}
+
+.settingsBackToDashboard {
+  color: var(--clr-charcoal-gray);
+  background-color: var(--clr-soap-stone);
+  text-decoration: none;
+  font-size: 0.75em;
+  border: none;
+  border-radius: 0.1rem;
+  padding: 0.5rem 1rem;
+  margin-bottom: 2rem;
+  cursor: pointer;
+  text-align: left;
+}
+
+.settingsBackToDashboard:hover {
+  background-color: var(--clr-davy-grey);
 }
 
 /* Headline styling */
@@ -29,11 +40,14 @@
   color: var(--clr-soap-stone); /* Light text color for headline */
   margin-bottom: 2rem;
   font-weight: bold;
+  text-align: center;
+
 }
 
 /* Navigation specific styling for settings links */
 .settingsNav {
   width: 100%; /* Ensure the nav takes full width of its parent */
+  text-align: center;
 }
 
 .settingsNavList {
@@ -71,7 +85,7 @@
 
 .settingsNavLink a:hover,
 .settingsNavLink button:hover:not(:disabled) {
-  background-color: var(--clr-golden-yellow-2); /* Darker golden on hover */
+  background-color: var(--clr-sandy-yellow); /* Darker golden on hover */
 }
 
 /* Specific styling for the logout button */

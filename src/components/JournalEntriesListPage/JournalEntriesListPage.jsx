@@ -151,135 +151,154 @@ const JournalEntriesListPage = () => {
 
   return (
     <div className="journalEntryListContainer">
-        <div className="journalEntryListHeading">
-
-      <Link to="/transactions" className="journalEntryListBackLink">
-        Back to Main Dashboard
-      </Link>
-      <h1 className="journalEntryListHeadline">Journal Entries</h1>
-
-      <Link to="/journal-entries/add" className="">
-        <div className="addJournalEntryListBtn">+ Create New Journal Entry</div>
-      </Link>
+      <div className="journalEntryListHeading">
+        <Link to="/transactions" className="journalEntryListBackLink">
+          Back to Main Dashboard
+        </Link>
+        <h1 className="journalEntryListHeadline">Journal Entries</h1>
+        <div className="journalEntryListDashboard">
+          <div className="journalEntryListDashboardPanel">
+            <Link to="/journal-entries/add" className="">
+              <div className="addJournalEntryListBtn">
+                + Create New Journal Entry
+              </div>
+            </Link>
+        <div className="journalEntriesList">
+          {/* Filter Section */}
+          <div className="journalEntryListFilters">
+            <h3 className="journalEntryListFiltersHeadline">
+              Filter Journal Entries
+            </h3>
+            <div className="journalEntryListFilterGroup">
+              <div className="journalEntryListFilterGroupElement">
+                <label htmlFor="filterStartDate">Start Date: </label>
+                <input
+                  type="date"
+                  id="filterStartDate"
+                  value={filterStartDate}
+                  onChange={(e) => setFilterStartDate(e.target.value)}
+                />
+              </div>
+              <div className="journalEntryListFilterGroupElement">
+                <label htmlFor="filterEndDate">End Date: </label>
+                <input
+                  type="date"
+                  id="filterEndDate"
+                  value={filterEndDate}
+                  onChange={(e) => setFilterEndDate(e.target.value)}
+                />
+              </div>
+              <div className="journalEntryListFilterGroupElement">
+                <label htmlFor="filterAccountId">Account: </label>
+                <select
+                  id="filterAccountId"
+                  value={filterAccountId}
+                  onChange={(e) => setFilterAccountId(e.target.value)}
+                >
+                  <option value="">All Accounts</option>
+                  {accounts.map((account) => (
+                    <option key={account._id} value={account._id}>
+                      {account.accountCode} - {account.accountName}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="journalEntryListFilterGroupElement">
+                <label htmlFor="filterRelatedDocumentType">
+                  Document Type:{" "}
+                </label>
+                <select
+                  id="filterRelatedDocumentType"
+                  value={filterRelatedDocumentType}
+                  onChange={(e) => setFilterRelatedDocumentType(e.target.value)}
+                >
+                  <option value="">All Types</option>
+                  <option value="Loan">Loan</option>
+                  <option value="Payment">Payment</option>
+                  <option value="Invoice">Invoice</option>
+                  <option value="Bill">Bill</option>
+                  <option value="Transaction">General Transaction</option>
+                </select>
+              </div>
+              <div className="journalEntryListFilterButtons">
+                <button
+                  onClick={handleApplyFilters}
+                  className="applyFiltersBtn"
+                >
+                  Apply Filters
+                </button>
+                <button
+                  onClick={handleClearFilters}
+                  className="clearFiltersBtn"
+                >
+                  Clear Filters
+                </button>
+              </div>
+            </div>
+          </div>
+          </div>
         </div>
 
-      {/* Filter Section */}
-      <div className="journalEntryListFilters">
-        <h3 className="journalEntryListFiltersHeadline">
-          Filter Journal Entries
-        </h3>
-        <div className="journalEntryListFilterGroup">
-          <div className="journalEntryListFilterGroupElement">
-            <label htmlFor="filterStartDate">Start Date:{" "}</label>
-            <input
-              type="date"
-              id="filterStartDate"
-              value={filterStartDate}
-              onChange={(e) => setFilterStartDate(e.target.value)}
-            />
-          </div>
-          <div className="journalEntryListFilterGroupElement">
-            <label htmlFor="filterEndDate">End Date:</label>
-            <input
-              type="date"
-              id="filterEndDate"
-              value={filterEndDate}
-              onChange={(e) => setFilterEndDate(e.target.value)}
-            />
-          </div>
-          <div className="journalEntryListFilterGroupElement">
-            <label htmlFor="filterAccountId">Account:</label>
-            <select
-              id="filterAccountId"
-              value={filterAccountId}
-              onChange={(e) => setFilterAccountId(e.target.value)}
-            >
-              <option value="">All Accounts</option>
-              {accounts.map((account) => (
-                <option key={account._id} value={account._id}>
-                  {account.accountCode} - {account.accountName}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="journalEntryListFilterGroupElement">
-            <label htmlFor="filterRelatedDocumentType">Document Type:</label>
-            <select
-              id="filterRelatedDocumentType"
-              value={filterRelatedDocumentType}
-              onChange={(e) => setFilterRelatedDocumentType(e.target.value)}
-            >
-              <option value="">All Types</option>
-              <option value="Loan">Loan</option>
-              <option value="Payment">Payment</option>
-              <option value="Invoice">Invoice</option>
-              <option value="Bill">Bill</option>
-              <option value="Transaction">General Transaction</option>
-            </select>
-          </div>
-          <div className="filterButtons">
-            <button onClick={handleApplyFilters} className="applyFiltersBtn">
-              Apply Filters
-            </button>
-            <button onClick={handleClearFilters} className="clearFiltersBtn">
-              Clear Filters
-            </button>
-          </div>
+          {/* Journal Entries Table */}
+          {journalEntries.length === 0 && !loading ? (
+            <p className="journalEntryListNoEntriesMessage">
+              No journal entries found matching your criteria.
+            </p>
+          ) : (
+            <div className="journalEntriesListTableContainer">
+              <table className="journalEntriesListTable">
+                <thead>
+                  <tr>
+                    <th>Entry No.</th>
+                    <th>Date</th>
+                    <th>Description</th>
+                    <th>Related Document</th>
+                    <th>Recorded By</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {journalEntries.map((entry) => (
+                    <tr key={entry._id}>
+                      <td data-label="Entry No.">
+                        {entry.entryNumber || entry._id.substring(0, 8)}
+                      </td>
+                      <td data-label="Date">
+                        {new Date(entry.entryDate).toLocaleDateString()}
+                      </td>
+                      <td data-label="Description">{entry.description}</td>
+                      <td data-label="Related Document">
+                        {entry.relatedDocument?.type
+                          ? `${
+                              entry.relatedDocument.type
+                            } (ID: ${entry.relatedDocument.id?.substring(
+                              0,
+                              8
+                            )}...)`
+                          : "N/A"}
+                      </td>
+                      <td data-label="Recorded By">
+                        {entry.recordedByUsername || "N/A"}
+                      </td>
+                      <td
+                        data-label="Actions"
+                        className="journalEntryActionsCell"
+                      >
+                        <Link
+                          to={`/journal-entries/${entry._id}`}
+                          className="viewJournalEntryBtn"
+                        >
+                          View Details
+                        </Link>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
         </div>
       </div>
-
-      {/* Journal Entries Table */}
-      {journalEntries.length === 0 && !loading ? (
-        <p className="noEntriesMessage">
-          No journal entries found matching your criteria.
-        </p>
-      ) : (
-        <div className="journalEntriesTableContainer">
-          <table className="journalEntriesTable">
-            <thead>
-              <tr>
-                <th>Entry No.</th>
-                <th>Date</th>
-                <th>Description</th>
-                <th>Related Document</th>
-                <th>Recorded By</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {journalEntries.map((entry) => (
-                <tr key={entry._id}>
-                  <td data-label="Entry No.">
-                    {entry.entryNumber || entry._id.substring(0, 8)}
-                  </td>
-                  <td data-label="Date">
-                    {new Date(entry.entryDate).toLocaleDateString()}
-                  </td>
-                  <td data-label="Description">{entry.description}</td>
-                  <td data-label="Related Document">
-                    {entry.relatedDocument?.type
-                      ? `${
-                          entry.relatedDocument.type
-                        } (ID: ${entry.relatedDocument.id?.substring(0, 8)}...)`
-                      : "N/A"}
-                  </td>
-                  <td data-label="Recorded By">
-                    {entry.recordedByUsername || "N/A"}
-                  </td>
-                  <td data-label="Actions" className="journalEntryActionsCell">
-                    <Link
-                      to={`/journal-entries/${entry._id}`}
-                      className="viewJournalEntryBtn"
-                    >
-                      View Details
-                    </Link>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
     </div>
   );
 };

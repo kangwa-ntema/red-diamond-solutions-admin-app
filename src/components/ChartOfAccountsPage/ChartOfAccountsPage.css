@@ -47,6 +47,9 @@
   background-color: var(--clr-dark-mint);
   color: var(--clr-platinum);
   border: 0.01rem solid var(--clr-platinum);
+  margin-top: 5rem;
+  text-align: right;
+
 }
 .addAccountBtn:hover{
   background-color: var(--clr-platinum);

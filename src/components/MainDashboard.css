@@ -66,7 +66,7 @@
 
 .mainDashboardNavLink a:hover,
 .mainDashboardNavLink button:hover:not(:disabled) {
-  background-color: var(--clr-citron); /* Darker golden on hover */
+  background-color: var(--clr-sandy-yellow); /* Darker golden on hover */
 }
 
 /* Specific styling for the logout button */

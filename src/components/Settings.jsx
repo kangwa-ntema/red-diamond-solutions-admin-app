@@ -1,6 +1,6 @@
-import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import './Settings.css'; // Import the new CSS file
+import React from "react";
+import { Link, useNavigate } from "react-router-dom";
+import "./Settings.css"; // Import the new CSS file
 
 const Settings = () => {
   const navigate = useNavigate();
@@ -22,12 +22,12 @@ const Settings = () => {
           errorData.message || "Server error during logout."
         );
         // Even if backend reports an error, for UX, still redirect to login
-        navigate("/");
+        navigate("/loginForm");
       }
     } catch (err) {
       console.error("Network error during logout:", err);
       // For network errors, still attempt to redirect
-      navigate('/');
+      navigate("/loginForm");
     }
   };
 
@@ -35,15 +35,17 @@ const Settings = () => {
     <section className="settingsContainer">
       <div className="settingsContent">
         <nav>
-          <ul role='list' className="settingsNavList">
-            <li className="settingsNavLink">
-              <Link to="/mainDashboard">{"<"} Back to Dashboard</Link>
-            </li>
+          <ul role="list" className="settingsNavList">
+            <Link to="/mainDashboard">
+              <button className="settingsBackToDashboard">
+                Back to Dashboard
+              </button>
+            </Link>
           </ul>
         </nav>
         <h1 className="settingsHeadline">Settings</h1>
         <nav className="settingsNav">
-          <ul role='list' className="settingsNavList">
+          <ul role="list" className="settingsNavList">
             <li className="settingsNavLink">
               <Link to="/changePasswordForm">Change Password</Link>
             </li>

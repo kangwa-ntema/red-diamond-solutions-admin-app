@@ -2,50 +2,56 @@
 
 /* Main container for the add loan page */
 .addLoanPageContainer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start; /* Align content to top, allowing scroll */
-  min-height: 100vh; /* Ensure it takes full viewport height */
-  width: 100%;
+  margin: 0 auto;
+  min-height: 100vh; 
+  min-width: var(--max-width-sm);
   padding: 1rem;
-  box-sizing: border-box;
 }
 
 /* Inner content area for the form, mimicking the styled boxes of other pages */
 .addLoanPageContent {
-  background-color: var(--clr-neutral-100); /* Dark background */
-  padding: 2.5rem;
+  background-color: var(--clr-charcoal-gray); 
+  padding: 1rem;
   border-radius: 0.1rem;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  max-width: var(--max-width-md); /* Consistent max-width for forms */
-  width: 100%;
-  text-align: center;
-  margin-top: 1rem; /* Add some margin from the top if it's not full height */
-  margin-bottom: 2rem; /* Space before footer */
+  max-width: var(--max-width-md); 
 }
 
 /* Back to Loans Overview link */
 .addLoanBackLink {
-  display: inline-block;
-  margin-bottom: 1.5rem;
-  color: var(--clr-golden-yellow); /* Consistent link color */
+  color: var(--clr-charcoal-gray);
+  background-color: var(--clr-platinum);
   text-decoration: none;
-  font-weight: bold;
-  font-size: 1rem;
+  font-size: 0.75em;
   transition: color 0.2s ease;
+  border: none;
+  border-radius: 0.1rem;
+  padding: 0.5rem 1rem;
+  margin-bottom: 2rem;
+  cursor: pointer;
 }
 
 .addLoanBackLink:hover {
-  color: var(--clr-golden-yellow-2);
+  background-color: var(--clr-davy-grey);
 }
 
 /* Headline styling */
 .addLoanHeadline {
+  position: relative;
   font-size: 2em;
-  color: var(--clr-soap-stone); /* Light text color for headline */
+  color: var(--clr-golden-yellow);
   margin-bottom: 1.5rem;
   font-weight: bold;
+}
+
+.addLoanHeadline::after{
+  content: "";
+  position: absolute;
+  bottom: 0rem;
+  left: 0;
+  background-color: var(--clr-golden-yellow);
+  width: 2rem;
+  height: .2rem;
 }
 
 /* Form styling */
@@ -85,7 +91,7 @@
 .addLoanTextarea:focus {
   outline: none;
   border-color: var(--clr-golden-yellow);
-  box-shadow: 0 0 0 2px rgba(var(--clr-golden-yellow-2), 0.5);
+  box-shadow: 0 0 0 2px rgba(var(--clr-sandy-yellow), 0.5);
 }
 
 .addLoanInput[readOnly],
@@ -107,6 +113,11 @@
   border-top: 1px dashed var(--clr-neutral-300);
 }
 
+.addLoanCollateralSectionTitle{
+  color: var(--clr-golden-yellow);
+  margin: 1rem 0 .5rem ;
+}
+
 .collateralHeadline {
   font-size: 1.5em;
   color: var(--clr-golden-yellow);
@@ -115,7 +126,7 @@
 
 
 /* Submit button styling */
-.addLoanSubmitBtn {
+.addLoanSubmitButton {
   width: 100%;
   padding: 0.75rem;
   background-color: var(--clr-golden-yellow);
@@ -127,13 +138,14 @@
   cursor: pointer;
   transition: background-color 0.2s ease;
   margin-top: 1.5rem; /* Space above button */
+  padding: 1rem;
 }
 
-.addLoanSubmitBtn:hover:not(:disabled) {
-  background-color: var(--clr-golden-yellow-2);
+.addLoanSubmitButton:hover:not(:disabled) {
+  background-color: var(--clr-sandy-yellow);
 }
 
-.addLoanSubmitBtn:disabled {
+.addLoanSubmitButton:disabled {
   background-color: var(--clr-neutral-400);
   cursor: not-allowed;
   opacity: 0.7;
@@ -150,31 +162,4 @@
   color: var(--clr-warning-msg); /* Red for error */
   margin-top: 1rem;
   font-weight: bold;
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .addLoanPageContent {
-    padding: 1.5rem;
-  }
-
-  .addLoanHeadline {
-    font-size: 1.8em;
-  }
-
-  .addLoanFormGroup label {
-    font-size: 0.8em;
-  }
-
-  .addLoanInput,
-  .addLoanSelect,
-  .addLoanTextarea {
-    padding: 0.6rem;
-    font-size: 0.9em;
-  }
-
-  .addLoanSubmitBtn {
-    padding: 0.6rem;
-    font-size: 0.9em;
-  }
 }

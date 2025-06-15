@@ -3,6 +3,8 @@
   color: var(--clr-soap-stone);
   margin: 1rem 0;
   min-height: calc(100vh - 10rem);
+  max-width: var(--max-width-xl);
+  margin: 0 auto;
 }
 
 .accountingDashboardHeading {
@@ -31,11 +33,12 @@
   grid-template-columns: 1fr;
   padding: 1rem;
   gap: 1rem;
+  align-items: flex-start;
 }
 
 @media (min-width: 500px){
     .accountingDashboard{
-        grid-template-columns: 2fr 8fr;
+        grid-template-columns: 3fr 8fr;
     }
 }
 
@@ -51,14 +54,20 @@
   flex-direction: column;
   justify-content: center;
   gap: 1rem;
+  margin-block: 1rem;
 }
 
 .accountingDashboardNavLink {
   background-color: var(--clr-golden-yellow);
   padding: 1rem;
   color: var(--clr-zeus);
-  width: 100%;
+  min-width: 10rem;
   text-align: center;
+  font-size: clamp(.75em , 1vw, 1em);
+}
+
+.accountingDashboardNavLink:hover{
+    background-color: var(--clr-sandy-yellow);
 }
 
 .accountingSummerContainer {
@@ -150,9 +159,11 @@
 
 .transactionsTable {
   background-color: var(--clr-zeus);
-  width: 100%;
+  max-width: var(--max-width-md);
   margin-block: 0.5rem;
   border-collapse: collapse;
+  font-size: clamp(.5em, .75vw, .75em);
+  overflow-x: auto;
 }
 
 .transactionsTableHead {
@@ -167,6 +178,10 @@
   white-space: nowrap;
   font-size: clamp(0.5em, 1.25vw, 1.25em);
   font-family: "Raleway-Light";
-  padding: 0 .1rem;
+  padding:  .1rem;
   margin: 0;
+}
+
+.transactionsTable tbody tr:nth-child(odd){
+    background-color: var(--clr-wood-smoke);
 }
