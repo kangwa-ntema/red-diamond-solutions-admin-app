@@ -1,0 +1,183 @@
+/* components/css/EditClientPage.css */
+
+/* Main container for the edit client form page */
+.editClientPageContainer {
+  margin: 0 auto;
+  min-height: 100vh;
+}
+
+/* Inner content area for the form, mimicking the styled boxes of other pages */
+.editClientPageContent {
+  max-width: var(--max-width-xl);
+  background-color: var(--clr-charcoal-gray);
+  padding: 1rem;
+  border-radius: 0.1rem;
+}
+
+/* Back to Clients List link */
+.editClientBackLink {
+  color: var(--clr-charcoal-gray);
+  background-color: var(--clr-soap-stone);
+  text-decoration: none;
+  font-size: 0.75em;
+  border: none;
+  border-radius: 0.1rem;
+  padding: 0.5rem 1rem;
+  margin-bottom: 2rem;
+  cursor: pointer;
+}
+
+.editClientBackLink:hover {
+  background-color: var(--clr-davy-grey);
+}
+
+/* Headline styling */
+.editClientHeadline {
+  position: relative;
+  font-size: clamp(1em, 1.5vw, 1.5em);
+  color: var(--clr-golden-yellow);
+  margin-top: 2rem;
+  font-weight: bold;
+}
+
+.editClientHeadline::after {
+  content: "";
+  position: absolute;
+  bottom: 0rem;
+  left: 0;
+  background-color: var(--clr-golden-yellow);
+  width: 2rem;
+  height: 0.2rem;
+}
+
+/* Form styling */
+.editClientForm {
+  margin-block: 2rem;
+  border-radius: 0.1rem;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem; /* Space between form groups */
+  text-align: left; /* Align labels/inputs to the left */
+}
+
+.editClientFormGroup {
+}
+
+.editClientFormGroup label {
+  display: block; /* Make label a block to put input on new line */
+  color: var(--clr-neutral-600); /* Lighter text for labels */
+  font-size: 0.9em;
+  font-weight: bold;
+}
+
+.editClientFormGroup input[type="text"],
+.editClientFormGroup input[type="email"],
+.editClientFormGroup input[type="tel"],
+.editClientFormGroup input[type="date"],
+.editClientFormGroup textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--clr-neutral-300);
+  border-radius: 0.1rem; /* Consistent border radius */
+  background-color: var(--clr-neutral-200); /* Darker input background */
+  color: var(--clr-soap-stone); /* Input text color */
+  box-sizing: border-box; /* Include padding in element's total width/height */
+}
+
+.editClientFormGroup input:focus,
+.editClientFormGroup textarea:focus {
+  outline: none;
+  border-color: var(--clr-golden-yellow);
+  box-shadow: 0 0 0 2px rgba(var(--clr-citron), 0.5);
+}
+
+/* Action buttons (Update and Cancel) */
+.editClientActionButtons {
+  display: flex;
+  justify-content: flex-end; /* Align buttons to the right */
+  gap: 1rem; /* Space between buttons */
+  margin-top: 1.5rem;
+}
+
+.editClientSubmitBtn,
+.editClientCancelBtn {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 0.1rem;
+  font-size: 1em;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  box-sizing: border-box;
+}
+
+.editClientSubmitBtn {
+  background-color: var(--clr-golden-yellow);
+  color: var(--clr-zeus); /* Dark text on golden button */
+}
+
+.editClientSubmitBtn:hover:not(:disabled) {
+  background-color: var(--clr-citron);
+}
+
+.editClientSubmitBtn:disabled {
+  background-color: var(--clr-neutral-400);
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.editClientCancelBtn {
+  background-color: var(--clr-neutral-500); /* Neutral color for cancel */
+  color: var(--clr-soap-stone); /* Light text on neutral button */
+}
+
+.editClientCancelBtn:hover {
+  background-color: var(--clr-neutral-600);
+}
+
+/* Loading and error messages */
+.editClientLoading,
+.editClientError {
+  text-align: center;
+  font-size: 1.2rem;
+  margin-top: 3rem;
+  color: var(--clr-neutral-500);
+}
+
+.editClientError {
+  color: var(--clr-lava-red);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .editClientPageContent {
+    padding: 1.5rem;
+  }
+
+  .editClientHeadline {
+    font-size: 1.8em;
+  }
+
+  .editClientFormGroup label {
+    font-size: 0.8em;
+  }
+
+  .editClientFormGroup input,
+  .editClientFormGroup textarea {
+    padding: 0.6rem;
+    font-size: 0.9em;
+  }
+
+  .editClientActionButtons {
+    flex-direction: column; /* Stack buttons vertically */
+    align-items: center;
+    gap: 0.8rem;
+  }
+
+  .editClientSubmitBtn,
+  .editClientCancelBtn {
+    width: calc(100% - 2rem); /* Full width minus margin */
+    margin: 0.4rem auto;
+  }
+}

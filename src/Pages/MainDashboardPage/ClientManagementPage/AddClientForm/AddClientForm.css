@@ -1,0 +1,132 @@
+/* components/css/AddClientForm.css */
+
+/* Main container for the add client form page */
+.addClientFormContainer {
+  margin: 0 auto;
+  min-height: 100vh;
+  min-width: var(--max-width-sm);
+  padding: 1rem;
+}
+
+/* Inner content area for the form, mimicking the styled boxes of other pages */
+.addClientFormContent {
+  background-color: var(--clr-charcoal-gray);
+  padding: 1rem;
+  border-radius: 0.1rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  max-width: var(--max-width-md);
+}
+
+/* Back to Clients List link */
+.addClientBackLink {
+  color: var(--clr-charcoal-gray);
+  background-color: var(--clr-soap-stone);
+  text-decoration: none;
+  font-size: 0.75em;
+  border: none;
+  border-radius: 0.1rem;
+  padding: 0.5rem 1rem;
+  margin-bottom: 2rem;
+  cursor: pointer;
+}
+
+.addClientBackLink:hover {
+  background-color: var(--clr-davy-grey);
+}
+
+/* Headline styling */
+.addClientHeadline {
+  position: relative;
+  font-size: 2em;
+  color: var(--clr-golden-yellow);
+  margin-bottom: 1.5rem;
+  font-weight: bold;
+}
+
+.addClientHeadline::after {
+  content: "";
+  position: absolute;
+  bottom: 0rem;
+  left: 0;
+  background-color: var(--clr-golden-yellow);
+  width: 2rem;
+  height: 0.2rem;
+}
+
+/* Form styling */
+.addClientForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem; /* Space between form groups */
+  text-align: left; /* Align labels/inputs to the left */
+}
+
+.addClientFormGroup {
+  margin-bottom: 1rem; /* Space between form groups */
+}
+
+.addClientFormGroup label {
+  display: block; /* Make label a block to put input on new line */
+  margin-bottom: 0.5rem;
+  color: var(--clr-neutral-600); /* Lighter text for labels */
+  font-size: 0.9em;
+  font-weight: bold;
+}
+
+.addClientFormGroup input[type="text"],
+.addClientFormGroup input[type="email"],
+.addClientFormGroup input[type="tel"],
+.addClientFormGroup input[type="date"],
+.addClientFormGroup textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--clr-neutral-300);
+  border-radius: 0.1rem; /* Consistent border radius */
+  background-color: var(--clr-neutral-200); /* Darker input background */
+  color: var(--clr-white); /* Input text color */
+  box-sizing: border-box; /* Include padding in element's total width/height */
+}
+
+.addClientFormGroup input:focus,
+.addClientFormGroup textarea:focus {
+  outline: none;
+  border-color: var(--clr-golden-yellow);
+  box-shadow: 0 0 0 2px rgba(var(--clr-citron), 0.5);
+}
+
+/* Submit button styling */
+.addClientSubmitBtn {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: var(--clr-golden-yellow);
+  color: var(--clr-zeus); /* Dark text on golden button */
+  border: none;
+  border-radius: 0.1rem;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  margin-top: 1.5rem; /* Space above button */
+}
+
+.addClientSubmitBtn:hover:not(:disabled) {
+  background-color: var(--clr-citron);
+}
+
+.addClientSubmitBtn:disabled {
+  background-color: var(--clr-neutral-400);
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* Message styling */
+.addClientSuccessMessage {
+  color: var(--clr-success-msg); /* Green for success */
+  margin-top: 1rem;
+  font-weight: bold;
+}
+
+.addClientErrorMessage {
+  color: var(--clr-warning-msg); /* Red for error */
+  margin-top: 1rem;
+  font-weight: bold;
+}

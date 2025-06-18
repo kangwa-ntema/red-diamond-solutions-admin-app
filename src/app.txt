@@ -1,0 +1,155 @@
+// src/App.js
+import "./App.css";
+import React from "react";
+import { BrowserRouter, Routes, Route, NavLink, Navigate } from "react-router-dom"; // Import Navigate
+
+// NEW: Import AuthProvider and PrivateRoute
+import { AuthProvider } from './context/AuthContext';
+import PrivateRoute from './components/PrivateRoute';
+
+// Your existing imports for components
+import LandingPage from "./components/LandingPage";
+import LoginForm from "./components/LoginForm"; // We will modify this component
+import ChangePasswordForm from "./components/ChangePasswordForm"; // Consider renaming/adapting to ChangeMyPasswordPage for consistency
+import MainDashboard from "./components/MainDashboard";
+/* Clients */
+import ClientsDashboard from "./components/ClientsDashboard/ClientsDashboard";
+import AddClientForm from "./components/AddClientForm";
+import ClientDashboard from "./components/ClientDashboard";
+import EditClientPage from "./components/EditClientPage";
+/* Loans */
+import LoansDashboardPage from "./components/LoansDashboardPage";
+import LoanDetailsPage from "./components/LoansDetailsPage";
+import LoansList from "./components/LoansList";
+import AddLoanPage from "./components/AddLoanPage";
+import EditLoanPage from "./components/EditLoanPage";
+
+/* ACCOUNTING */
+import AccountingDashboardPage from "./components/AccountingDashboardPage/AccountingDashboardPage";
+import ChartOfAccountsPage from "./components/ChartOfAccountsPage/ChartOfAccountsPage";
+import JournalEntriesListPage from './components/JournalEntriesListPage/JournalEntriesListPage';
+import AddJournalEntryPage from './components/AddJournalEntryPage/AddJournalEntryPage';
+import JournalEntryDetailsPage from './components/JournalEntryDetailsPage/JournalEntryDetailsPage';
+import GeneralLedgerPage from './components/GeneralLedgerPage/GeneralLedgerPage';
+import TrialBalancePage from "./components/TrailBalancePage/TrailBalancePage";
+import IncomeStatementPage from './components/IncomeStatementPage/IncomeStatementPage'; 
+import BalanceSheetPage from "./components/BalanceSheetPage/BalanceSheetPage";
+
+/* USER MANAGEMENT */
+// NEW: Import user management pages (we'll create/update these soon)
+import UserManagementPage from "./Pages/MainDashboardPage/UserManagementPage/UserManagementDashboard/UserManagementDashBoard";
+import RegisterUserPage from "./Pages/MainDashboardPage/UserManagementPage/RegisterUserPage";
+import UserEditPage from "./Pages/MainDashboardPage/UserManagementPage/UserEditPage";
+import AdminChangePasswordPage from "./Pages/MainDashboardPage/UserManagementPage/AdminChangePasswordPage";
+import ChangeMyPasswordPage from "./Pages/MainDashboardPage/UserManagementPage/ChangeMyPasswordPage"; // For a logged-in user to change their own password
+import UnauthorizedPage from "./pages/UnauthorizedPage"; // NEW: For unauthorized access
+import NotFoundPage from "./pages/NotFoundPage"; // NEW: For 404 routes
+
+/* IMAGES */
+import PrimaryNavLogo from "./assets/logo-images/red-diamond-primary-logo-white-typeface.png";
+
+/* COMPONENTS */
+import ScrollToTop from "./components/scrollToTop/ScrollToTop";
+
+/* SETTINGS COMPONENTS */
+import Settings from "./components/Settings";
+
+
+function App() {
+  return (
+    <BrowserRouter>
+      {/* Wrap the entire application with AuthProvider */}
+      <AuthProvider> 
+        <ScrollToTop />
+        <div className="appContainer">
+          <div className="appPrimaryNavbarContainer">
+            <header className="appPrimaryNavbar">
+              <div className="primaryNavLogoContainer">
+                <span>
+                  <img src={PrimaryNavLogo} alt="Red Diamond Solutions Logo" className="primaryNavLogo" />
+                </span>
+                <span className="appPrimaryNavbarHeadline">
+                  <h1>Management Portal.</h1>
+                </span>
+              </div>
+            </header>
+          </div>
+          <div className="outletSection">
+            <Routes>
+              {/* Public Routes - Accessible without login */}
+              <Route path="/" element={<LandingPage />} />
+              <Route path="/loginForm" element={<LoginForm />} /> {/* Your existing login form */}
+              <Route path="/unauthorized" element={<UnauthorizedPage />} /> {/* New unauthorized page */}
+
+              {/* Default redirect: If user tries to access root '/', redirect to login.
+                  Once logged in, the PrivateRoute on /mainDashboard will handle it. */}
+              <Route path="/" element={<Navigate to="/loginForm" replace />} />
+
+
+              {/* Protected Routes - Require authentication */}
+              {/* General Protected Routes: Accessible by any logged-in user */}
+              <Route element={<PrivateRoute />}>
+                <Route path="/mainDashboard" element={<MainDashboard />} />
+                {/* Your existing ChangePasswordForm can be adapted to ChangeMyPasswordPage */}
+                <Route path="/changePasswordForm" element={<ChangeMyPasswordPage />} /> 
+                {/* Use the new ChangeMyPasswordPage component that uses AuthContext */}
+
+                {/* CLIENT ROUTES */}
+                <Route path="/clients" element={<ClientsDashboard />} />
+                <Route path="/clients/add" element={<AddClientForm />} />
+                <Route path="/clients/:id" element={<ClientDashboard />} />
+                <Route path="/clients/edit/:id" element={<EditClientPage />} />
+
+                {/* LOANS ROUTES */}
+                <Route path="/loans" element={<LoansDashboardPage />} />
+                <Route path="/loans/list" element={<LoansList />} />
+                <Route path="/loans/add" element={<AddLoanPage />} />
+                <Route path="/loans/edit/:id" element={<EditLoanPage />} />
+                <Route path="/loans/:id" element={<LoanDetailsPage />} />
+
+                {/* ACCOUNTING ROUTES */}
+                <Route path="/transactions" element={<AccountingDashboardPage />} />
+                <Route path="/accounts" element={<ChartOfAccountsPage />} />
+                <Route path="/journal-entries" element={<JournalEntriesListPage />} />
+                <Route path="/journal-entries/add" element={<AddJournalEntryPage />} />
+                <Route path="/journal-entries/:id" element={<JournalEntryDetailsPage />} />
+                <Route path="/journal-entries/edit/:id" element={<AddJournalEntryPage />} />
+                <Route path="/general-ledger" element={<GeneralLedgerPage />} />
+                <Route path="/reports" element={<TrialBalancePage />} />
+                <Route path="/income-statement" element={<IncomeStatementPage />} />
+                <Route path="/balance-sheet" element={<BalanceSheetPage />} />
+
+                {/* SETTINGS ROUTES */}
+                <Route path="/settings" element={<Settings />} />
+
+              </Route> {/* End of General Protected Routes */}
+
+
+              {/* Role-specific Protected Routes: Only accessible by users with 'superadmin' or 'admin' roles */}
+              <Route element={<PrivateRoute allowedRoles={['superadmin', 'admin']} />}>
+                  <Route path="/users" element={<UserManagementPage />} /> {/* Main user management list */}
+                  <Route path="/users/:id/edit" element={<UserEditPage />} /> {/* Edit existing user */}
+                  <Route path="/users/:id/change-password" element={<AdminChangePasswordPage />} /> {/* Admin changing another user's password */}
+              </Route>
+
+              {/* Superadmin-Only Protected Routes */}
+              <Route element={<PrivateRoute allowedRoles={['superadmin']} />}>
+                  <Route path="/users/register" element={<RegisterUserPage />} /> {/* Register new user (superadmin only) */}
+              </Route>
+
+              {/* Catch-all for any undefined routes */}
+              <Route path="*" element={<NotFoundPage />} />
+            </Routes>
+          </div>
+          <footer className="appFooter">
+            <p className="appFooterCopyright">
+              Red Diamond Solutions &copy; 2025
+            </p>
+          </footer>
+        </div>
+      </AuthProvider>
+    </BrowserRouter>
+  );
+}
+
+export default App;

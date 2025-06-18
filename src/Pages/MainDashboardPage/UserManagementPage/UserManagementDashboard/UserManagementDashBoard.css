@@ -1,0 +1,86 @@
+.usersDashboardContainer{
+      background-color: var(--clr-charcoal-gray);
+  color: var(--clr-soap-stone);
+  margin: 1rem 0;
+  min-height: calc(100vh - 10rem);
+  padding: 1rem;
+}
+
+.usersDashboardBackLink {
+  color: var(--clr-charcoal-gray);
+  background-color: var(--clr-soap-stone);
+  text-decoration: none;
+  font-size: 0.75em;
+  transition: color 0.2s ease;
+  border: none;
+  border-radius: 0.1rem;
+  padding: 0.5rem 1rem;
+  margin-bottom: 2rem;
+  cursor: pointer;
+}
+
+.usersDashboardBackLink:hover {
+  background-color: var(--clr-davy-grey);
+}
+
+.usersDashboardHeading{
+  padding: 1rem;
+  text-align: center;
+  font-size: clamp(1em, 2vw, 2em);
+}
+
+@media (min-width: 50rem) {
+  .usersDashboard {
+    display: grid;
+    grid-template-columns: 1fr 5fr;
+    gap: 1rem;
+  }
+}
+
+
+.usersDashboard{
+  padding: 1rem;
+}
+
+.usersDashboardHeadline {
+  font-family: "Raleway-ExtraBold";
+  font-size: clamp(1em, 2vw, 2em);
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.clientsDashboardPanel {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  align-items: flex-end;
+}
+
+.userSummaryHeadline {
+  color: var(--clr-golden-yellow);
+  text-align: center;
+  font-family: "Raleway-LightItalic";
+  font-size: 0.8em;
+}
+
+.userSummaryCards {
+  background-color: var(--clr-zeus);
+  padding: 0.5rem;
+  border-radius: 0.1rem;
+  margin-top: 1rem;
+}
+
+.userSummaryCard {
+  border-bottom: 0.1rem solid var(--clr-soap-stone);
+  margin-bottom: 1rem;
+}
+
+.userSummaryCardTitle {
+  color: var(--clr-golden-yellow);
+  font-family: "Raleway-LightItalic";
+}
+
+.userSummaryCardValue {
+  font-size: 1.5em;
+  font-family: "Raleway-Bold";
+}

@@ -347,7 +347,7 @@ const AddJournalEntryPage = () => {
 
         <form onSubmit={handleSubmit} className="addJournalEntryForm">
           {/* General Entry Details */}
-          <div className="addJournalFormGroup">
+          <div className="">
             <label htmlFor="entryDate">Date:</label>
             <input
               type="date"
