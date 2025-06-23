@@ -19,7 +19,8 @@ import LoginForm from "./Pages/LoginForm/LoginForm";
 import MainDashboardPage from "./Pages/MainDashboardPage/MainDashboardPage";
 
 /* USER MANAGEMENT */
-import UserManagementDashboard from "./Pages/MainDashboardPage/UserManagementPage/UserManagementDashboard/UserManagementDashBoard.jsx";
+// CORRECTED IMPORT PATH FOR USERMANAGEMENTDASHBOARD
+import UserManagementDashboard from "./Pages/MainDashboardPage/UserManagementPage/UserManagementDashboard/UserManagementDashboard.jsx";
 import RegisterUserPage from "./Pages/MainDashboardPage/UserManagementPage/RegisterUserForm/RegisterUserForm";
 import UserEditPage from "./Pages/MainDashboardPage/UserManagementPage/UserEditForm/UserEditForm";
 import ViewUserPage from "./Pages/MainDashboardPage/UserManagementPage/ViewUserPage/ViewUserPage.jsx";
