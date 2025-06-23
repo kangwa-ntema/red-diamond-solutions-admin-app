@@ -19,7 +19,7 @@ import LoginForm from "./Pages/LoginForm/LoginForm";
 import MainDashboardPage from "./Pages/MainDashboardPage/MainDashboardPage";
 
 /* USER MANAGEMENT */
-import UserManagementPage from "./Pages/MainDashboardPage/UserManagementPage/UserManagementDashboard/UserManagementDashBoard";
+import UserManagementPage from "./Pages/MainDashboardPage/UserManagementPage/UserManagementDashboard/UserManagementDshBoard.jsx";
 import RegisterUserPage from "./Pages/MainDashboardPage/UserManagementPage/RegisterUserForm/RegisterUserForm";
 import UserEditPage from "./Pages/MainDashboardPage/UserManagementPage/UserEditForm/UserEditForm";
 import ViewUserPage from "./Pages/MainDashboardPage/UserManagementPage/ViewUserPage/ViewUserPage.jsx";

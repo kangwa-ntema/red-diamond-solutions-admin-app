@@ -1,6 +1,6 @@
 // src/Pages/MainDashboardPage/UserManagementPage/UserManagementDashboard/UserManagementDashBoard.jsx
 import React, { useState, useEffect, useCallback } from "react";
-import { getAllUsers, deleteUser } from "../../../../services/api/";
+import { getAllUsers, deleteUser } from "../../../../services/api";
 import { useAuth } from "../../../../context/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
