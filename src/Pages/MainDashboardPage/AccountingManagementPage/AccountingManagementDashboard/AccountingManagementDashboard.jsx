@@ -186,30 +186,30 @@ const AccountingManagementDashboard = () => {
                 </div>
                 <main className="accountingDashboard">
                     {/* Navigation Panel - Consider adding role-based access if specific accounting pages are restricted */}
-                    {/* <div className="accountingDashboardPanel">
+                    <div className="accountingDashboardPanel">
                         {hasRole(["superadmin", "admin", "employee"]) && ( // Example: Only show if user has relevant roles
                             <>
-                                <Link to="/accounts">
+                                <Link to="/accounting/accounts">
                                     <li className="accountingDashboardNavLink">Chart Of Accounts</li>
                                 </Link>
-                                <Link to="/journal-entries">
+                                <Link to="/accounting/journal-entries">
                                     <li className="accountingDashboardNavLink">Journal Entries</li>
                                 </Link>
-                                <Link to="/general-ledger">
+                                <Link to="/accounting/general-ledger">
                                     <li className="accountingDashboardNavLink">General Ledger</li>
                                 </Link>
-                                <Link to="/reports">
+                                <Link to="/accounting/reports">
                                     <li className="accountingDashboardNavLink">Trial Balance</li>
                                 </Link>
-                                <Link to="/income-statement">
+                                <Link to="/accounting/reports/income-statement">
                                     <li className="accountingDashboardNavLink">Income Statement</li>
                                 </Link>
-                                <Link to="/balance-sheet">
+                                <Link to="/accounting/reports/balance-sheet">
                                     <li className="accountingDashboardNavLink">Balance Sheet</li>
                                 </Link>
                             </>
                         )}
-                    </div> */}
+                    </div>
                     <div className="accountingSummerContainer">
                         <section className="accountingSummaryCardsGrid">
                             <div className="accountingSummaryCard totalDebits">

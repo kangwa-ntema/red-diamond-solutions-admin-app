@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 import {
     getJournalEntryById,
     deleteJournalEntry // Added for delete functionality
-} from '../../../../../services/api/journalEntryApi'; // Corrected import path
+} from '../../../../../services/api/'; // Corrected import path
 
 // Import the ConfirmationModal component
 import ConfirmationModal from '../../../../../Pages/components/common/ConfirmationModal/ConfirmationModal'; // Adjust path as necessary
@@ -193,6 +193,8 @@ const ViewJournalEntryPage = () => {
             <div className="journal-entry-actions">
                 {/* Link to the EditJournalEntryPage with the current entry's ID */}
                 <Link to={`/accounting/journal-entries/edit/${entryId}`} className="btn btn-primary">Edit Entry</Link>
+                {/* NEW BUTTON: Link to Journal Entry Activity Log Page */}
+                <Link to={`/accounting/journal-entries/${entryId}/activity-logs`} className="btn btn-info">View Activity Log</Link>
                 {/* Delete button, triggers confirmation modal */}
                 <button
                     onClick={handleDeleteClick}

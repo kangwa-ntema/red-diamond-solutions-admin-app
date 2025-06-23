@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 // Import the centralized API function for adding accounts from the consolidated accountingApi
-import { addAccount } from '../../../../../services/api/accountApi'; // Corrected import path
+import { addAccount } from '../../../../../services/api/'; // Corrected import path
 
 /**
  * @component AddAccountModal

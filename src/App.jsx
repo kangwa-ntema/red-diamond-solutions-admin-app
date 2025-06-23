@@ -19,7 +19,6 @@ import LoginForm from "./Pages/LoginForm/LoginForm";
 import MainDashboardPage from "./Pages/MainDashboardPage/MainDashboardPage";
 
 /* USER MANAGEMENT */
-// CORRECTED IMPORT PATH FOR USERMANAGEMENTDASHBOARD
 import UserManagementDashboard from "./Pages/MainDashboardPage/UserManagementPage/UserManagementDashboard/UserManagementDashboard.jsx";
 import RegisterUserPage from "./Pages/MainDashboardPage/UserManagementPage/RegisterUserForm/RegisterUserForm";
 import UserEditPage from "./Pages/MainDashboardPage/UserManagementPage/UserEditForm/UserEditForm";
@@ -57,6 +56,8 @@ import GeneralLedgerPage from "./Pages/MainDashboardPage/AccountingManagementPag
 import TrialBalancePage from "./Pages/MainDashboardPage/AccountingManagementPage/TrialBalancePage/TrialBalancePage.jsx";
 import IncomeStatementPage from "./Pages/MainDashboardPage/AccountingManagementPage/IncomeStatementPage/IncomeStatementPage.jsx";
 import BalanceSheetPage from "./Pages/MainDashboardPage/AccountingManagementPage/BalanceSheetPage/BalanceSheetPage.jsx";
+import AccountActivityLog from "./Pages/MainDashboardPage/AccountingManagementPage/COAPage/AccountActivityLog/AccountActivityLog.jsx";
+import JournalEntryActivityLog from "./Pages/MainDashboardPage/AccountingManagementPage/JournalEntriesListPage/JournalEntryActivityLog/JournalEntryActivityLog.jsx"; // NEW: Import JournalEntryActivityLog
 
 /* IMAGES */
 import PrimaryNavLogo from "./assets/logo-images/red-diamond-primary-logo-white-typeface.png";
@@ -148,7 +149,10 @@ function App() {
                                 {/* Accounting Dashboard: Now available under /accounting to Admin+ */}
                                 <Route index element={<AccountingManagementDashboard />} />
 
-                                <Route path="chart-of-accounts" element={<COADashboard />} />
+                                {/* Changed path to "accounts" for COADashboard for consistency */}
+                                <Route path="accounts" element={<COADashboard />} />
+                                {/* Account Activity Log */}
+                                <Route path="accounts/:id/activity-logs" element={<AccountActivityLog />} />
                             
                                 {/* Journal Entries - Nested for clear paths */}
                                 <Route path="journal-entries">
@@ -156,6 +160,8 @@ function App() {
                                     <Route path="add" element={<AddJournalEntryPage />} />
                                     <Route path="edit/:id" element={<EditJournalEntryPage />} />
                                     <Route path=":id" element={<ViewJournalEntryPage />} />
+                                    {/* NEW ROUTE: Journal Entry Activity Log */}
+                                    <Route path=":id/activity-logs" element={<JournalEntryActivityLog />} />
                                 </Route>
 
                                 <Route path="general-ledger" element={<GeneralLedgerPage />} />

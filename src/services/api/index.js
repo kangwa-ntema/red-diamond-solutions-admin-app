@@ -15,6 +15,8 @@ export * from './journalEntryApi'; // For Journal Entries
 export * from './reportApi'; // For financial reports like Trial Balance, Income Statement, Balance Sheet
 export * from './transactionApi'; // For general transaction listing and summaries
 export * from './clientActivityApi'; // NEW: Export client activity API functions
+export * from './accountActivityApi';
+export * from './journalEntryActivityApi'
 
 // Note: 'axiosInstance' and 'handleApiError' are internal to the API modules,
 // they are not typically re-exported from the top-level barrel file.

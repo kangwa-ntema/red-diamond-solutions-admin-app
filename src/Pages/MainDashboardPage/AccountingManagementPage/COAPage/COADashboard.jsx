@@ -11,7 +11,7 @@ import {
     deleteAccount,
     // AddAccount and UpdateAccount are typically handled by their respective modals,
     // so they are not directly imported here.
-} from '../../../../services/api/accountApi.js'; // Corrected import path
+} from '../../../../services/api/'; // Corrected import path
 
 // Import the Add Account modal
 import AddAccountModal from './AddAccountModal/AddAccountModal.jsx';
@@ -152,7 +152,7 @@ const COADashboard = () => {
     return (
         <div className="coaContainer">
             <div className="coaContent">
-                <Link to="/accounting-dashboard" className="coaBackLink"> {/* Adjusted link to accounting-dashboard */}
+                <Link to="/accounting" className="coaBackLink"> {/* Adjusted link to accounting-dashboard */}
                     Back to Accounting Dashboard
                 </Link>
                 <h1 className="coaHeadline">Chart of Accounts</h1>

@@ -1,6 +1,7 @@
 // src/Pages/MainDashboardPage/AccountingManagementDashboard/COADashboard/ViewAccountModal/ViewAccountModal.jsx
 import React from 'react';
 import './ViewAccountModal.css'; // Reusing a general modal CSS (you might need to create this or add to ChartOfAccountsPage.css)
+import { Link } from 'react-router-dom'; // NEW: Import Link from react-router-dom
 
 /**
  * @component ViewAccountModal
@@ -89,6 +90,14 @@ const ViewAccountModal = ({ account, onClose }) => {
                     </div>
                 </div>
                 <div className="modalFooter">
+                    {/* NEW: Link to Account Activity Log */}
+                    <Link
+                        to={`/accounting/accounts/${account._id}/account-activity-logs`}
+                        className="viewActivityLogBtn" // Add appropriate styling in your CSS
+                        onClick={onClose} // Close the modal when the link is clicked
+                    >
+                        View Activity Log
+                    </Link>
                     {/* Close button in the footer for consistent modal interaction. */}
                     <button className="closeBtn" onClick={onClose}>Close</button>
                 </div>

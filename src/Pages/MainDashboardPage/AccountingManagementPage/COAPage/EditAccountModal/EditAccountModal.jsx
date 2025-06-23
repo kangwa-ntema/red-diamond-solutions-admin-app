@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 // Import the centralized API function for updating accounts from the consolidated accountingApi
-import { updateAccount } from '../../../../../services/api/accountApi'; // Corrected import path
+import { updateAccount } from '../../../../../services/api/'; // Corrected import path
 import './EditAccountModal.css'; // Reusing a general modal CSS (you might need to create this or add to ChartOfAccountsPage.css)
 
 /**
