@@ -1,0 +1,164 @@
+/* src/Pages/MainDashboardPage/UserManagementPage/UserEditForm/UserEditForm.css */
+
+/* Main container for the edit user form page */
+.editUserFormContainer {
+  margin: 0 auto;
+  min-height: calc(100vh - 10rem); /* Adjust for header and footer height */
+  min-width: var(--max-width-sm); /* Using global CSS variables */
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Inner content area for the form, mimicking the styled boxes of other pages */
+.editUserFormContent {
+  background-color: var(--clr-charcoal-gray); /* Dark background */
+  padding: 1.5rem;
+  border-radius: 0.1rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  max-width: var(--max-width-md); /* Consistent max width */
+  width: 100%;
+}
+
+/* Back to User List link */
+.editUserBackLink {
+  color: var(--clr-charcoal-gray);
+  background-color: var(--clr-soap-stone);
+  text-decoration: none;
+  font-size: 0.75em;
+  border: none;
+  border-radius: 0.1rem;
+  padding: 0.5rem 1rem;
+  margin-bottom: 2rem;
+  cursor: pointer;
+  display: inline-block; /* Essential for it to not take full width */
+}
+
+.editUserBackLink:hover {
+  background-color: var(--clr-davy-grey);
+}
+
+/* Headline styling */
+.editUserHeadline {
+  position: relative;
+  font-size: 2em;
+  color: var(--clr-golden-yellow);
+  margin-bottom: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+.editUserHeadline::after {
+  content: "";
+  position: absolute;
+  bottom: 0rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--clr-golden-yellow);
+  width: 2rem;
+  height: 0.2rem;
+}
+
+/* Form styling */
+.editUserForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem; /* Space between form groups */
+  text-align: left; /* Align labels/inputs to the left */
+}
+
+.editUserFormGroup {
+  margin-bottom: 1rem; /* Space between form groups */
+}
+
+.editUserFormGroup label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--clr-neutral-600); /* Lighter text for labels */
+  font-size: 0.9em;
+  font-weight: bold;
+}
+
+.editUserFormGroup input[type="text"],
+.editUserFormGroup input[type="email"],
+.editUserFormGroup input[type="password"], /* Though password is usually separate */
+.editUserFormGroup input[type="tel"],
+.editUserFormGroup input[type="date"],
+.editUserFormGroup textarea,
+.editUserFormGroup select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--clr-neutral-300);
+  border-radius: 0.1rem;
+  background-color: var(--clr-neutral-200);
+  color: var(--clr-white);
+  box-sizing: border-box;
+}
+
+.editUserFormGroup input:focus,
+.editUserFormGroup textarea:focus,
+.editUserFormGroup select:focus {
+  outline: none;
+  border-color: var(--clr-golden-yellow);
+  box-shadow: 0 0 0 2px rgba(var(--clr-citron), 0.5); /* Assuming rgba with CSS variables works or adjust */
+}
+
+/* Checkbox specific styling */
+.editUserFormCheckboxGroup {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 0.5rem;
+}
+
+.editUserFormCheckboxGroup input[type="checkbox"] {
+  transform: scale(1.2);
+  margin: 0;
+}
+
+.editUserFormCheckboxGroup label {
+  margin: 0;
+  font-weight: normal;
+  color: var(--clr-neutral-600);
+}
+
+/* Submit button styling */
+.editUserSubmitBtn {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: var(--clr-golden-yellow); /* Primary button style */
+  color: var(--clr-zeus);
+  border: none;
+  border-radius: 0.1rem;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  margin-top: 1.5rem;
+}
+
+.editUserSubmitBtn:hover:not(:disabled) {
+  background-color: var(--clr-citron);
+}
+
+.editUserSubmitBtn:disabled {
+  background-color: var(--clr-neutral-400);
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* Message styling */
+.editUserSuccessMessage {
+  color: var(--clr-success-msg);
+  margin-top: 1rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+.editUserErrorMessage {
+  color: var(--clr-warning-msg);
+  margin-top: 1rem;
+  font-weight: bold;
+  text-align: center;
+}

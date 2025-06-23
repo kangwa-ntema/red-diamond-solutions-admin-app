@@ -43,7 +43,7 @@ const MainDashboard = () => {
               <Link to="/loans">Loans Management</Link>
             </li>
             <li className="mainDashboardNavLink" >
-              <Link to="/transactions">Accounting Dashboard</Link>
+              <Link to="/accounting">Accounting Dashboard</Link>
             </li>
             <li className="mainDashboardNavLink" >
               <Link to="/settings">Settings</Link>

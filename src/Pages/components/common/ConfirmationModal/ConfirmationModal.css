@@ -1,0 +1,148 @@
+/* src/components/common/ConfirmationModal.css */
+
+.confirmationModalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7); /* Dark semi-transparent background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Ensure it's on top of other content */
+    padding: 1rem; /* Padding for mobile views */
+}
+
+.confirmationModalContent {
+    background-color: #fff;
+    border-radius: 12px;
+    padding: 2rem;
+    width: 100%;
+    max-width: 450px; /* Max width for desktop */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    animation: fadeInScale 0.3s ease-out forwards;
+}
+
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.confirmationModalHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 1rem;
+}
+
+.confirmationModalTitle {
+    margin: 0;
+    font-size: 1.5rem;
+    color: #333;
+    font-weight: 600;
+}
+
+.confirmationModalCloseButton {
+    background: none;
+    border: none;
+    font-size: 2rem;
+    color: #888;
+    cursor: pointer;
+    line-height: 1; /* Aligns the 'x' properly */
+    padding: 0;
+    transition: color 0.2s ease;
+}
+
+.confirmationModalCloseButton:hover {
+    color: #333;
+}
+
+.confirmationModalBody {
+    padding: 0.5rem 0;
+}
+
+.confirmationModalMessage {
+    font-size: 1rem;
+    color: #555;
+    line-height: 1.5;
+}
+
+.confirmationModalFooter {
+    display: flex;
+    justify-content: flex-end; /* Align buttons to the right */
+    gap: 1rem; /* Space between buttons */
+    padding-top: 1rem;
+    border-top: 1px solid #eee;
+}
+
+.confirmationModalCancelBtn,
+.confirmationModalConfirmBtn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.confirmationModalCancelBtn {
+    background-color: #f0f0f0;
+    color: #333;
+    border: 1px solid #ddd;
+}
+
+.confirmationModalCancelBtn:hover {
+    background-color: #e0e0e0;
+}
+
+.confirmationModalConfirmBtn {
+    background-color: #dc3545; /* Red for destructive action */
+    color: #fff;
+    border: 1px solid #dc3545;
+}
+
+.confirmationModalConfirmBtn:hover {
+    background-color: #c82333; /* Darker red on hover */
+    border-color: #bd2130;
+}
+
+.confirmationModalCancelBtn:disabled,
+.confirmationModalConfirmBtn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    .confirmationModalContent {
+        margin: 0 1rem;
+        padding: 1.5rem;
+    }
+
+    .confirmationModalTitle {
+        font-size: 1.3rem;
+    }
+
+    .confirmationModalFooter {
+        flex-direction: column-reverse; /* Stack buttons vertically on small screens */
+        gap: 0.75rem;
+    }
+
+    .confirmationModalCancelBtn,
+    .confirmationModalConfirmBtn {
+        width: 100%; /* Full width buttons */
+    }
+}

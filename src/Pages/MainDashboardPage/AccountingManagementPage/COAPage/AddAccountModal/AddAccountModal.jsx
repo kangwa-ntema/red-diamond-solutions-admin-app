@@ -1,10 +1,9 @@
+// src/Pages/MainDashboardPage/AccountingManagementDashboard/COADashboard/AddAccountModal/AddAccountModal.jsx
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
-// Import the centralized API function for adding accounts
-import { addAccount } from '../../../../../services/api/accountApi';
-// Or if you want to import all account-related functions:
-// import * as accountApi from '../../services/api/accountApi';
-// Then use accountApi.addAccount, accountApi.updateAccount etc.
+// Import the centralized API function for adding accounts from the consolidated accountingApi
+import { addAccount } from '../../../../../services/api/accountApi'; // Corrected import path
+
 /**
  * @component AddAccountModal
  * @description A modal form for adding a new account to the Chart of Accounts.
@@ -19,12 +18,12 @@ import { addAccount } from '../../../../../services/api/accountApi';
 const AddAccountModal = ({ onClose, onAccountAdded }) => {
     // State for the new account form data
     const [newAccountFormData, setNewAccountFormData] = useState({
-        accountCode: '', // This will be left blank by the user for auto-generation
+        accountCode: '', // User can provide, or leave blank for auto-generation by backend
         accountName: '',
         accountType: 'Asset', // Default type
         subType: '',
         description: '',
-        normalBalance: 'Debit', // Default normal balance for Asset
+        normalBalance: 'Debit', // Default normal balance for Asset, will update with accountType
         isActive: true,
     });
     const [loading, setLoading] = useState(false); // Loading state for form submission
@@ -67,21 +66,37 @@ const AddAccountModal = ({ onClose, onAccountAdded }) => {
     const handleAddAccountSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
-        setError(null);
+        setError(null); // Clear previous errors
 
         try {
-            // Use the centralized addAccount function
-            const addedAccount = await addAccount(newAccountFormData);
-            toast.success(`Account "${addedAccount.accountName}" added successfully with code: ${addedAccount.accountCode}!`); // Show generated code
+            // Trim whitespace from string inputs
+            const submissionData = {
+                ...newAccountFormData,
+                accountCode: newAccountFormData.accountCode.trim(),
+                accountName: newAccountFormData.accountName.trim(),
+                subType: newAccountFormData.subType.trim(),
+                description: newAccountFormData.description.trim(),
+            };
+
+            // If accountCode is an empty string after trimming, send it as undefined
+            // so the backend can auto-generate if configured to do so.
+            if (submissionData.accountCode === '') {
+                delete submissionData.accountCode;
+            }
+
+            // Use the centralized addAccount function from accountingApi
+            const addedAccount = await addAccount(submissionData);
+            toast.success(`Account "${addedAccount.accountName}" added successfully with code: ${addedAccount.accountCode || 'auto-generated'}!`); // Show generated code
             onAccountAdded(); // Notify parent to refresh account list
             onClose(); // Close the modal
         } catch (err) {
-            // The Axios interceptor in api.js should handle 401/403 and show general errors.
-            // This catch block is for other, more specific errors that might bypass the interceptor,
-            // or if you want to show a component-specific message.
+            // The `handleApiError` in `utils.js` (used by accountingApi) should already show a toast.
+            // This catch block sets a local error message for display within the modal.
             console.error("AddAccountModal: Error adding account:", err);
-            setError(err.message || "Failed to add account. Please try again.");
-            // A toast message might already be shown by the interceptor, avoid redundancy
+            const errorMessage = err.message || "Failed to add account. Please try again.";
+            setError(errorMessage);
+            // Optionally, if `handleApiError` does not toast or you want a specific modal toast:
+            // toast.error(`Error: ${errorMessage}`);
         } finally {
             setLoading(false);
         }
@@ -99,7 +114,7 @@ const AddAccountModal = ({ onClose, onAccountAdded }) => {
             <div className="modalContent" onClick={handleContentClick}>
                 <div className="modalHeader">
                     <h2 className="modalTitle">Add New Account</h2>
-                    <button className="modalCloseButton" onClick={onClose}>&times;</button>
+                    <button className="modalCloseButton" onClick={onClose} disabled={loading}>&times;</button>
                 </div>
                 <div className="modalBody">
                     {error && <div className="modalErrorMessage">{error}</div>}
@@ -113,9 +128,8 @@ const AddAccountModal = ({ onClose, onAccountAdded }) => {
                                 value={newAccountFormData.accountCode}
                                 onChange={handleNewAccountChange}
                                 className="formInput"
-                                placeholder="Auto-generated based on type"
-                                readOnly={true}
-                                disabled={loading}
+                                placeholder="Optional: Leave blank for auto-generation"
+                                disabled={loading} // Enable/disable based on loading state
                             />
                         </div>
                         <div className="formGroup">
@@ -159,7 +173,7 @@ const AddAccountModal = ({ onClose, onAccountAdded }) => {
                                 onChange={handleNewAccountChange}
                                 className="formSelect"
                                 required
-                                disabled // Disabled because it's set automatically based on accountType
+                                disabled={true} // Disabled because it's set automatically based on accountType
                             >
                                 <option value="Debit">Debit</option>
                                 <option value="Credit">Credit</option>

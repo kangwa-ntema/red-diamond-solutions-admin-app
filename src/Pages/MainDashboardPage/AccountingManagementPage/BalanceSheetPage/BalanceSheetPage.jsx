@@ -1,7 +1,13 @@
+// src/Pages/MainDashboardPage/AccountingManagementPage/BalanceSheetPage/BalanceSheetPage.jsx
+
 import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { getBalanceSheet } from '../../../../services/api/accountingApi'; // Adjust path as needed
+
+// Import the centralized API functions for reports and error handling
+import { getBalanceSheetReport } from '../../../../services/api/reportApi'; // Consolidated import for report API
+import { handleApiError } from '../../../../services/axiosInstance'; // For consistent error handling
+
 import './BalanceSheetPage.css'; // Ensure this path is correct
 
 /**
@@ -10,23 +16,23 @@ import './BalanceSheetPage.css'; // Ensure this path is correct
  * It shows assets, liabilities, and equity, and verifies the accounting equation.
  */
 const BalanceSheetPage = () => {
-    const navigate = useNavigate();
+    const navigate = useNavigate(); // Hook for programmatic navigation
 
     // State to store the fetched balance sheet data
     const [balanceSheetData, setBalanceSheetData] = useState(null);
     // State for filtering by "as of" date
     const [filterAsOfDate, setFilterAsOfDate] = useState('');
 
-    const [loading, setLoading] = useState(false); // Initial state is false, awaiting user input
+    const [loading, setLoading] = useState(false); // Initial state is false, awaiting user input or date change
     const [error, setError] = useState(null);
 
     // --- Memoized function to fetch Balance Sheet data ---
     const fetchAndSetBalanceSheet = useCallback(async () => {
-        // Client-side validation before making API call
+        // Client-side validation: Only fetch if a date is selected
         if (!filterAsOfDate) {
-            setBalanceSheetData(null);
-            setLoading(false); // Stop loading if date is missing
-            setError(null); // Clear any previous error
+            setBalanceSheetData(null); // Clear any previously displayed data
+            setError(null); // Clear any previous error message
+            setLoading(false); // Ensure loading is off if no date is provided
             return;
         }
 
@@ -34,46 +40,47 @@ const BalanceSheetPage = () => {
         setError(null);   // Clear any previous errors
 
         try {
-            const data = await getBalanceSheet(filterAsOfDate);
+            // Call the centralized report API function with the date as a filter object
+            const data = await getBalanceSheetReport({ asOfDate: filterAsOfDate });
             setBalanceSheetData(data);
         } catch (err) {
-            // handleApiError in accountingApi.js should already show a toast
-            // and handle unauthorized redirects. We catch it here to update local error state.
+            // Centralized error handler `handleApiError` will show a toast and potentially redirect.
+            // We catch it here to update local state for displaying error message.
             console.error("BalanceSheetPage: Error fetching balance sheet:", err);
-            setError(err.message || "Failed to fetch balance sheet data.");
+            handleApiError(err, "Failed to fetch balance sheet data."); // Re-throw to use toast and potential redirect
             setBalanceSheetData(null); // Clear previous data on error
+            // Error is handled by the interceptor/handleApiError; no need to set local error state directly unless
+            // there's specific display logic needed here that `handleApiError` doesn't cover.
+            setError(err.message || "Failed to fetch balance sheet data."); // Set local error for display
         } finally {
             setLoading(false); // Indicate loading has finished
         }
     }, [filterAsOfDate]); // Re-fetch whenever filterAsOfDate changes
 
-    // Use useEffect to trigger fetching when filterAsOfDate changes
+    // Use useEffect to trigger fetching when filterAsOfDate changes (via useCallback dependency)
     useEffect(() => {
-        // This useEffect specifically watches for changes in the date
-        // and triggers the fetch if a date is present.
         fetchAndSetBalanceSheet();
     }, [fetchAndSetBalanceSheet]); // Dependency on the memoized function
 
-    // handleApplyFilter now just ensures the date is ready.
+    // `handleApplyFilter` now primarily exists to give feedback if date is missing,
+    // as the `useEffect` already triggers the fetch when `filterAsOfDate` changes.
     const handleApplyFilter = () => {
-        // No direct fetch call here; the state update will trigger the useEffect.
-        // The validation inside fetchAndSetBalanceSheet will catch missing date.
         if (!filterAsOfDate) {
             toast.info('Please select an "as of" date to generate the report.');
         }
+        // No direct fetch call needed here; setting filterAsOfDate will trigger the useEffect
     };
 
-    // Handle clearing filter
+    // Handle clearing the filter date
     const handleClearFilter = () => {
-        setFilterAsOfDate('');
-        // Setting state to empty will trigger fetchAndSetBalanceSheet
-        // which will then show the "Please select date" message.
+        setFilterAsOfDate(''); // Clearing the date will trigger fetchAndSetBalanceSheet, which will clear the report
     };
 
     return (
         <div className="balanceSheetContainer">
-            <Link to="/transactions" className="balanceSheetBackLink">
-                {"<"} Back to Accounting
+            {/* Link back to the main accounting dashboard */}
+            <Link to="/accounting" className="balanceSheetBackLink">
+                {"<"} Back to Accounting Dashboard
             </Link>
             <h1 className="balanceSheetHeadline">Balance Sheet</h1>
 
@@ -88,21 +95,21 @@ const BalanceSheetPage = () => {
                         value={filterAsOfDate}
                         onChange={(e) => setFilterAsOfDate(e.target.value)}
                         required
-                        disabled={loading} // Disable input while loading
+                        disabled={loading} // Disable input while loading data
                     />
                 </div>
                 <div className="filterButtons">
                     <button
                         onClick={handleApplyFilter}
                         className="applyFiltersBtn"
-                        disabled={loading || !filterAsOfDate} // Disable if loading or date missing
+                        disabled={loading || !filterAsOfDate} // Disable if loading or date is missing
                     >
                         Generate Report
                     </button>
                     <button
                         onClick={handleClearFilter}
                         className="clearFiltersBtn"
-                        disabled={loading}
+                        disabled={loading} // Disable while loading
                     >
                         Clear Date
                     </button>

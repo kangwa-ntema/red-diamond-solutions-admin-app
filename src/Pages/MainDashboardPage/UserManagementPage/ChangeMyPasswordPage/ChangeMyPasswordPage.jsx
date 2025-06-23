@@ -1,95 +1,138 @@
-// src/pages/ChangeMyPasswordPage.js
-// This component replaces your original ChangePasswordForm.js
+// src/Pages/MainDashboardPage/UserManagementPage/ChangeMyPasswordPage/ChangeMyPasswordPage.jsx
 import React, { useState } from 'react';
-import { changeMyPassword } from '../../../../services/api';
+import { changeMyPassword } from '../../../../services/api/'; // Corrected import from modular authApi
 import { useNavigate, Link } from 'react-router-dom';
+import { toast } from 'react-toastify'; // For notifications
+import { Eye, EyeOff } from 'lucide-react'; // Import Eye icons for password toggle
+import './ChangeMyPasswordPage.css'; // Import a dedicated CSS file
 
+/**
+ * @component ChangeMyPasswordPage
+ * @description Allows the currently logged-in user to change their own password.
+ * Includes show/hide password functionality and enhanced error logging.
+ */
 const ChangeMyPasswordPage = () => {
     const [currentPassword, setCurrentPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [confirmNewPassword, setConfirmNewPassword] = useState('');
-    const [message, setMessage] = useState('');
-    const [error, setError] = useState('');
+    const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
+    // State for showing/hiding passwords
+    const [showCurrentPassword, setShowCurrentPassword] = useState(false);
+    const [showNewPassword, setShowNewPassword] = useState(false);
+    const [showConfirmNewPassword, setShowConfirmNewPassword] = useState(false);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setMessage('');
-        setError('');
+        setError(null);
 
         if (newPassword !== confirmNewPassword) {
-            setError('New password and confirm password do not match.');
+            const mismatchError = 'New password and confirm password do not match.';
+            setError(mismatchError);
+            toast.error(mismatchError);
             return;
         }
 
-        if (newPassword.length < 6) { // Basic client-side validation
-            setError('New password must be at least 6 characters long.');
+        if (newPassword.length < 6) {
+            const lengthError = 'New password must be at least 6 characters long.';
+            setError(lengthError);
+            toast.error(lengthError);
             return;
         }
 
         setLoading(true);
         try {
             const data = await changeMyPassword(currentPassword, newPassword);
-            setMessage(data.message);
-            // Clear form fields on success
+            // --- NEW DEBUGGING LOG ---
+            console.log("Backend response for changeMyPassword:", data);
+            // --- END NEW DEBUGGING LOG ---
+            toast.success(data.message || 'Password updated successfully!');
             setCurrentPassword('');
             setNewPassword('');
             setConfirmNewPassword('');
-            // Optionally redirect after a short delay
-            // setTimeout(() => navigate('/dashboard'), 2000);
+            setTimeout(() => navigate('/mainDashboard'), 1500);
         } catch (err) {
-            setError(err || 'Failed to change password.');
+            // handleApiError (from axiosInstance) should have already displayed toast for API errors
+            const errorMessage = err.message || 'Failed to change password.';
+            setError(errorMessage);
             console.error("Change password failed:", err);
+            // If the error message is specific, you can add a toast here for it if handleApiError is too generic
+            // toast.error(`Error: ${errorMessage}`); // Uncomment if handleApiError doesn't provide sufficient toast
         } finally {
             setLoading(false);
         }
     };
 
     return (
-        <div style={{ padding: '20px', maxWidth: '500px', margin: '50px auto', border: '1px solid #ccc', borderRadius: '8px', backgroundColor: '#fff', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}>
-            <Link to="/mainDashboard" style={{ display: 'inline-block', marginBottom: '20px', padding: '8px 15px', backgroundColor: '#6c757d', color: 'white', textDecoration: 'none', borderRadius: '5px' }}>Back to Dashboard</Link>
-            <h2 style={{ textAlign: 'center', color: '#333', marginBottom: '20px' }}>Change Your Password</h2>
-            {message && <p style={{ color: 'green', textAlign: 'center' }}>{message}</p>}
-            {error && <p style={{ color: 'red', textAlign: 'center' }}>{error}</p>}
-            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-                <div>
-                    <label style={{ display: 'block', marginBottom: '5px' }}>Current Password:</label>
-                    <input
-                        type="password"
-                        name="currentPassword"
-                        value={currentPassword}
-                        onChange={(e) => setCurrentPassword(e.target.value)}
-                        required
-                        disabled={loading}
-                        style={{ width: '100%', padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }}
-                    />
+        <div className="changeMyPasswordContainer">
+            <Link to="/mainDashboard" className="changeMyPasswordBackLink">Back to Dashboard</Link>
+            <h2 className="changeMyPasswordHeadline">Change Your Password</h2>
+            {error && <p className="changeMyPasswordErrorMessage">{error}</p>}
+
+            <form onSubmit={handleSubmit} className="changeMyPasswordForm">
+                <div className="changeMyPasswordFormGroup">
+                    <label htmlFor="currentPassword">Current Password:</label>
+                    <div className="password-input-wrapper">
+                        <input
+                            type={showCurrentPassword ? "text" : "password"}
+                            id="currentPassword"
+                            name="currentPassword"
+                            value={currentPassword}
+                            onChange={(e) => setCurrentPassword(e.target.value)}
+                            required
+                            disabled={loading}
+                        />
+                        <span
+                            className="password-toggle-icon"
+                            onClick={() => setShowCurrentPassword(!showCurrentPassword)}
+                        >
+                            {showCurrentPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                        </span>
+                    </div>
                 </div>
-                <div>
-                    <label style={{ display: 'block', marginBottom: '5px' }}>New Password:</label>
-                    <input
-                        type="password"
-                        name="newPassword"
-                        value={newPassword}
-                        onChange={(e) => setNewPassword(e.target.value)}
-                        required
-                        disabled={loading}
-                        style={{ width: '100%', padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }}
-                    />
+                <div className="changeMyPasswordFormGroup">
+                    <label htmlFor="newPassword">New Password:</label>
+                    <div className="password-input-wrapper">
+                        <input
+                            type={showNewPassword ? "text" : "password"}
+                            id="newPassword"
+                            name="newPassword"
+                            value={newPassword}
+                            onChange={(e) => setNewPassword(e.target.value)}
+                            required
+                            disabled={loading}
+                        />
+                        <span
+                            className="password-toggle-icon"
+                            onClick={() => setShowNewPassword(!showNewPassword)}
+                        >
+                            {showNewPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                        </span>
+                    </div>
                 </div>
-                <div>
-                    <label style={{ display: 'block', marginBottom: '5px' }}>Confirm New Password:</label>
-                    <input
-                        type="password"
-                        name="confirmNewPassword"
-                        value={confirmNewPassword}
-                        onChange={(e) => setConfirmNewPassword(e.target.value)}
-                        required
-                        disabled={loading}
-                        style={{ width: '100%', padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }}
-                    />
+                <div className="changeMyPasswordFormGroup">
+                    <label htmlFor="confirmNewPassword">Confirm New Password:</label>
+                    <div className="password-input-wrapper">
+                        <input
+                            type={showConfirmNewPassword ? "text" : "password"}
+                            id="confirmNewPassword"
+                            name="confirmNewPassword"
+                            value={confirmNewPassword}
+                            onChange={(e) => setConfirmNewPassword(e.target.value)}
+                            required
+                            disabled={loading}
+                        />
+                        <span
+                            className="password-toggle-icon"
+                            onClick={() => setShowConfirmNewPassword(!showConfirmNewPassword)}
+                        >
+                            {showConfirmNewPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                        </span>
+                    </div>
                 </div>
-                <button type="submit" disabled={loading} style={{ padding: '10px 20px', backgroundColor: '#007bff', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer', fontSize: '1.1em', marginTop: '10px' }}>
+                <button type="submit" disabled={loading} className="changeMyPasswordSubmitBtn">
                     {loading ? 'Changing...' : 'Change Password'}
                 </button>
             </form>

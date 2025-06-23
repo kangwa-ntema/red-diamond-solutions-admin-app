@@ -1,8 +1,14 @@
+// src/Pages/MainDashboardPage/AccountingManagementPage/GeneralLedgerPage/GeneralLedgerPage.jsx
+
 import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { getAccounts, getGeneralLedger } from '../../../../services/api/accountingApi'; // Adjust path as needed
-import './GeneralLedgerPage.css';
+
+// Import the centralized API functions for accounts and general ledger
+import { getAllAccounts, getGeneralLedger } from '../../../../services/api/'; // Consolidated import
+import { handleApiError } from '../../../../services/axiosInstance'; // For consistent error handling
+
+import './GeneralLedgerPage.css'; // Existing CSS for the page
 
 /**
  * @component GeneralLedgerPage
@@ -10,7 +16,7 @@ import './GeneralLedgerPage.css';
  * allowing users to view all transactions affecting that account within a specified date range.
  */
 const GeneralLedgerPage = () => {
-    const navigate = useNavigate();
+    const navigate = useNavigate(); // Hook for programmatic navigation
 
     // State for available accounts (for the dropdown)
     const [accounts, setAccounts] = useState([]);
@@ -23,7 +29,7 @@ const GeneralLedgerPage = () => {
     const [ledgerLoading, setLedgerLoading] = useState(false); // Starts false, only loads after account selection
     const [ledgerError, setLedgerError] = useState(null);
 
-    // State for filtering
+    // State for filtering date range
     const [filterStartDate, setFilterStartDate] = useState('');
     const [filterEndDate, setFilterEndDate] = useState('');
 
@@ -33,13 +39,15 @@ const GeneralLedgerPage = () => {
             setAccountsLoading(true);
             setAccountsError(null);
             try {
-                const data = await getAccounts();
+                const data = await getAllAccounts(); // Use the consolidated API function
                 setAccounts(data.sort((a, b) => a.accountCode.localeCompare(b.accountCode)));
                 if (data.length > 0) {
                     setSelectedAccountId(data[0]._id); // Select the first account by default
                 }
             } catch (err) {
-                // handleApiError in accountingApi should have already shown toast and redirected if needed
+                // Centralized error handler `handleApiError` will show a toast and potentially redirect.
+                // We catch it here to update local state for displaying error message.
+                handleApiError(err, "Failed to load accounts for general ledger.");
                 setAccountsError(err.message || "Failed to load accounts.");
             } finally {
                 setAccountsLoading(false);
@@ -49,20 +57,30 @@ const GeneralLedgerPage = () => {
         fetchAllAccounts();
     }, []); // Empty dependency array means this runs once on mount
 
-    // --- Effect to fetch General Ledger data when selectedAccount or filters change ---
+    // --- Memoized function to fetch General Ledger data when selectedAccount or filters change ---
     const fetchAndSetLedger = useCallback(async () => {
         if (!selectedAccountId) {
             setLedgerData(null); // Clear ledger if no account is selected
+            setLedgerLoading(false); // Ensure loading is off
+            setLedgerError(null); // Clear errors
             return;
         }
 
         setLedgerLoading(true);
         setLedgerError(null);
         try {
-            const data = await getGeneralLedger(selectedAccountId, filterStartDate, filterEndDate);
+            // Construct filters object for getGeneralLedger API call
+            const filters = {};
+            if (filterStartDate) filters.startDate = filterStartDate;
+            if (filterEndDate) filters.endDate = filterEndDate;
+
+            // Use the consolidated API function, passing filters as an object
+            const data = await getGeneralLedger(selectedAccountId, filters);
             setLedgerData(data);
         } catch (err) {
-            // handleApiError in accountingApi should have already shown toast and redirected if needed
+            // Centralized error handler `handleApiError` will show a toast and potentially redirect.
+            console.error("GeneralLedgerPage: Error fetching ledger data:", err);
+            handleApiError(err, "Failed to load ledger data.");
             setLedgerError(err.message || "Failed to load ledger data.");
             setLedgerData(null); // Clear previous data on error
         } finally {
@@ -70,20 +88,26 @@ const GeneralLedgerPage = () => {
         }
     }, [selectedAccountId, filterStartDate, filterEndDate]); // Dependencies for re-fetching
 
+    // Trigger `fetchAndSetLedger` whenever its dependencies change
     useEffect(() => {
         fetchAndSetLedger();
-    }, [fetchAndSetLedger]); // Trigger fetch when dependencies of fetchAndSetLedger change
+    }, [fetchAndSetLedger]);
 
-
+    // `handleApplyFilters` now just ensures the state updates trigger the `useEffect`.
+    // No direct fetch call here.
     const handleApplyFilters = () => {
-        // No need to call fetchGeneralLedger directly, useEffect will react to state changes
-        // The state changes (filterStartDate, filterEndDate) will trigger fetchAndSetLedger via its dependency array
+        // State changes (filterStartDate, filterEndDate) will trigger fetchAndSetLedger via its dependency array.
+        // Add a toast if no account is selected when trying to apply filters.
+        if (!selectedAccountId) {
+            toast.info('Please select an account first.');
+        }
     };
 
+    // `handleClearFilters` resets the date filters.
     const handleClearFilters = () => {
         setFilterStartDate('');
         setFilterEndDate('');
-        // fetchAndSetLedger will be called by useEffect due to state changes
+        // `fetchAndSetLedger` will be called by `useEffect` due to state changes.
     };
 
     // Find details of the currently selected account for display
@@ -91,8 +115,9 @@ const GeneralLedgerPage = () => {
 
     return (
         <div className="generalLedgerContainer">
-            <Link to="/transactions" className="generalLedgerBackLink">
-                {"<"} Back to Main Dashboard
+            {/* Link back to the main accounting dashboard */}
+            <Link to="/accounting" className="generalLedgerBackLink">
+                {"<"} Back to Accounting Dashboard
             </Link>
             <h1 className="generalLedgerHeadline">General Ledger</h1>
 
@@ -103,7 +128,7 @@ const GeneralLedgerPage = () => {
                         id="accountSelect"
                         value={selectedAccountId}
                         onChange={(e) => setSelectedAccountId(e.target.value)}
-                        disabled={accountsLoading} // Disable while accounts are loading
+                        disabled={accountsLoading || ledgerLoading} // Disable while accounts or ledger is loading
                     >
                         {accountsLoading ? (
                             <option value="">Loading Accounts...</option>
@@ -112,6 +137,7 @@ const GeneralLedgerPage = () => {
                         ) : accounts.length === 0 ? (
                             <option value="">No Accounts Available</option>
                         ) : (
+                            // Map over sorted accounts to create options
                             accounts.map(account => (
                                 <option key={account._id} value={account._id}>
                                     {account.accountCode} - {account.accountName} ({account.accountType})
@@ -128,7 +154,7 @@ const GeneralLedgerPage = () => {
                         id="filterStartDate"
                         value={filterStartDate}
                         onChange={(e) => setFilterStartDate(e.target.value)}
-                        disabled={ledgerLoading} // Disable filters while ledger is loading
+                        disabled={ledgerLoading || !selectedAccountId} // Disable filters while ledger is loading or no account selected
                     />
                 </div>
                 <div className="filterGroup">
@@ -138,22 +164,37 @@ const GeneralLedgerPage = () => {
                         id="filterEndDate"
                         value={filterEndDate}
                         onChange={(e) => setFilterEndDate(e.target.value)}
-                        disabled={ledgerLoading} // Disable filters while ledger is loading
+                        disabled={ledgerLoading || !selectedAccountId} // Disable filters while ledger is loading or no account selected
                     />
                 </div>
                 <div className="filterButtons">
-                    <button onClick={handleApplyFilters} className="applyFiltersBtn" disabled={ledgerLoading || !selectedAccountId}>Apply Filters</button>
-                    <button onClick={handleClearFilters} className="clearFiltersBtn" disabled={ledgerLoading || !selectedAccountId}>Clear Filters</button>
+                    <button
+                        onClick={handleApplyFilters}
+                        className="applyFiltersBtn"
+                        disabled={ledgerLoading || !selectedAccountId} // Disable if loading or no account selected
+                    >
+                        Apply Filters
+                    </button>
+                    <button
+                        onClick={handleClearFilters}
+                        className="clearFiltersBtn"
+                        disabled={ledgerLoading || !selectedAccountId} // Disable if loading or no account selected
+                    >
+                        Clear Filters
+                    </button>
                 </div>
             </div>
 
             {/* Conditional Rendering for Loading, Error, and Data */}
             {accountsLoading && <div className="ledgerMessage">Loading accounts...</div>}
             {accountsError && <div className="ledgerErrorMessage">Error loading accounts: {accountsError}</div>}
+
+            {/* Message if no account is selected initially */}
             {(!selectedAccountId && !accountsLoading && !accountsError) && (
-                 <div className="ledgerMessage">Please select an account to view its ledger.</div>
+                <div className="ledgerMessage">Please select an account to view its ledger.</div>
             )}
 
+            {/* Display Ledger when an account is selected and not loading/errored */}
             {selectedAccountId && (
                 <>
                     {ledgerLoading && <div className="ledgerMessage">Loading ledger data for {selectedAccountDetails?.accountName || 'selected account'}...</div>}
@@ -183,7 +224,8 @@ const GeneralLedgerPage = () => {
                                             <tr key={index}>
                                                 <td data-label="Date">{new Date(transaction.entryDate).toLocaleDateString()}</td>
                                                 <td data-label="Journal Entry">
-                                                    <Link to={`/journal-entries/${transaction.journalEntryId}`} className="ledgerJELink">
+                                                    {/* Link to the specific journal entry view page */}
+                                                    <Link to={`/accounting/journal-entries/${transaction.journalEntryId}`} className="ledgerJELink">
                                                         {transaction.entryNumber || transaction.journalEntryId.substring(0, 8)}...
                                                     </Link>
                                                 </td>

@@ -1,8 +1,16 @@
-// src/pages/RegisterUserForm.js
+// src/Pages/MainDashboardPage/UserManagementPage/RegisterUserForm/RegisterUserForm.jsx
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { registerEmployeeUser } from '../../../../services/api';
+// Corrected import: Now importing from the modular userApi service
+import { registerEmployeeUser } from '../../../../services/api/'; // Path adjusted for modularity
+import { toast } from 'react-toastify'; // Ensure toast is imported for notifications
+import './RegisterUserForm.css'; // Import the new CSS file
 
+/**
+ * @component RegisterUserForm
+ * @description A React component for registering new users (employees, admins, superadmins, clients).
+ * This form is typically accessible only by 'superadmin' role.
+ */
 const RegisterUserForm = () => {
     const [formData, setFormData] = useState({
         username: '',
@@ -12,11 +20,12 @@ const RegisterUserForm = () => {
         lastName: '',
         email: '',
         employeeId: '',
-        isActive: true,
+        isActive: true, // Default to active
     });
     const [loading, setLoading] = useState(false);
-    const [message, setMessage] = useState('');
-    const [error, setError] = useState('');
+    // Using toast for messages, so local state for message/error can be simplified or removed
+    // const [message, setMessage] = useState('');
+    // const [error, setError] = useState('');
     const navigate = useNavigate();
 
     const handleChange = (e) => {
@@ -30,13 +39,13 @@ const RegisterUserForm = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
-        setMessage('');
-        setError('');
+        // setMessage(''); // No longer needed with toast
+        // setError('');   // No longer needed with toast
 
         try {
             const data = await registerEmployeeUser(formData);
-            setMessage(data.message || 'User registered successfully!');
-            // Clear form after successful registration, or navigate away
+            toast.success(data.message || 'User registered successfully!'); // Use toast for success
+            // Clear form after successful registration
             setFormData({
                 username: '',
                 password: '',
@@ -47,9 +56,13 @@ const RegisterUserForm = () => {
                 employeeId: '',
                 isActive: true,
             });
-            setTimeout(() => navigate('/users'), 1500); // Redirect to user list
+            // Redirect to user list after a short delay for toast to be seen
+            setTimeout(() => navigate('/users'), 1500);
         } catch (err) {
-            setError(err || 'Failed to register user.');
+            // handleApiError (from axiosInstance) typically handles displaying the toast error.
+            // We just ensure the error is logged and reset loading state.
+            toast.error(err.message || 'Failed to register user.'); // Show error using toast
+            // setError(err.message || 'Failed to register user.'); // No longer needed with toast
             console.error("Registration failed:", err);
         } finally {
             setLoading(false);
@@ -57,53 +70,58 @@ const RegisterUserForm = () => {
     };
 
     return (
-        <div style={{ padding: '20px', maxWidth: '600px', margin: '50px auto', border: '1px solid #ccc', borderRadius: '8px', backgroundColor: '#fff', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}>
-            <Link to="/users" style={{ display: 'inline-block', marginBottom: '20px', padding: '8px 15px', backgroundColor: '#6c757d', color: 'white', textDecoration: 'none', borderRadius: '5px' }}>Back to User List</Link>
-            <h2 style={{ textAlign: 'center', color: '#333', marginBottom: '20px' }}>Register New User</h2>
-            {message && <p style={{ color: 'green', textAlign: 'center' }}>{message}</p>}
-            {error && <p style={{ color: 'red', textAlign: 'center' }}>{error}</p>}
-            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-                <div>
-                    <label style={{ display: 'block', marginBottom: '5px' }}>Username:</label>
-                    <input type="text" name="username" value={formData.username} onChange={handleChange} required style={{ width: '100%', padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }} />
-                </div>
-                <div>
-                    <label style={{ display: 'block', marginBottom: '5px' }}>Password:</label>
-                    <input type="password" name="password" value={formData.password} onChange={handleChange} required style={{ width: '100%', padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }} />
-                </div>
-                <div>
-                    <label style={{ display: 'block', marginBottom: '5px' }}>Role:</label>
-                    <select name="role" value={formData.role} onChange={handleChange} required style={{ width: '100%', padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }}>
-                        <option value="employee">Employee</option>
-                        <option value="admin">Admin</option>
-                        <option value="superadmin">Superadmin</option>
-                        <option value="client">Client</option>
-                    </select>
-                </div>
-                <div>
-                    <label style={{ display: 'block', marginBottom: '5px' }}>First Name:</label>
-                    <input type="text" name="firstName" value={formData.firstName} onChange={handleChange} style={{ width: '100%', padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }} />
-                </div>
-                <div>
-                    <label style={{ display: 'block', marginBottom: '5px' }}>Last Name:</label>
-                    <input type="text" name="lastName" value={formData.lastName} onChange={handleChange} style={{ width: '100%', padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }} />
-                </div>
-                <div>
-                    <label style={{ display: 'block', marginBottom: '5px' }}>Email:</label>
-                    <input type="email" name="email" value={formData.email} onChange={handleChange} style={{ width: '100%', padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }} />
-                </div>
-                <div>
-                    <label style={{ display: 'block', marginBottom: '5px' }}>Employee ID:</label>
-                    <input type="text" name="employeeId" value={formData.employeeId} onChange={handleChange} style={{ width: '100%', padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }} />
-                </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <input type="checkbox" id="isActive" name="isActive" checked={formData.isActive} onChange={handleChange} style={{ transform: 'scale(1.2)' }} />
-                    <label htmlFor="isActive">Is Active</label>
-                </div>
-                <button type="submit" disabled={loading} style={{ padding: '10px 20px', backgroundColor: '#28a745', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer', fontSize: '1.1em', marginTop: '10px' }}>
-                    {loading ? 'Registering...' : 'Register User'}
-                </button>
-            </form>
+        <div className="registerUserFormContainer">
+            <div className="registerUserFormContent">
+                <Link to="/users" className="registerUserBackLink">
+                    Back to User List
+                </Link>
+                <h2 className="registerUserHeadline">Register New User</h2>
+                {/* Message/Error display can be handled entirely by react-toastify */}
+                {/* {message && <p className="registerUserSuccessMessage">{message}</p>} */}
+                {/* {error && <p className="registerUserErrorMessage">{error}</p>} */}
+                <form onSubmit={handleSubmit} className="registerUserForm">
+                    <div className="registerUserFormGroup">
+                        <label htmlFor="username">Username:</label>
+                        <input type="text" id="username" name="username" value={formData.username} onChange={handleChange} required disabled={loading} />
+                    </div>
+                    <div className="registerUserFormGroup">
+                        <label htmlFor="password">Password:</label>
+                        <input type="password" id="password" name="password" value={formData.password} onChange={handleChange} required disabled={loading} />
+                    </div>
+                    <div className="registerUserFormGroup">
+                        <label htmlFor="role">Role:</label>
+                        <select id="role" name="role" value={formData.role} onChange={handleChange} required disabled={loading}>
+                            <option value="employee">Employee</option>
+                            <option value="admin">Admin</option>
+                            <option value="superadmin">Superadmin</option>
+                            <option value="client">Client</option>
+                        </select>
+                    </div>
+                    <div className="registerUserFormGroup">
+                        <label htmlFor="firstName">First Name:</label>
+                        <input type="text" id="firstName" name="firstName" value={formData.firstName} onChange={handleChange} disabled={loading} />
+                    </div>
+                    <div className="registerUserFormGroup">
+                        <label htmlFor="lastName">Last Name:</label>
+                        <input type="text" id="lastName" name="lastName" value={formData.lastName} onChange={handleChange} disabled={loading} />
+                    </div>
+                    <div className="registerUserFormGroup">
+                        <label htmlFor="email">Email:</label>
+                        <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} disabled={loading} />
+                    </div>
+                    <div className="registerUserFormGroup">
+                        <label htmlFor="employeeId">Employee ID:</label>
+                        <input type="text" id="employeeId" name="employeeId" value={formData.employeeId} onChange={handleChange} disabled={loading} />
+                    </div>
+                    <div className="registerUserFormCheckboxGroup">
+                        <input type="checkbox" id="isActive" name="isActive" checked={formData.isActive} onChange={handleChange} disabled={loading} />
+                        <label htmlFor="isActive">Is Active</label>
+                    </div>
+                    <button type="submit" disabled={loading} className="registerUserSubmitBtn">
+                        {loading ? 'Registering...' : 'Register User'}
+                    </button>
+                </form>
+            </div>
         </div>
     );
 };

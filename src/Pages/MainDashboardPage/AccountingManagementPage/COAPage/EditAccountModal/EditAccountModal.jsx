@@ -1,7 +1,8 @@
+// src/Pages/MainDashboardPage/AccountingManagementDashboard/COADashboard/EditAccountModal/EditAccountModal.jsx
 import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
-// Import the centralized API function for updating accounts
-import { updateAccount } from '../../../../../services/api/accountApi';
+// Import the centralized API function for updating accounts from the consolidated accountingApi
+import { updateAccount } from '../../../../../services/api/accountApi'; // Corrected import path
 import './EditAccountModal.css'; // Reusing a general modal CSS (you might need to create this or add to ChartOfAccountsPage.css)
 
 /**
@@ -16,20 +17,22 @@ import './EditAccountModal.css'; // Reusing a general modal CSS (you might need 
  * @param {function} props.onAccountUpdated - Callback function to notify parent of successful account update.
  */
 const EditAccountModal = ({ account, onClose, onAccountUpdated }) => {
-    // State for the form data, initialized with the provided account's details
+    // State for the form data, initialized with the provided account's details.
+    // Uses optional chaining (|| '') to ensure string values for inputs.
     const [formData, setFormData] = useState({
-        accountCode: account.accountCode || '',
+        accountCode: account.accountCode || '', // Now editable, but can be empty
         accountName: account.accountName || '',
         accountType: account.accountType || 'Asset',
         subType: account.subType || '',
         description: account.description || '',
         normalBalance: account.normalBalance || 'Debit',
-        isActive: account.isActive !== undefined ? account.isActive : true,
+        isActive: account.isActive !== undefined ? account.isActive : true, // Preserve boolean value
     });
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(false); // Loading state for form submission.
+    const [error, setError] = useState(null); // Error state for form submission.
 
-    // Update form data if the `account` prop changes (e.g., if re-opening modal for another account)
+    // Effect to update form data if the `account` prop changes.
+    // This is important if the same modal instance is reused for different accounts.
     useEffect(() => {
         if (account) {
             setFormData({
@@ -42,13 +45,13 @@ const EditAccountModal = ({ account, onClose, onAccountUpdated }) => {
                 isActive: account.isActive !== undefined ? account.isActive : true,
             });
         }
-    }, [account]);
+    }, [account]); // Dependency array ensures effect runs when 'account' prop changes.
 
     /**
      * @function handleChange
      * @description Handles changes in the form inputs.
      * Updates the `formData` state. Automatically sets `normalBalance`
-     * based on the selected `accountType`.
+     * based on the selected `accountType` for consistency.
      * @param {Object} e - The event object from the input change.
      */
     const handleChange = (e) => {
@@ -56,10 +59,11 @@ const EditAccountModal = ({ account, onClose, onAccountUpdated }) => {
         setFormData(prevData => {
             const updatedData = {
                 ...prevData,
-                [name]: type === 'checkbox' ? checked : value
+                [name]: type === 'checkbox' ? checked : value // Handle checkboxes correctly
             };
 
-            // Automatically set normalBalance based on accountType
+            // Automatically set normalBalance based on accountType selection.
+            // This mirrors the logic in AddAccountModal.
             if (name === 'accountType') {
                 if (['Asset', 'Expense'].includes(value)) {
                     updatedData.normalBalance = 'Debit';
@@ -81,25 +85,42 @@ const EditAccountModal = ({ account, onClose, onAccountUpdated }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
-        setError(null);
+        setError(null); // Clear any previous errors.
 
         try {
-            // Use the centralized updateAccount function
-            const updatedAccount = await updateAccount(account._id, formData);
+            // Trim whitespace from string inputs before submission.
+            const submissionData = {
+                ...formData,
+                accountCode: formData.accountCode.trim(),
+                accountName: formData.accountName.trim(),
+                subType: formData.subType.trim(),
+                description: formData.description.trim(),
+            };
+
+            // If accountCode is an empty string after trimming, send it as an empty string
+            // so the backend can process it (it can be updated to empty).
+            // NOTE: Unlike `addAccount` where an empty string implies auto-generate (undefined),
+            // for `updateAccount`, an empty string means the user explicitly wants to clear the code.
+            // The backend's PUT /api/accounts/:id route handles this correctly.
+
+            // Use the centralized updateAccount function, passing the account's ID and the updated data.
+            const updatedAccount = await updateAccount(account._id, submissionData);
             toast.success(`Account "${updatedAccount.accountName}" updated successfully!`);
-            onAccountUpdated(); // Notify parent to refresh account list
-            onClose(); // Close the modal
+            onAccountUpdated(); // Notify parent to refresh the account list.
+            onClose(); // Close the modal.
         } catch (err) {
-            // Axios interceptor in api.js handles 401/403 and general errors.
-            // This catch is for other specific errors or custom messages.
+            // Log the error for debugging.
             console.error("EditAccountModal: Error updating account:", err);
-            setError(err.message || "Failed to update account. Please try again.");
+            // Set a local error message to display within the modal.
+            // The `handleApiError` in `utils.js` (used by accountingApi) should already show a toast.
+            const errorMessage = err.message || "Failed to update account. Please try again.";
+            setError(errorMessage);
         } finally {
-            setLoading(false);
+            setLoading(false); // Ensure loading state is reset.
         }
     };
 
-    // Prevent modal from closing when clicking inside
+    // Prevent modal from closing when clicking inside the modal content.
     const handleContentClick = (e) => {
         e.stopPropagation();
     };
@@ -108,11 +129,12 @@ const EditAccountModal = ({ account, onClose, onAccountUpdated }) => {
         <div className="modalOverlay" onClick={onClose}>
             <div className="modalContent" onClick={handleContentClick}>
                 <div className="modalHeader">
-                    <h2 className="modalTitle">Edit Account: {account.accountName}</h2>
-                    <button className="modalCloseButton" onClick={onClose}>&times;</button>
+                    <h2 className="modalTitle">Edit Account: {account.accountName || 'N/A'}</h2>
+                    {/* Close button, disabled during loading. */}
+                    <button className="modalCloseButton" onClick={onClose} disabled={loading}>&times;</button>
                 </div>
                 <div className="modalBody">
-                    {error && <div className="modalErrorMessage">{error}</div>}
+                    {error && <div className="modalErrorMessage">{error}</div>} {/* Display any form-specific errors. */}
                     <form onSubmit={handleSubmit} className="editAccountFormModal">
                         <div className="formGroup">
                             <label htmlFor="editAccountCode">Account Code:</label>
@@ -124,8 +146,7 @@ const EditAccountModal = ({ account, onClose, onAccountUpdated }) => {
                                 onChange={handleChange}
                                 className="formInput"
                                 placeholder="e.g., 1010"
-                                required
-                                disabled={loading}
+                                disabled={loading} // Disable input during loading.
                             />
                         </div>
                         <div className="formGroup">
@@ -169,7 +190,7 @@ const EditAccountModal = ({ account, onClose, onAccountUpdated }) => {
                                 onChange={handleChange}
                                 className="formSelect"
                                 required
-                                disabled // Disabled because it's set automatically based on accountType
+                                disabled={true} // Still disabled as it's automatically derived.
                             >
                                 <option value="Debit">Debit</option>
                                 <option value="Credit">Credit</option>

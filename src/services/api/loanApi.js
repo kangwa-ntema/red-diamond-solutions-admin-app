@@ -1,5 +1,5 @@
-import api from '../axiosInstance';
-import { handleApiError } from './utils';
+// src/services/loanApi.js
+import api, { handleApiError } from '../axiosInstance'; // Import the configured Axios instance and error handler
 
 /**
  * Fetches a list of all loans, with optional filtering by status (e.g., 'active', 'overdue').
@@ -8,7 +8,7 @@ import { handleApiError } from './utils';
  */
 export const getAllLoans = async (filters = {}) => {
     try {
-        const response = await api.get('/api/loans', { params: filters });
+        const response = await api.get('/api/loans', { params: filters }); // Backend endpoint: /api/loans
         return response.data;
     } catch (error) {
         handleApiError(error, "An unknown error occurred while fetching loans.");
@@ -22,7 +22,7 @@ export const getAllLoans = async (filters = {}) => {
  */
 export const getLoanById = async (loanId) => {
     try {
-        const response = await api.get(`/api/loans/${loanId}`);
+        const response = await api.get(`/api/loans/${loanId}`); // Backend endpoint: /api/loans/:id
         return response.data;
     } catch (error) {
         handleApiError(error, "An unknown error occurred while fetching loan details.");
@@ -36,7 +36,7 @@ export const getLoanById = async (loanId) => {
  */
 export const addLoan = async (loanData) => {
     try {
-        const response = await api.post('/api/loans', loanData);
+        const response = await api.post('/api/loans', loanData); // Backend endpoint: /api/loans
         return response.data;
     } catch (error) {
         handleApiError(error, "An unknown error occurred while adding a new loan.");
@@ -51,7 +51,7 @@ export const addLoan = async (loanData) => {
  */
 export const updateLoan = async (loanId, loanData) => {
     try {
-        const response = await api.put(`/api/loans/${loanId}`, loanData);
+        const response = await api.put(`/api/loans/${loanId}`, loanData); // Backend endpoint: /api/loans/:id
         return response.data;
     } catch (error) {
         handleApiError(error, "An unknown error occurred while updating loan.");
@@ -65,7 +65,7 @@ export const updateLoan = async (loanId, loanData) => {
  */
 export const deleteLoan = async (loanId) => {
     try {
-        const response = await api.delete(`/api/loans/${loanId}`);
+        const response = await api.delete(`/api/loans/${loanId}`); // Backend endpoint: /api/loans/:id
         return response.data;
     } catch (error) {
         handleApiError(error, "An unknown error occurred while deleting loan.");
@@ -78,9 +78,22 @@ export const deleteLoan = async (loanId) => {
  */
 export const getLoansReceivableSummary = async () => {
     try {
-        const response = await api.get('/api/loans/summary-financials');
+        const response = await api.get('/api/loans/summary-financials'); // Backend endpoint: /api/loans/summary-financials
         return response.data;
     } catch (error) {
         handleApiError(error, "Failed to fetch total loans receivable.");
+    }
+};
+
+/**
+ * Triggers the backend to update overdue loan statuses.
+ * @returns {Promise<Object>} - Contains a message and count of updated loans.
+ */
+export const updateLoanStatuses = async () => {
+    try {
+        const response = await api.put('/api/loans/update-statuses'); // Backend endpoint: /api/loans/update-statuses
+        return response.data;
+    } catch (error) {
+        handleApiError(error, "Failed to trigger loan status update.");
     }
 };

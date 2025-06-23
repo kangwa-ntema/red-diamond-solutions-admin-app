@@ -1,6 +1,7 @@
 // src/context/AuthContext.js
 import React, { createContext, useState, useEffect, useContext } from 'react';
-import { loginUser, logoutUser } from '../services/api'; // Make sure this path is correct
+// Correct import path for authApi functions from the modular setup
+import { loginUser, logoutUser, verifyToken } from '../services/api/authApi';
 
 // Create a React Context for authentication
 const AuthContext = createContext(null);
@@ -14,27 +15,35 @@ export const AuthProvider = ({ children }) => {
 
     // useEffect to run once on component mount to check for a stored user session
     useEffect(() => {
-        const checkStoredUser = () => {
+        const checkSessionAndLoadUser = async () => {
+            setLoading(true); // Start loading
+
             try {
-                // Attempt to retrieve user data from localStorage
-                // This helps in persisting the user's view of being logged in across page refreshes.
-                // The actual session validity is still managed by the httpOnly cookie on the backend.
-                const storedUser = localStorage.getItem('currentUser');
-                if (storedUser) {
-                    const parsedUser = JSON.parse(storedUser);
-                    setUser(parsedUser);
+                // Call the backend to verify the httpOnly cookie session
+                const { isValid, user: verifiedUser } = await verifyToken();
+
+                if (isValid && verifiedUser) {
+                    setUser(verifiedUser); // Set user state from verified backend data
+                    // Optionally, store user data in localStorage for display purposes
+                    // BUT the source of truth for authentication is the backend session itself.
+                    localStorage.setItem('currentUser', JSON.stringify(verifiedUser));
+                } else {
+                    // If session is not valid or no user returned, clear any stale data
+                    setUser(null);
+                    localStorage.removeItem('currentUser');
                 }
-            } catch (e) {
-                console.error("Failed to parse stored user data:", e);
-                // Clear localStorage if data is corrupted
-                localStorage.removeItem('currentUser');
+            } catch (error) {
+                // This catch block will primarily handle network errors or unexpected issues from verifyToken,
+                // as 401s are typically handled by the axios interceptor.
+                console.error("Failed to verify session during initial load:", error);
                 setUser(null);
+                localStorage.removeItem('currentUser');
             } finally {
                 setLoading(false); // Finished initial loading check
             }
         };
 
-        checkStoredUser();
+        checkSessionAndLoadUser();
     }, []); // Empty dependency array means this runs only once on mount
 
     /**
@@ -50,7 +59,7 @@ export const AuthProvider = ({ children }) => {
             const data = await loginUser(username, password);
             // On successful login, update user state with data from backend response
             setUser(data.user);
-            // Store user data in localStorage for persistence
+            // Store user data in localStorage for persistence (display only, not auth truth)
             localStorage.setItem('currentUser', JSON.stringify(data.user));
             return true; // Indicate success
         } catch (error) {
@@ -58,7 +67,7 @@ export const AuthProvider = ({ children }) => {
             setUser(null); // Clear user state on failed login
             localStorage.removeItem('currentUser'); // Clear any stale data
             // It's important to re-throw the error so components using this can catch it
-            throw error; 
+            throw error;
         } finally {
             setLoading(false);
         }
@@ -72,9 +81,9 @@ export const AuthProvider = ({ children }) => {
     const logout = async () => {
         setLoading(true);
         try {
-            await logoutUser(); // Call the backend logout endpoint
+            await logoutUser(); // Call the backend logout endpoint (clears httpOnly cookie)
             setUser(null); // Clear user state
-            localStorage.removeItem('currentUser'); // Clear localStorage
+            localStorage.removeItem('currentUser'); // Clear localStorage (for display persistence)
         } catch (error) {
             console.error("Logout failed in AuthContext:", error);
             // Even if backend logout fails, clear frontend state for a consistent UX

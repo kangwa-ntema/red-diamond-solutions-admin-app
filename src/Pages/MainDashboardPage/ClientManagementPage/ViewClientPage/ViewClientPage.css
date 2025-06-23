@@ -1,329 +1,353 @@
-/* components/css/ClientDashboard.css */
+/* src/Pages/MainDashboardPage/ClientManagementPage/ViewClientPage/ViewClientPage.css */
 
-/* Main container for the client dashboard page */
-.clientDashboardContainer {
-  margin: 0 auto;
-  min-height: 100vh;
+/* Main container for the view client page */
+.viewClientPageContainer {
+    margin: 0 auto;
+    min-height: 100vh;
+    padding: 2rem 0; /* Add vertical padding */
 }
 
-/* Inner content area, mimicking the styled boxes of other pages */
-.clientDashboardContent {
-  max-width: var(--max-width-xl);
-  background-color: var(--clr-charcoal-gray);
-  padding: 1rem;
-  border-radius: 0.1rem;
+/* Inner content area for the page, mimicking the styled boxes of other pages */
+.viewClientPageContent {
+    max-width: var(--max-width-xl);
+    background-color: var(--clr-zeus); /* Using your zeus color */
+    padding: 1rem; /* Reduced padding for more content space */
+    border-radius: 0.1rem;
+    box-shadow: var(--shadow-elevation-medium); /* Add subtle shadow */
+    margin: 0 auto; /* Center the content */
 }
 
-/* Back to Customers List link */
-.clientDashboardBackLink {
-  color: var(--clr-charcoal-gray);
-  background-color: var(--clr-soap-stone);
-  text-decoration: none;
-  font-size: 0.75em;
-  border: none;
-  border-radius: 0.1rem;
-  padding: 0.5rem 1rem;
-  margin-bottom: 2rem;
-  cursor: pointer;
+/* Back to Clients List link/button */
+.viewClientBackLink {
+    display: inline-block; /* Allows padding and margin */
+    color: var(--clr-charcoal-gray); /* Dark text for light background */
+    background-color: var(--clr-soap-stone); /* Light background */
+    text-decoration: none;
+    font-size: 0.85em; /* Slightly larger font */
+    font-weight: 600; /* Bolder text */
+    border: none;
+    border-radius: 0.25rem; /* Slightly more rounded corners */
+    padding: 0.6rem 1.2rem; /* Adjusted padding */
+    margin-bottom: 2rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
 }
 
-.clientDashboardBackLink:hover {
-  background-color: var(--clr-davy-grey);
+.viewClientBackLink:hover {
+    background-color: var(--clr-davy-grey); /* Davy Grey for hover */
+    transform: translateY(-1px); /* Slight lift on hover */
 }
 
-/* Main headline styling */
-.clientDashboardHeadline {
-  position: relative;
-  font-size: clamp(1em, 1.5vw, 1.5em);
-  color: var(--clr-golden-yellow);
-  margin-top: 2rem;
-  font-weight: bold;
+/* Headline styling */
+.viewClientHeadline {
+    position: relative;
+    font-size: clamp(1.2em, 2vw, 1.8em); /* Larger and more responsive */
+    color: var(--clr-golden-yellow); /* Golden Yellow for headline */
+    margin-top: 1.5rem; /* Adjusted margin */
+    margin-bottom: 2.5rem; /* Space below headline */
+    font-weight: bold;
+    padding-bottom: 0.5rem; /* Space for the underline effect */
 }
 
-.clientDashboardHeadline::after {
-  content: "";
-  position: absolute;
-  bottom: 0rem;
-  left: 0;
-  background-color: var(--clr-golden-yellow);
-  width: 2rem;
-  height: 0.2rem;
+.viewClientHeadline::after {
+    content: "";
+    position: absolute;
+    bottom: 0rem;
+    left: 0;
+    background-color: var(--clr-golden-yellow); /* Golden Yellow for underline */
+    width: 3rem; /* Slightly wider underline */
+    height: 0.25rem; /* Thicker underline */
+    border-radius: 0.1rem; /* Rounded ends for the underline */
 }
 
-/* Client Details Section */
-.clientDetailsSection {
-  margin-bottom: 2rem;
-  border-radius: 0.1rem;
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
-
-  display: flex;
-  flex-direction: column;
-  gap: 1rem; /* Space between form groups */
-  text-align: left; /* Align labels/inputs to the left */
+/* Container for all detail sections */
+.clientDetailsSections {
+    display: grid;
+    gap: 2rem; /* Increased space between sections */
+    grid-template-columns: 1fr; /* Default to single column */
 }
 
-.clientDetailsHeadline {
-  font-size: clamp(1em, 1.5vw, 1.5em);
-  color: var(--clr-golden-yellow); /* Highlight headline */
-  margin-bottom: 1rem;
-  border-bottom: 1px solid var(--clr-neutral-300);
-  padding-bottom: 0.5rem;
+@media (min-width: 992px) {
+    .clientDetailsSections {
+        grid-template-columns: 1fr 1fr; /* Two columns for larger screens */
+        grid-template-areas:
+            "personal loanSummary"
+            "loansList loansList"
+            "activityLog activityLog"; /* Ensure activity log takes full width */
+    }
+
+    .clientInfoSection { grid-area: personal; }
+    .loanSummarySection { grid-area: loanSummary; }
+    .clientLoansListSection { grid-area: loansList; }
+    .clientActivityLogSection { grid-area: activityLog; }
 }
 
-.clientDetailsContent {
-  font-size: clamp(0.75em, 1vw, 1em);
+/* Card-like styling for each section */
+.clientDetailCard {
+    background-color: var(--clr-charcoal-gray); /* Dark charcoal for cards */
+    padding: 1.5rem;
+    border-radius: 0.25rem; /* Rounded corners */
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); /* Inner shadow for depth */
+    border: 1px solid var(--clr-neutral-200); /* Subtle border */
 }
 
-.clientDetailItem {
-  margin-bottom: 0.5rem;
-  color: var(--clr-white);
+/* Section titles */
+.sectionTitle {
+    font-size: 1.3em;
+    color: var(--clr-soap-stone); /* Light gray for section titles */
+    margin-bottom: 1.5rem; /* Space below title */
+    border-bottom: 1px solid var(--clr-neutral-200); /* Separator line */
+    padding-bottom: 0.75rem;
+    font-weight: 600; /* Bolder */
 }
 
-.clientDetailLabel {
-  color: var(--clr-soap-stone);
-  margin-right: 0.2rem;
-  font-family: "Raleway-Medium";
+/* Grid for info items within sections */
+.infoGrid {
+    display: grid;
+    grid-template-columns: 1fr; /* Default to single column */
+    gap: 0.75rem 1.5rem; /* Row gap, column gap */
+    color: var(--clr-neutral-500); /* General text color for info */
 }
 
-.clientDetailValue {
-  font-family: "Raleway-light";
+@media (min-width: 768px) {
+    .infoGrid {
+        grid-template-columns: 1fr 1fr; /* Two columns for larger screens */
+    }
 }
 
-/* Client status indicator */
-.clientStatus {
-  padding: 0.3em 0.6em;
-  border-radius: 0.1rem;
-  font-weight: bold;
-  font-size: 0.9em;
-  text-transform: uppercase;
-  color: var(--clr-white); /* Default text color */
+.infoItem {
+    display: flex;
+    flex-direction: column; /* Stack label and value */
+    gap: 0.2rem;
+    font-size: 0.95em;
 }
 
-.clientStatus.active {
-  background-color: var(--clr-active); /* Greenish for active */
+.infoItem strong {
+    color: var(--clr-neutral-600); /* Slightly lighter for labels */
+    font-weight: 500; /* Medium weight */
 }
 
-.clientStatus.inactive {
-  background-color: var(--clr-inactive); /* Reddish for inactive */
+.infoItem span {
+    color: var(--clr-soap-stone); /* Value text color */
 }
 
-.clientStatus.overdue {
-  background-color: var(--clr-overdue); /* Reddish for inactive */
+/* Specific styling for address item if it needs more space */
+.addressItem {
+    grid-column: span 1; /* By default, take 1 column */
+}
+@media (min-width: 768px) {
+    .addressItem {
+        grid-column: span 2; /* Takes full width on larger screens */
+    }
 }
 
-/* Client action buttons (Edit/Delete) */
-.clientActionButtons {
-  margin-top: 1.5rem;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+
+/* Status badges */
+.status-active {
+    background-color: var(--clr-dark-mint); /* Green for active */
+    color: var(--clr-zeus); /* Dark text for light background */
+    padding: 0.3em 0.6em;
+    border-radius: 0.2rem;
+    font-weight: bold;
+    font-size: 0.85em;
+    text-transform: uppercase;
 }
 
-.clientEditButton,
-.clientDeleteButton {
-  padding: 0.75rem 1.5rem;
-  border: none;
-  border-radius: 0.1rem;
-  font-size: 1rem;
-  cursor: pointer;
+.status-inactive {
+    background-color: var(--clr-davy-grey); /* Davy Grey for inactive */
+    color: var(--clr-soap-stone); /* Light text */
+    padding: 0.3em 0.6em;
+    border-radius: 0.2rem;
+    font-weight: bold;
+    font-size: 0.85em;
+    text-transform: uppercase;
 }
 
-.clientEditButton {
-  background-color: var(--clr-golden-yellow);
-  color: var(--clr-zeus);
+/* Action buttons below personal info */
+.actionButtons {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: flex-end; /* Align to the right */
+    gap: 1rem;
+    flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
 }
 
-.clientEditButton:hover {
-  background-color: var(--clr-citron);
+.editClientBtn,
+.viewLogsBtn { /* Apply common styling */
+    background-color: var(--clr-golden-yellow);
+    color: var(--clr-zeus);
+    padding: 0.7rem 1.5rem;
+    border: none;
+    border-radius: 0.25rem;
+    font-size: 0.95em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
 }
 
-.clientDeleteButton {
-  background-color: var(--clr-lava-red);
-  color: var(--clr-soap-stone);
+.editClientBtn:hover,
+.viewLogsBtn:hover {
+    background-color: var(--clr-citron);
+    transform: translateY(-1px);
 }
 
-.clientDeleteButton:hover {
-  background-color: var(--clr-coral-red);
+.viewLogsBtn { /* Specific styling for the logs button if needed */
+    background-color: var(--clr-davy-grey); /* Davy Grey for logs button */
+    color: var(--clr-soap-stone);
 }
 
-.deleteClientRestrictionMessage {
-  font-size: 0.75em;
-  color: var(--clr-davy-grey);
+.viewLogsBtn:hover {
+    background-color: var(--clr-neutral-400); /* Darker grey for hover */
 }
 
-/* Client's Loan Summary Section */
-.clientLoanSummarySection {
-  margin-bottom: 2rem;
-  border-radius: 0.1rem;
+
+/* Loans Table Styling */
+.loansTableContainer {
+    overflow-x: auto; /* Enable horizontal scrolling for small screens */
+    margin-top: 1.5rem;
+    border: 1px solid var(--clr-neutral-200);
+    border-radius: 0.25rem;
 }
 
-.clientLoanSummaryHeadline {
-  font-size: clamp(1em, 1.5vw, 1.5em);
-  color: var(--clr-golden-yellow);
-  margin-bottom: 1rem;
-  text-decoration: underline;
+.loansTable {
+    width: 100%;
+    border-collapse: collapse; /* Remove space between cell borders */
+    font-size: 0.9em;
+    color: var(--clr-neutral-500);
 }
 
-.clientLoanSummaryCards {
-  display: grid;
-  gap: 0.5rem;
+.loansTable thead th {
+    background-color: var(--clr-neutral-100); /* Darker header background */
+    color: var(--clr-soap-stone);
+    padding: 0.8rem 1rem;
+    text-align: left;
+    border-bottom: 2px solid var(--clr-neutral-200); /* Thicker bottom border */
+    font-weight: 600;
+    white-space: nowrap; /* Prevent wrapping in headers */
 }
 
-.clientLoanSummaryLoanTotals,
-.clientLoanSummaryTotals {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
-  justify-content: center;
-  gap: 0.5rem;
+.loansTable tbody td {
+    padding: 0.8rem 1rem;
+    border-bottom: 1px solid var(--clr-neutral-200);
+    vertical-align: middle;
 }
 
-.clientLoanSummaryCard {
-  background-color: var(--clr-zeus);
-  padding: 0.3rem;
-  border-radius: 0.1rem;
-  color: var(--clr-soap-stone);
+.loansTable tbody tr:nth-child(even) {
+    background-color: var(--clr-charcoal-gray); /* Alternate row background */
 }
 
-.clientLoanSummaryCard > *,
-.clientLoanSummaryCardTitle {
-  font-size: clamp(0.6em, 0.85vw, 0.85em);
+.loansTable tbody tr:hover {
+    background-color: var(--clr-neutral-100); /* Hover effect for rows */
 }
 
-.clientLoanSummaryCardTitle {
-  color: var(--clr-golden-yellow);
-  font-family: "Raleway-Light";
+/* Loan status badges in table */
+.loan-status {
+    padding: 0.2em 0.5em;
+    border-radius: 0.2rem;
+    font-size: 0.8em;
+    font-weight: bold;
+    text-transform: capitalize;
+    color: var(--clr-zeus); /* Dark text for badges */
+    display: inline-block; /* Allows padding */
 }
 
-/* Loan Filter Buttons */
-.clientLoanFilterButtons {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(3rem, 1fr));
-  justify-content: center;
-  gap: 0.5rem;
-  margin-bottom: 2rem;
-  padding: 0.5rem;
-  border-radius: 0.1rem;
-  font-family: "Raleway-Light";
-  font-size: 0.5em;
+.loan-status.pending { background-color: var(--clr-pending); }
+.loan-status.active { background-color: var(--clr-active); }
+.loan-status.overdue { background-color: var(--clr-overdue); color: var(--clr-soap-stone); } /* Light text on red */
+.loan-status.defaulted { background-color: var(--clr-lava-red); color: var(--clr-soap-stone); } /* Using lava red */
+.loan-status.paid { background-color: var(--clr-paid); } /* Using your paid color */
+.loan-status.cancelled { background-color: var(--clr-davy-grey); color: var(--clr-soap-stone); } /* Grey for cancelled */
+
+/* View Loan Details Button in table */
+.viewLoanDetailsBtn {
+    display: inline-block;
+    background-color: var(--clr-davy-grey); /* Consistent with logs button or choose another neutral */
+    color: var(--clr-soap-stone);
+    padding: 0.5rem 0.9rem;
+    border-radius: 0.2rem;
+    text-decoration: none;
+    font-size: 0.8em;
+    font-weight: 600;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    white-space: nowrap; /* Prevent wrapping */
 }
 
-.clientLoanFilterButton {
-  background-color: var(--clr-davy-grey);
-  color: var(--clr-soap-stone);
-  border: 1px solid var(--clr-neutral-400);
-  border-radius: 0.1rem;
-  cursor: pointer;
+.viewLoanDetailsBtn:hover {
+    background-color: var(--clr-neutral-400); /* Darker grey for hover */
+    transform: translateY(-1px);
 }
 
-.clientLoanFilterButton:hover {
-  background-color: var(--clr-platinum);
+/* Loading and error messages */
+.viewClientMessage,
+.viewClientErrorMessage {
+    text-align: center;
+    font-size: 1.2rem;
+    margin-top: 3rem;
+    color: var(--clr-neutral-500);
+    background-color: var(--clr-charcoal-gray);
+    padding: 2rem;
+    border-radius: 0.25rem;
+    max-width: var(--max-width-md);
+    margin-inline: auto; /* Center the message box */
 }
 
-.clientLoanFilterButton.active-filter {
-  background-color: var(--clr-golden-yellow);
-  color: var(--clr-zeus);
-  border-color: var(--clr-sandy-yellow);
-  font-weight: bold;
+.viewClientErrorMessage {
+    color: var(--clr-lava-red);
 }
 
-/* Client's Loans List Section */
-.clientLoansListSection {
-  max-width: var(--max-width-md);
-  width: 100%;
+.noDataMessage {
+    text-align: center;
+    font-style: italic;
+    color: var(--clr-neutral-500);
+    padding: 1rem 0;
 }
 
-.clientLoansListHeadline {
-  font-size: 1.5em;
-  color: var(--clr-soap-stone);
-  margin-bottom: 1rem;
-}
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .viewClientPageContent {
+        padding: 0.75rem;
+    }
 
-.noLoansMessage {
-  color: var(--clr-soap-stone);
-  font-size: 1.1em;
-  margin-top: 1.5rem;
-  padding: 1rem;
-  background-color: var(--clr-zeus);
-  border-radius: 0.1rem;
-  text-align: center;
-}
+    .viewClientHeadline {
+        font-size: 1.5em;
+        margin-bottom: 2rem;
+    }
 
-.clientLoansTableContainer {
-  overflow-x: auto; /* Enable horizontal scrolling for tables on small screens */
-  max-width: var(--max-width-lg);
-}
+    .sectionTitle {
+        font-size: 1.1em;
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+    }
 
-.clientLoansTable {
-  border-collapse: collapse;
-  margin-top: 0.5rem;
-  color: var(--clr-soap-stone);
-}
-.clientLoansTable th,
-.clientLoansTable td {
-  border: 1px solid var(--clr-neutral-300);
-  text-align: left;
-  white-space: nowrap;
-  font-size: clamp(0.5em, 1.25vw, 1.25em);
-  font-family: "Raleway-Light";
-  padding: 0 .1rem;
-  margin: 0;
-}
-/* 
+    .infoGrid {
+        gap: 0.5rem;
+    }
 
-.clientLoansTable th {
-  background-color: var(--clr-platinum);
-  color: var(--clr-zeus);
-}
+    .infoItem {
+        font-size: 0.9em;
+    }
 
-.clientLoansTable tbody tr:nth-child(even) {
-  background-color: var(--clr-zeus); 
-}
+    .actionButtons {
+        flex-direction: column;
+        gap: 0.8rem;
+    }
 
-.clientLoansTable tbody tr:hover {
-  background-color: var(--clr-davy-grey); 
-}
- */
-/* Loan status indicator */
-.loanStatus {
-  border-radius: 0.1rem;
-  text-transform: uppercase;
-  color: var(--clr-white);
-}
+    .editClientBtn,
+    .viewLogsBtn {
+        width: 100%;
+    }
 
-.loanStatus.active {
-  background-color: var(--clr-active);
-}
-.loanStatus.paid {
-  background-color: var(--clr-paid);
-} /* Blueish for paid */
-.loanStatus.overdue {
-  background-color: var(--clr-overdue);
-} /* Orangish for overdue */
-.loanStatus.default {
-  background-color: var(--clr-default);
-} /* Strong red for default */
-.loanStatus.pending {
-  background-color: var(--clr-pending);
-} /* Purplish for pending */
+    .loansTable thead th,
+    .loansTable tbody td {
+        padding: 0.6rem 0.8rem;
+    }
 
-/* Actions cell styling for loans */
-.loanActionsCell {
-  display: flex;
+    .loan-status {
+        font-size: 0.75em;
+    }
 
-  gap: 0.5rem;
-  justify-content: center;
-  align-items: center;
-}
-
-.viewLoanDetailsLink a{
-  background-color: var(--clr-golden-yellow);
-  color: var(--clr-zeus);
-  border-radius: 0.1rem;
-  text-decoration: none;
-  font-size: 0.85em;
-}
-
-.viewLoanDetailsLink:hover {
-  background-color: var(--clr-citron);
+    .viewLoanDetailsBtn {
+        font-size: 0.75em;
+        padding: 0.4rem 0.7rem;
+    }
 }

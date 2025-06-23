@@ -1,11 +1,19 @@
-// src/pages/UserEditForm.js
-import React, { useState, useEffect } from 'react';
+// src/Pages/MainDashboardPage/UserManagementPage/UserEditForm/UserEditForm.jsx
+import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { getUserById, updateUser } from '../../../../services/api';
+// Correct import from the modular userApi service
+import { getUserById, updateUser } from '../../../../services/api/';
+import { toast } from 'react-toastify'; // For notifications
+import './UserEditForm.css'; // Import the new CSS file
 
+/**
+ * @component UserEditForm
+ * @description Allows admins/superadmins to edit the details of an existing user.
+ */
 const UserEditForm = () => {
     const { id } = useParams(); // Get user ID from the URL
     const navigate = useNavigate();
+
     const [formData, setFormData] = useState({
         username: '',
         role: '',
@@ -15,37 +23,45 @@ const UserEditForm = () => {
         employeeId: '',
         isActive: true,
     });
-    const [loading, setLoading] = useState(true);
-    const [message, setMessage] = useState('');
-    const [error, setError] = useState('');
+    const [loading, setLoading] = useState(true); // Initially loading as we fetch user data
+    // Using toast for messages, so local state for message can be removed if not for persistent display
+    // const [message, setMessage] = useState('');
+    const [error, setError] = useState(null); // Use null for no error, string for message
 
     // Fetch user data on component mount
-    useEffect(() => {
-        const fetchUserData = async () => {
-            setLoading(true);
-            setError(null);
-            try {
-                const data = await getUserById(id);
-                // Populate form with fetched data
-                setFormData({
-                    username: data.username,
-                    role: data.role,
-                    firstName: data.firstName || '',
-                    lastName: data.lastName || '',
-                    email: data.email || '',
-                    employeeId: data.employeeId || '',
-                    isActive: data.isActive,
-                });
-            } catch (err) {
-                setError(err || "Failed to fetch user data.");
-                console.error("Error fetching user data for edit:", err);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchUserData();
+    const fetchUserData = useCallback(async () => {
+        setLoading(true);
+        setError(null); // Clear previous errors
+        // setMessage(''); // Clear previous messages if using local message state
+        try {
+            const data = await getUserById(id);
+            // Populate form with fetched data
+            setFormData({
+                username: data.username || '',
+                role: data.role || '',
+                firstName: data.firstName || '',
+                lastName: data.lastName || '',
+                email: data.email || '',
+                employeeId: data.employeeId || '',
+                isActive: typeof data.isActive === 'boolean' ? data.isActive : true, // Ensure boolean
+            });
+        } catch (err) {
+            // handleApiError (from axiosInstance) should have already displayed a toast and handled redirect if necessary
+            setError(err.message || "Failed to fetch user data."); // Set local error state from message property
+            console.error("Error fetching user data for edit:", err);
+            setFormData({ // Clear form if data fetch fails
+                username: '', role: '', firstName: '', lastName: '', email: '', employeeId: '', isActive: true,
+            });
+        } finally {
+            setLoading(false);
+        }
     }, [id]); // Re-fetch if ID changes
+
+    useEffect(() => {
+        if (id) {
+            fetchUserData();
+        }
+    }, [id, fetchUserData]); // Depend on id and memoized fetchUserData
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -58,68 +74,91 @@ const UserEditForm = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
-        setMessage('');
-        setError('');
+        // setMessage(''); // No longer needed with toast
+        setError(null); // Clear previous errors
 
         try {
             await updateUser(id, formData);
-            setMessage('User updated successfully!');
-            setTimeout(() => navigate('/users'), 1500); // Redirect to user list
+            toast.success('User updated successfully!'); // Use toast for success message
+            // setMessage('User updated successfully!'); // Removed, toast is sufficient
+            // Optionally, clear form or redirect immediately
+            setTimeout(() => navigate('/users'), 1500); // Redirect to user list after a short delay
         } catch (err) {
-            setError(err || 'Failed to update user.');
+            // handleApiError (from axiosInstance) should have already displayed toast and handled redirect
+            setError(err.message || 'Failed to update user.'); // Set local error state from message property
             console.error("Error updating user:", err);
         } finally {
             setLoading(false);
         }
     };
 
-    if (loading) return <div style={{ textAlign: 'center', padding: '50px' }}>Loading user data...</div>;
-    if (error) return <div style={{ color: 'red', textAlign: 'center', padding: '50px' }}>Error: {error}</div>;
+    // Conditional rendering for loading, error states
+    if (loading) {
+        return <div className="editUserFormContainer"><div className="editUserMessage">Loading user data...</div></div>;
+    }
+
+    if (error) {
+        return <div className="editUserFormContainer"><div className="editUserErrorMessage">Error: {error}</div></div>;
+    }
+
+    // If user data is fetched but some critical fields are missing (unlikely if backend is good)
+    // This condition might need refinement depending on what constitutes "not found" vs "empty data"
+    if (!formData.username && !loading && !error) {
+        return <div className="editUserFormContainer"><div className="editUserMessage">User data not found for editing or no username available.</div></div>;
+    }
 
     return (
-        <div style={{ padding: '20px', maxWidth: '600px', margin: '50px auto', border: '1px solid #ccc', borderRadius: '8px', backgroundColor: '#fff', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}>
-            <Link to="/users" style={{ display: 'inline-block', marginBottom: '20px', padding: '8px 15px', backgroundColor: '#6c757d', color: 'white', textDecoration: 'none', borderRadius: '5px' }}>Back to User List</Link>
-            <h2 style={{ textAlign: 'center', color: '#333', marginBottom: '20px' }}>Edit User: {formData.username}</h2>
-            {message && <p style={{ color: 'green', textAlign: 'center' }}>{message}</p>}
-            {error && <p style={{ color: 'red', textAlign: 'center' }}>{error}</p>}
-            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-                <div>
-                    <label style={{ display: 'block', marginBottom: '5px' }}>Username:</label>
-                    <input type="text" name="username" value={formData.username} onChange={handleChange} required style={{ width: '100%', padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }} />
-                </div>
-                <div>
-                    <label style={{ display: 'block', marginBottom: '5px' }}>Role:</label>
-                    <select name="role" value={formData.role} onChange={handleChange} required style={{ width: '100%', padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }}>
-                        <option value="employee">Employee</option>
-                        <option value="admin">Admin</option>
-                        <option value="superadmin">Superadmin</option>
-                        <option value="client">Client</option>
-                    </select>
-                </div>
-                <div>
-                    <label style={{ display: 'block', marginBottom: '5px' }}>First Name:</label>
-                    <input type="text" name="firstName" value={formData.firstName} onChange={handleChange} style={{ width: '100%', padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }} />
-                </div>
-                <div>
-                    <label style={{ display: 'block', marginBottom: '5px' }}>Last Name:</label>
-                    <input type="text" name="lastName" value={formData.lastName} onChange={handleChange} style={{ width: '100%', padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }} />
-                </div>
-                <div>
-                    <label style={{ display: 'block', marginBottom: '5px' }}>Email:</label>
-                    <input type="email" name="email" value={formData.email} onChange={handleChange} style={{ width: '100%', padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }} />
-                </div>
-                <div>
-                    <label style={{ display: 'block', marginBottom: '5px' }}>Employee ID:</label>
-                    <input type="text" name="employeeId" value={formData.employeeId} onChange={handleChange} style={{ width: '100%', padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }} />
-                </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <input type="checkbox" id="isActive" name="isActive" checked={formData.isActive} onChange={handleChange} style={{ transform: 'scale(1.2)' }} />
-                    <label htmlFor="isActive">Is Active</label>
-                </div>
-                <button type="submit" disabled={loading} style={{ padding: '10px 20px', backgroundColor: '#007bff', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer', fontSize: '1.1em', marginTop: '10px' }}>
-                    {loading ? 'Updating...' : 'Update User'}
-                </button>
-            </form>
+        <div className="editUserFormContainer">
+            <div className="editUserFormContent">
+                <Link to="/users" className="editUserBackLink">
+                    Back to User List
+                </Link>
+                <h2 className="editUserHeadline">Edit User: {formData.username}</h2>
+
+                {/* Messages for success or general error */}
+                {/* {message && <p className="editUserSuccessMessage">{message}</p>} */}
+                {error && <p className="editUserErrorMessage">{error}</p>} {/* Render local error here */}
+
+                <form onSubmit={handleSubmit} className="editUserForm">
+                    <div className="editUserFormGroup">
+                        <label htmlFor="username">Username:</label>
+                        <input type="text" id="username" name="username" value={formData.username} onChange={handleChange} required disabled={loading} />
+                    </div>
+                    <div className="editUserFormGroup">
+                        <label htmlFor="role">Role:</label>
+                        <select id="role" name="role" value={formData.role} onChange={handleChange} required disabled={loading}>
+                            <option value="employee">Employee</option>
+                            <option value="admin">Admin</option>
+                            <option value="superadmin">Superadmin</option>
+                            <option value="client">Client</option>
+                        </select>
+                    </div>
+                    <div className="editUserFormGroup">
+                        <label htmlFor="firstName">First Name:</label>
+                        <input type="text" id="firstName" name="firstName" value={formData.firstName} onChange={handleChange} disabled={loading} />
+                    </div>
+                    <div className="editUserFormGroup">
+                        <label htmlFor="lastName">Last Name:</label>
+                        <input type="text" id="lastName" name="lastName" value={formData.lastName} onChange={handleChange} disabled={loading} />
+                    </div>
+                    <div className="editUserFormGroup">
+                        <label htmlFor="email">Email:</label>
+                        <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} disabled={loading} />
+                    </div>
+                    <div className="editUserFormGroup">
+                        <label htmlFor="employeeId">Employee ID:</label>
+                        <input type="text" id="employeeId" name="employeeId" value={formData.employeeId} onChange={handleChange} disabled={loading} />
+                    </div>
+                    <div className="editUserFormCheckboxGroup">
+                        <input type="checkbox" id="isActive" name="isActive" checked={formData.isActive} onChange={handleChange} disabled={loading} />
+                        <label htmlFor="isActive">Is Active</label>
+                    </div>
+
+                    <button type="submit" disabled={loading} className="editUserSubmitBtn">
+                        {loading ? 'Updating...' : 'Update User'}
+                    </button>
+                </form>
+            </div>
         </div>
     );
 };

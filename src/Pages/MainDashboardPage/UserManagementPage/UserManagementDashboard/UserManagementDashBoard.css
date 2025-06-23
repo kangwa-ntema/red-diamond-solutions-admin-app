@@ -1,5 +1,5 @@
-.usersDashboardContainer{
-      background-color: var(--clr-charcoal-gray);
+.usersDashboardContainer {
+  background-color: var(--clr-charcoal-gray);
   color: var(--clr-soap-stone);
   margin: 1rem 0;
   min-height: calc(100vh - 10rem);
@@ -23,37 +23,90 @@
   background-color: var(--clr-davy-grey);
 }
 
-.usersDashboardHeading{
+.usersDashboardHeadline {
   padding: 1rem;
+  font-family: "Raleway-Medium";
+}
+
+.usersDashboardSubHeadline {
+  color: var(--clr-golden-yellow);
   text-align: center;
-  font-size: clamp(1em, 2vw, 2em);
+  font-family: "Raleway-LightItalic";
+  font-size: 0.8em;
+}
+
+.usersDashboard {
+  padding: 1rem;
+  margin-top: 2rem;
+}
+
+.usersDashboardPanelContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.usersDashboardPanel {
+}
+
+.userSummarySection {
+  margin-bottom: 1rem;
+}
+
+.userSummaryCards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
+  gap: 1rem;
+  background-color: var(--clr-zeus);
+  padding: 0.5rem;
+  border-radius: 0.1rem;
+  margin-top: 1rem;
+}
+
+.userSummaryCard {
+  border-bottom: 0.1rem solid var(--clr-soap-stone);
+  margin-bottom: 1rem;
+  font-size: clamp(0.75em, 0.95vw, 0.95em);
+}
+
+.usersSummaryCardTitle {
+  color: var(--clr-golden-yellow);
+  font-family: "Raleway-LightItalic";
+}
+
+.usersSummaryCardValue {
+  font-size: 1.5em;
+  font-family: "Raleway-Bold";
+}
+
+.usersDashboardPanel {
+  display: grid;
+  grid-template-columns: 1fr;
+  width: 100%;
+  align-items: center;
 }
 
 @media (min-width: 50rem) {
-  .usersDashboard {
+  /*   .usersDashboard {
     display: grid;
     grid-template-columns: 1fr 5fr;
-    gap: 1rem;
+    gap: 1rem; */
+}
+
+.userDashboardContentContainer {
+  display: grid;
+  gap: 1rem;
+}
+
+@media (min-width: 800px) {
+  .userDashboardContentContainer {
+    grid-template-columns: 2fr 8fr;
   }
 }
-
-
-.usersDashboard{
-  padding: 1rem;
-}
-
 .usersDashboardHeadline {
   font-family: "Raleway-ExtraBold";
   font-size: clamp(1em, 2vw, 2em);
   text-align: center;
   margin-top: 1rem;
-}
-
-.clientsDashboardPanel {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1rem;
-  align-items: flex-end;
 }
 
 .userSummaryHeadline {
@@ -83,4 +136,91 @@
 .userSummaryCardValue {
   font-size: 1.5em;
   font-family: "Raleway-Bold";
+}
+
+.registerNewUserBtn {
+  background-color: var(--clr-golden-yellow);
+  padding: 1rem;
+  cursor: pointer;
+  border: none;
+  border-radius: 0.1rem;
+  background-color: var(--clr-dark-mint);
+  color: var(--clr-platinum);
+  border: 0.01rem solid var(--clr-platinum);
+  text-align: center;
+  max-width: 15rem;
+}
+
+.registerNewUserBtn:hover {
+  background-color: var(--clr-platinum);
+  color: var(--clr-dark-mint);
+  border: 0.01rem solid var(--clr-dark-mint);
+}
+
+.userDashboardContent{
+    background-color: var(--clr-zeus);
+  padding: 1rem;
+  border-radius: 0.1rem;
+  margin-block: 1rem;
+}
+
+.usersFilterButtons{
+    margin-block: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  font-size: clamp(0.65em, 1.25vw, 1.25em);
+}
+
+.usersFilterBtnHeadline{
+    font-family: "raleway-lightItalic";
+  color: var(--clr-platinum);
+  margin-top: 0.5rem;
+}
+
+.usersFilterBtnSubHeadline{
+  
+  color: var(--clr-golden-yellow);
+  margin-block: 1rem;
+}
+
+.usersFilterBtnSubHeadline{
+
+}
+
+.usersListHeadline{
+    text-align: center;
+  margin: 3rem 0 0rem;
+  font-size: clamp(1.25em, 2vw, 2em);
+  color: var(--clr-soap-stone);
+  text-decoration: underline;
+}
+
+.usersTable{
+   background-color: var(--clr-zeus);
+  width: 100%;
+  margin-block: 0.5rem;
+  border-collapse: collapse;
+}
+
+.usersTableHead {
+  color: var(--clr-soap-stone);
+  font-family: "Raleway-Light";
+}
+
+.usersTable th,
+.usersTable td {
+  border: 1px solid var(--clr-neutral-300);
+  text-align: left;
+  white-space: nowrap;
+  font-size: clamp(0.5em, 1.25vw, 1.25em);
+  font-family: "Raleway-Light";
+  padding: 0 0.1rem;
+  margin: 0;
+}
+
+.usersTable tbody tr:nth-child(even) {
+  background-color: var(
+    --clr-soap-stone-blend-2
+  ); /* Slightly different background for even rows */
 }

@@ -1,14 +1,18 @@
+// src/Pages/MainDashboardPage/LoansManagementPage/EditLoanForm/EditLoanForm.jsx
 import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-// Import functions from your centralized API service
-import { getLoanById, getAllClients, updateLoan } from '../../../../services/api'; 
-// Assuming authUtils.js and clearAuthData are still needed for manual logout on severe auth failures
-import { clearAuthData } from '../../../../utils/authUtils'; 
+import { getLoanById, updateLoan } from '../../../../services/api/loanApi';
+import { getAllClients } from '../../../../services/api/clientApi';
 
-import './EditLoanForm.css'; // Import your CSS file
+import './EditLoanForm.css';
 
+/**
+ * @component EditLoanForm
+ * @description Allows administrators to edit the details of an existing loan.
+ * It fetches loan and client data, calculates loan financials, and handles form submission.
+ */
 const EditLoanForm = () => {
     const { id } = useParams();
     const navigate = useNavigate();
@@ -18,42 +22,55 @@ const EditLoanForm = () => {
         loanAmount: '',
         interestRate: '',
         loanTerm: '',
-        termUnit: 'months', // Default to 'months'
+        termUnit: 'months',
         startDate: '',
         dueDate: '',
-        paymentsMade: 0, // Initialize as number for calculations
+        paymentsMade: 0,
         balanceDue: '',
         totalRepaymentAmount: '',
-        status: 'pending', // Default to 'pending'
+        status: 'pending',
         description: '',
         collateralType: '',
         collateralValue: '',
         collateralDescription: ''
     });
-    const [clients, setClients] = useState([]); // Renamed to setClients for consistency
+    const [clients, setClients] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const [error, setError] = useState(null);
-    const [interestAmount, setInterestAmount] = useState(''); // State for calculated interest amount
+
+    // --- Helper to format date strings for input type="date" ---
+    // This is a safer way to handle dates that might be null or already ISO strings
+    const formatDateForInput = (dateString) => {
+        if (!dateString) return '';
+        try {
+            const date = new Date(dateString);
+            if (isNaN(date.getTime())) {
+                console.warn("Invalid date string encountered during formatting:", dateString);
+                return ''; // Return empty string for invalid dates
+            }
+            return date.toISOString().split('T')[0]; // Format to YYYY-MM-DD
+        } catch (e) {
+            console.error("Error formatting date:", dateString, e);
+            return '';
+        }
+    };
 
     // --- Data Fetching Effect ---
-    // Uses useCallback to memoize the fetch function and prevent unnecessary re-renders/loops
     const fetchLoanAndClients = useCallback(async () => {
         setLoading(true);
         setError(null);
 
         try {
-            // Fetch clients using the API service
             const clientsData = await getAllClients();
-            setClients(clientsData.clients); 
+            setClients(clientsData.clients || []);
 
-            // Fetch Loan by ID using the API service
             const loanData = await getLoanById(id);
 
-            // Format dates for input fields
-            const formattedStartDate = loanData.startDate ? new Date(loanData.startDate).toISOString().split('T')[0] : '';
-            const formattedDueDate = loanData.dueDate ? new Date(loanData.dueDate).toISOString().split('T')[0] : '';
+            // CORRECTED LINES: Use formatDateForInput helper
+            const formattedStartDate = formatDateForInput(loanData.startDate);
+            const formattedDueDate = formatDateForInput(loanData.dueDate);
 
-            // Ensure client is an ID string (if populated as object)
             const clientId = loanData.client?._id || loanData.client;
 
             setFormData({
@@ -62,11 +79,11 @@ const EditLoanForm = () => {
                 interestRate: loanData.interestRate || '',
                 loanTerm: loanData.loanTerm || '',
                 termUnit: loanData.termUnit || 'months',
-                startDate: formattedStartDate,
-                dueDate: formattedDueDate, 
+                startDate: formattedStartDate, // Use formatted date
+                dueDate: formattedDueDate,     // Use formatted date
                 paymentsMade: loanData.paymentsMade || 0,
-                balanceDue: loanData.balanceDue || '', 
-                totalRepaymentAmount: loanData.totalRepaymentAmount || '', 
+                balanceDue: loanData.balanceDue || '',
+                totalRepaymentAmount: loanData.totalRepaymentAmount || '',
                 status: loanData.status || 'pending',
                 description: loanData.description || '',
                 collateralType: loanData.collateralType || '',
@@ -75,31 +92,35 @@ const EditLoanForm = () => {
             });
 
         } catch (err) {
-            // The API interceptor should handle 401, but we catch other errors here
             console.error("Error fetching data:", err);
-            toast.error(err.message || "Failed to load loan data.");
-            setError(err.message || "Network error or server unavailable.");
-            // If the error is an authorization issue not caught by interceptor, redirect
-            if (err.message && (err.message.includes('401') || err.message.includes('403'))) {
-                 clearAuthData(); // Clear client-side auth data
-                 navigate('/landingPage'); // Redirect to login
-            }
+            setError(err.message || "Failed to load loan data or clients.");
         } finally {
             setLoading(false);
         }
-    }, [id, navigate]); // Dependencies for useCallback
+    }, [id]);
 
     useEffect(() => {
-        fetchLoanAndClients();
-    }, [fetchLoanAndClients]); // Run effect when fetchLoanAndClients changes
+        if (id) {
+            fetchLoanAndClients();
+        }
+    }, [id, fetchLoanAndClients]);
 
     // --- Handle Form Field Changes ---
     const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData(prevData => ({
-            ...prevData,
-            [name]: value
-        }));
+        const { name, value, type } = e.target;
+
+        setFormData(prevData => {
+            let newValue = value;
+            if (type === "number" && value !== "") {
+                newValue = parseFloat(value);
+            } else if (type === "number" && value === "") {
+                newValue = "";
+            }
+            return {
+                ...prevData,
+                [name]: newValue
+            };
+        });
     };
 
     // --- Calculate Loan Details (Total Repayment, Balance Due, Due Date, Interest Amount) ---
@@ -107,107 +128,145 @@ const EditLoanForm = () => {
         const loanAmt = parseFloat(formData.loanAmount);
         const interestRate = parseFloat(formData.interestRate);
         const loanTerm = parseInt(formData.loanTerm);
-        const startDate = formData.startDate;
-        const paymentsMade = parseFloat(formData.paymentsMade || 0);
+        const startDateString = formData.startDate; // Get the start date string
 
         let calculatedTotalRepaymentAmount = '';
         let calculatedBalanceDue = '';
         let calculatedDueDate = '';
         let calculatedInterestAmount = '';
 
-        if (!isNaN(loanAmt) && !isNaN(interestRate) && interestRate >= 0) {
-            const totalInterest = loanAmt * (interestRate / 100);
+        if (!isNaN(loanAmt) && loanAmt > 0 && !isNaN(interestRate) && interestRate >= 0 && !isNaN(loanTerm) && loanTerm > 0) {
+            const totalInterest = (loanAmt * (interestRate / 100) * (formData.termUnit === 'months' ? loanTerm : 1));
             calculatedInterestAmount = totalInterest.toFixed(2);
-
             calculatedTotalRepaymentAmount = (loanAmt + totalInterest).toFixed(2);
+            // Ensure paymentsMade is treated as a number for calculation
+            const paymentsMade = parseFloat(formData.paymentsMade || 0);
             calculatedBalanceDue = (parseFloat(calculatedTotalRepaymentAmount) - paymentsMade).toFixed(2);
+        } else {
+            setFormData(prevData => ({
+                ...prevData,
+                interestAmount: "",
+                totalRepaymentAmount: "",
+                balanceDue: "",
+                dueDate: "",
+            }));
         }
 
         // Calculate Due Date
-        if (startDate && loanTerm > 0) {
-            const start = new Date(startDate);
-            let dueDate = new Date(startDate);
+        if (startDateString && loanTerm > 0 && !isNaN(loanTerm)) {
+            // Parse the date string safely for calculation
+            const start = new Date(startDateString);
+            if (isNaN(start.getTime())) {
+                console.warn("Invalid startDate string for due date calculation:", startDateString);
+                calculatedDueDate = ''; // Keep due date empty if start date is invalid
+            } else {
+                let dueDateCalc = new Date(start);
 
-            switch (formData.termUnit) {
-                case 'days':
-                    dueDate.setDate(start.getDate() + loanTerm);
-                    break;
-                case 'weeks':
-                    dueDate.setDate(start.getDate() + loanTerm * 7);
-                    break;
-                case 'months':
-                    dueDate.setMonth(start.getMonth() + loanTerm);
-                    // Adjust day if month overflowed (e.g., Jan 31 + 1 month = Feb 28/29)
-                    if (dueDate.getDate() !== start.getDate()) {
-                        dueDate.setDate(0); // Set to last day of previous month
-                    }
-                    break;
-                case 'years':
-                    dueDate.setFullYear(start.getFullYear() + loanTerm);
-                    // Adjust day if month overflowed (e.g., Feb 29 in leap year + 1 year = Feb 28)
-                    if (dueDate.getMonth() !== start.getMonth()) {
-                        dueDate.setDate(0); // Set to last day of previous month
-                    }
-                    break;
-                default:
-                    break;
+                switch (formData.termUnit) {
+                    case 'days':
+                        dueDateCalc.setDate(start.getDate() + loanTerm);
+                        break;
+                    case 'weeks':
+                        dueDateCalc.setDate(start.getDate() + loanTerm * 7);
+                        break;
+                    case 'months':
+                        const originalDayMonth = start.getDate();
+                        dueDateCalc = new Date(start.getFullYear(), start.getMonth() + loanTerm, originalDayMonth);
+                        if (dueDateCalc.getMonth() !== ((start.getMonth() + loanTerm) % 12)) {
+                            dueDateCalc = new Date(start.getFullYear(), start.getMonth() + loanTerm + 1, 0);
+                        }
+                        break;
+                    case 'years':
+                        const originalDayYear = start.getDate();
+                        const originalMonthYear = start.getMonth();
+                        dueDateCalc = new Date(start.getFullYear() + loanTerm, originalMonthYear, originalDayYear);
+                        if (dueDateCalc.getMonth() !== originalMonthYear) {
+                            dueDateCalc = new Date(start.getFullYear() + loanTerm, originalMonthYear + 1, 0);
+                        }
+                        break;
+                    default:
+                        break;
+                }
+                // Format the calculated due date for the input
+                calculatedDueDate = dueDateCalc.toISOString().split('T')[0];
             }
-            calculatedDueDate = dueDate.toISOString().split('T')[0];
+        } else if (!startDateString || isNaN(loanTerm) || loanTerm <= 0) {
+            calculatedDueDate = ''; // Clear due date if start date or term is invalid
         }
 
-        // Update formData and interestAmount states if values have changed
         setFormData(prevData => {
-            const newFormData = { ...prevData };
+            const updatedData = {};
             let changed = false;
 
-            if (newFormData.totalRepaymentAmount !== calculatedTotalRepaymentAmount) {
-                newFormData.totalRepaymentAmount = calculatedTotalRepaymentAmount;
+            if (prevData.totalRepaymentAmount !== calculatedTotalRepaymentAmount) {
+                updatedData.totalRepaymentAmount = calculatedTotalRepaymentAmount;
                 changed = true;
             }
-            if (newFormData.balanceDue !== calculatedBalanceDue) {
-                newFormData.balanceDue = calculatedBalanceDue;
+            if (prevData.balanceDue !== calculatedBalanceDue) {
+                updatedData.balanceDue = calculatedBalanceDue;
                 changed = true;
             }
-            if (newFormData.dueDate !== calculatedDueDate) {
-                newFormData.dueDate = calculatedDueDate;
+            if (prevData.dueDate !== calculatedDueDate) {
+                updatedData.dueDate = calculatedDueDate;
+                changed = true;
+            }
+            if (prevData.interestAmount !== calculatedInterestAmount) {
+                updatedData.interestAmount = calculatedInterestAmount;
                 changed = true;
             }
 
-            return changed ? newFormData : prevData;
+            return changed ? { ...prevData, ...updatedData } : prevData;
         });
 
-        if (interestAmount !== calculatedInterestAmount) {
-            setInterestAmount(calculatedInterestAmount);
-        }
-
-    }, [formData.loanAmount, formData.interestRate, formData.loanTerm, formData.termUnit, formData.startDate, formData.paymentsMade, interestAmount]);
+    }, [formData.loanAmount, formData.interestRate, formData.loanTerm, formData.termUnit, formData.startDate, formData.paymentsMade]);
 
 
     // --- Handle Form Submission ---
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError(null);
+        setIsSubmitting(true);
 
-        // Basic validation
-        if (!formData.client || !formData.loanAmount || !formData.interestRate || !formData.loanTerm || !formData.dueDate) {
-            toast.error('Please fill in all required fields (client, Loan Amount, Interest Rate, Loan Term, Due Date).');
+        if (
+            !formData.client ||
+            isNaN(parseFloat(formData.loanAmount)) || parseFloat(formData.loanAmount) <= 0 ||
+            isNaN(parseFloat(formData.interestRate)) || parseFloat(formData.interestRate) < 0 ||
+            isNaN(parseInt(formData.loanTerm)) || parseInt(formData.loanTerm) <= 0 ||
+            !formData.startDate || !formData.dueDate
+        ) {
+            const validationError = 'Please fill in all required fields correctly (Loan Amount, Interest Rate, Loan Term must be positive numbers).';
+            toast.error(validationError);
+            setError(validationError);
+            setIsSubmitting(false);
             return;
         }
 
         try {
-            // Use the centralized updateLoan API function
-            const data = await updateLoan(id, formData);
-            
-            console.log('Loan updated successfully:', data);
-            toast.success('Loan updated successfully!');
+            const dataToSubmit = {
+                ...formData,
+                loanAmount: parseFloat(formData.loanAmount),
+                interestRate: parseFloat(formData.interestRate),
+                loanTerm: parseInt(formData.loanTerm),
+                paymentsMade: parseFloat(formData.paymentsMade),
+                balanceDue: parseFloat(formData.balanceDue),
+                totalRepaymentAmount: parseFloat(formData.totalRepaymentAmount),
+                interestAmount: parseFloat(formData.interestAmount),
+                collateralValue: formData.collateralValue === "" ? null : parseFloat(formData.collateralValue),
+            };
+
+            const response = await updateLoan(id, dataToSubmit);
+
+            console.log('Loan updated successfully:', response);
+            toast.success(response.message || 'Loan updated successfully!');
             setTimeout(() => {
-                navigate(`/loans/${id}`); // Redirect back to loan details page
+                navigate(`/loans/${id}`);
             }, 1500);
         } catch (err) {
             console.error("Error updating loan:", err);
-            // The API interceptor usually shows the toast, but this is a fallback for other errors
             toast.error(err.message || "Network error or server unavailable.");
             setError(err.message || "Network error or server unavailable.");
+        } finally {
+            setIsSubmitting(false);
         }
     };
 
@@ -215,7 +274,6 @@ const EditLoanForm = () => {
         return <div className="editLoanPageContainer editLoanLoading">Loading loan data...</div>;
     }
 
-    // Display not found if no client (implies no loan) and not loading/error
     if (!formData.client && !loading && !error) {
         return <div className="editLoanPageContainer editLoanNotFound">Loan not found or invalid ID.</div>;
     }
@@ -240,11 +298,12 @@ const EditLoanForm = () => {
                             onChange={handleChange}
                             className="editLoanSelect"
                             required
+                            disabled={loading || isSubmitting}
                         >
                             <option value="">Select a client</option>
                             {clients.map(client => (
                                 <option key={client._id} value={client._id}>
-                                    {client.name} ({client.email})
+                                    {client.firstName} {client.lastName} ({client.email})
                                 </option>
                             ))}
                         </select>
@@ -262,6 +321,7 @@ const EditLoanForm = () => {
                             step="0.01"
                             min="0.01"
                             required
+                            disabled={isSubmitting}
                         />
                     </div>
 
@@ -277,6 +337,20 @@ const EditLoanForm = () => {
                             step="0.01"
                             min="0"
                             required
+                            disabled={isSubmitting}
+                        />
+                    </div>
+
+                    <div className="editLoanFormGroup">
+                        <label htmlFor="interestAmount">Interest Amount (ZMW):</label>
+                        <input
+                            type="text"
+                            id="interestAmount"
+                            name="interestAmount"
+                            value={formData.interestAmount}
+                            className="editLoanInput"
+                            readOnly
+                            disabled
                         />
                     </div>
 
@@ -291,6 +365,7 @@ const EditLoanForm = () => {
                             className="editLoanInput"
                             min="1"
                             required
+                            disabled={isSubmitting}
                         />
                         <select
                             id="termUnit"
@@ -298,6 +373,7 @@ const EditLoanForm = () => {
                             value={formData.termUnit}
                             onChange={handleChange}
                             className="editLoanSelect"
+                            disabled={isSubmitting}
                         >
                             <option value="days">Days</option>
                             <option value="weeks">Weeks</option>
@@ -316,19 +392,20 @@ const EditLoanForm = () => {
                             onChange={handleChange}
                             className="editLoanInput"
                             required
+                            disabled={isSubmitting}
                         />
                     </div>
 
                     <div className="editLoanFormGroup">
-                        <label htmlFor="dueDate">Due Date:</label>
+                        <label htmlFor="dueDate">Due Date (Calculated):</label>
                         <input
                             type="date"
                             id="dueDate"
                             name="dueDate"
                             value={formData.dueDate}
-                            onChange={handleChange}
                             className="editLoanInput"
-                            readOnly // Made readOnly as it's calculated
+                            readOnly
+                            disabled
                         />
                     </div>
 
@@ -343,8 +420,7 @@ const EditLoanForm = () => {
                             className="editLoanInput"
                             step="0.01"
                             min="0"
-                            // This field is kept editable to allow manual input of payments made.
-                            // The balanceDue calculation will react to changes here.
+                            disabled={isSubmitting}
                         />
                     </div>
 
@@ -355,22 +431,9 @@ const EditLoanForm = () => {
                             id="totalRepaymentAmount"
                             name="totalRepaymentAmount"
                             value={formData.totalRepaymentAmount}
-                            onChange={handleChange}
                             className="editLoanInput"
-                            readOnly // Made readOnly as it's calculated
-                        />
-                    </div>
-
-                    {/* New field for calculated Interest Amount */}
-                    <div className="editLoanFormGroup">
-                        <label htmlFor="interestAmount">Interest Amount (ZMW):</label>
-                        <input
-                            type="text"
-                            id="interestAmount"
-                            name="interestAmount"
-                            value={interestAmount}
-                            className="editLoanInput"
-                            readOnly // This field is calculated, not editable
+                            readOnly
+                            disabled
                         />
                     </div>
 
@@ -381,9 +444,9 @@ const EditLoanForm = () => {
                             id="balanceDue"
                             name="balanceDue"
                             value={formData.balanceDue}
-                            onChange={handleChange}
                             className="editLoanInput"
-                            readOnly // Made readOnly as it's calculated
+                            readOnly
+                            disabled
                         />
                     </div>
 
@@ -396,6 +459,7 @@ const EditLoanForm = () => {
                             onChange={handleChange}
                             className="editLoanSelect"
                             required
+                            disabled={isSubmitting}
                         >
                             <option value="pending">Pending</option>
                             <option value="active">Active</option>
@@ -416,10 +480,10 @@ const EditLoanForm = () => {
                             rows="3"
                             maxLength="500"
                             placeholder="e.g., Loan for business expansion, vehicle purchase, etc."
+                            disabled={isSubmitting}
                         ></textarea>
                     </div>
 
-                    {/* --- Collateral Details Section --- */}
                     <section className="collateralSection">
                         <h2 className="collateralHeadline">Collateral Details (Optional)</h2>
                         <div className="editLoanFormGroup">
@@ -432,6 +496,7 @@ const EditLoanForm = () => {
                                 onChange={handleChange}
                                 className="editLoanInput"
                                 placeholder="e.g., Vehicle, Property, Jewelry"
+                                disabled={isSubmitting}
                             />
                         </div>
                         <div className="editLoanFormGroup">
@@ -446,6 +511,7 @@ const EditLoanForm = () => {
                                 step="0.01"
                                 min="0"
                                 placeholder="e.g., 15000.00"
+                                disabled={isSubmitting}
                             />
                         </div>
                         <div className="editLoanFormGroup">
@@ -459,13 +525,18 @@ const EditLoanForm = () => {
                                 rows="3"
                                 maxLength="500"
                                 placeholder="e.g., 2015 Toyota Corolla, VIN: ABC123..., Color: Blue"
+                                disabled={isSubmitting}
                             ></textarea>
                         </div>
                     </section>
 
                     <div className="editLoanActionButtons">
-                        <button type="submit" className="editLoanSubmitBtn">Update Loan</button>
-                        <button type="button" onClick={() => navigate(-1)} className="editLoanCancelBtn">Cancel</button>
+                        <button type="submit" className="editLoanSubmitBtn" disabled={isSubmitting}>
+                            {isSubmitting ? 'Updating...' : 'Update Loan'}
+                        </button>
+                        <button type="button" onClick={() => navigate(-1)} className="editLoanCancelBtn" disabled={isSubmitting}>
+                            Cancel
+                        </button>
                     </div>
                 </form>
             </div>

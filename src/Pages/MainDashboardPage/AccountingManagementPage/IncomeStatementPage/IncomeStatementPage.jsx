@@ -1,8 +1,14 @@
+// src/Pages/MainDashboardPage/AccountingManagementPage/IncomeStatementPage/IncomeStatementPage.jsx
+
 import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { getIncomeStatement } from '../../../../services/api/accountingApi'; // Adjust path as needed
-import './IncomeStatementPage.css'; // Ensure this path is correct
+
+// Import the centralized API functions for reports and error handling
+import { getIncomeStatementReport } from '../../../../services/api/reportApi'; // Consolidated import for report API
+import { handleApiError } from '../../../../services/axiosInstance'; // For consistent error handling
+
+import './IncomeStatementPage.css'; 
 
 /**
  * @component IncomeStatementPage
@@ -10,7 +16,7 @@ import './IncomeStatementPage.css'; // Ensure this path is correct
  * Summarizes revenues and expenses to show net income or loss.
  */
 const IncomeStatementPage = () => {
-    const navigate = useNavigate();
+    const navigate = useNavigate(); // Hook for programmatic navigation
 
     // State to store the fetched income statement data
     const [incomeStatementData, setIncomeStatementData] = useState(null);
@@ -18,24 +24,26 @@ const IncomeStatementPage = () => {
     const [filterStartDate, setFilterStartDate] = useState('');
     const [filterEndDate, setFilterEndDate] = useState('');
 
-    const [loading, setLoading] = useState(false); // Changed initial state to false as we await user input
+    const [loading, setLoading] = useState(false); // Initial state is false, awaiting user input
     const [error, setError] = useState(null);
 
     // --- Memoized function to fetch Income Statement data ---
     const fetchAndSetIncomeStatement = useCallback(async () => {
-        // Perform local validation before making API call
+        // Perform client-side validation before making API call
         if (!filterStartDate || !filterEndDate) {
-            // No toast.info here, as the UI will prompt the user to select dates.
-            // setIncomeStatementData(null) is important to clear previous report
-            setIncomeStatementData(null);
-            setLoading(false); // Stop loading if dates are missing
+            setIncomeStatementData(null); // Clear previous report data if dates are incomplete
+            setLoading(false); // Ensure loading is off
             setError(null); // Clear any previous error
             return;
         }
 
-        if (new Date(filterStartDate) > new Date(filterEndDate)) {
+        // Additional validation for date range logic
+        const startDateObj = new Date(filterStartDate);
+        const endDateObj = new Date(filterEndDate);
+
+        if (startDateObj > endDateObj) {
             toast.error('Start date cannot be after end date.');
-            setIncomeStatementData(null); // Clear previous data
+            setIncomeStatementData(null); // Clear data
             setLoading(false);
             setError('Invalid date range: Start date cannot be after end date.');
             return;
@@ -45,53 +53,48 @@ const IncomeStatementPage = () => {
         setError(null);   // Clear any previous errors
 
         try {
-            const data = await getIncomeStatement(filterStartDate, filterEndDate);
+            // Call the centralized report API function with a filters object
+            const data = await getIncomeStatementReport({ startDate: filterStartDate, endDate: filterEndDate });
             setIncomeStatementData(data);
         } catch (err) {
-            // handleApiError in accountingApi.js should already show a toast
-            // and handle unauthorized redirects. We catch it here to update local error state.
+            // Centralized error handler `handleApiError` will show a toast and potentially redirect.
             console.error("IncomeStatementPage: Error fetching income statement:", err);
-            setError(err.message || "Failed to fetch income statement data.");
+            handleApiError(err, "Failed to generate Income Statement report.");
             setIncomeStatementData(null); // Clear previous data on error
+            setError(err.message || "Failed to fetch income statement data."); // Set local error for display
         } finally {
             setLoading(false); // Indicate loading has finished
         }
     }, [filterStartDate, filterEndDate]); // Re-fetch whenever filter dates change
 
-    // Use a separate useEffect for automatic fetching when dates are provided
-    // or when the component initially loads with pre-filled dates (if applicable)
+    // Use useEffect to trigger fetching when `fetchAndSetIncomeStatement` changes (due to its dependencies)
     useEffect(() => {
-        // This useEffect specifically watches for changes in dates
-        // and triggers the fetch if both dates are present and valid.
-        // It's effectively the "listener" for when filters are applied.
         fetchAndSetIncomeStatement();
-    }, [fetchAndSetIncomeStatement]); // Dependency on the memoized function
+    }, [fetchAndSetIncomeStatement]);
 
-    // handleApplyFilters now simply ensures the dates are ready, and
-    // the useEffect will pick up the changes and trigger the fetch.
+    // `handleApplyFilters` now simply provides user feedback if dates are missing/invalid,
+    // as the `useEffect` handles the actual data fetching based on state changes.
     const handleApplyFilters = () => {
-        // No direct fetch call here; the state updates will trigger the useEffect
-        // The validation inside fetchAndSetIncomeStatement will catch missing/invalid dates
-        // before the API call is made.
         if (!filterStartDate || !filterEndDate) {
             toast.info('Please select both a start and end date to generate the report.');
         } else if (new Date(filterStartDate) > new Date(filterEndDate)) {
             toast.error('Start date cannot be after end date.');
         }
+        // State updates already trigger the useEffect.
     };
 
-    // Handle clearing filters
+    // Handle clearing filter dates
     const handleClearFilters = () => {
         setFilterStartDate('');
         setFilterEndDate('');
-        // Setting state to empty will trigger fetchAndSetIncomeStatement
-        // which will then show the "Please select dates" message.
+        // Setting state to empty will trigger `fetchAndSetIncomeStatement`, which will clear the report.
     };
 
     return (
         <div className="incomeStatementContainer">
-            <Link to="/transactions" className="incomeStatementBackLink">
-                {"<"} Back to Accounting
+            {/* Link back to the main accounting dashboard */}
+            <Link to="/accounting" className="incomeStatementBackLink">
+                {"<"} Back to Accounting Dashboard
             </Link>
             <h1 className="incomeStatementHeadline">Income Statement (Profit & Loss)</h1>
 
@@ -131,7 +134,7 @@ const IncomeStatementPage = () => {
                     <button
                         onClick={handleClearFilters}
                         className="clearFiltersBtn"
-                        disabled={loading}
+                        disabled={loading} // Disable while loading
                     >
                         Clear Dates
                     </button>
