@@ -89,13 +89,14 @@
   word-wrap: break-word; /* Ensure long values wrap */
 }
 
+
 /* Specific styling for role and status values */
 .viewUserDetailValue.role-superadmin { color: var(--clr-lava-red); font-weight: bold; }
 .viewUserDetailValue.role-admin { color: var(--clr-golden-yellow); font-weight: bold; }
 .viewUserDetailValue.role-employee { color: var(--clr-green); }
 .viewUserDetailValue.role-client { color: var(--clr-platinum); }
 
-.viewUserDetailValue.status-active { color: var(--clr-active); font-weight: bold; }
+.viewUserDetailValue.status-active { color: var(--clr-soap-stone); font-weight: bold; }
 .viewUserDetailValue.status-inactive { color: var(--clr-inactive); }
 
 /* Buttons container */
@@ -128,6 +129,16 @@
 
 .viewUserActionButton.edit-btn:hover:not(:disabled) {
   background-color: var(--clr-citron);
+}
+
+.viewUserActionButton.view-activity-btn{
+  background-color: var(--clr-golden-yellow); /* Secondary button style */
+  color: var(--clr-zeus);
+}
+
+.viewUserActionButton.view-activity-btn:hover{
+  background-color: var(--clr-citron); /* Secondary button style */
+  color: var(--clr-zeus);
 }
 
 .viewUserActionButton.delete-btn {

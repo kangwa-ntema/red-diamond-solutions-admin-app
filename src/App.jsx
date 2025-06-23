@@ -19,7 +19,7 @@ import LoginForm from "./Pages/LoginForm/LoginForm";
 import MainDashboardPage from "./Pages/MainDashboardPage/MainDashboardPage";
 
 /* USER MANAGEMENT */
-import UserManagementPage from "./Pages/MainDashboardPage/UserManagementPage/UserManagementDashboard/UserManagementDashBoard.jsx";
+import UserManagementDashboard from "./Pages/MainDashboardPage/UserManagementPage/UserManagementDashboard/UserManagementDashBoard.jsx";
 import RegisterUserPage from "./Pages/MainDashboardPage/UserManagementPage/RegisterUserForm/RegisterUserForm";
 import UserEditPage from "./Pages/MainDashboardPage/UserManagementPage/UserEditForm/UserEditForm";
 import ViewUserPage from "./Pages/MainDashboardPage/UserManagementPage/ViewUserPage/ViewUserPage.jsx";
@@ -118,7 +118,7 @@ function App() {
                             }
                         >
                             {/* User Management (excluding register, which is superadmin only) */}
-                            <Route path="/users" element={<UserManagementPage />} />
+                            <Route path="/users" element={<UserManagementDashboard />} />
                             <Route path="/users/:id/edit" element={<UserEditPage />} />
                             <Route path="/users/:id" element={<ViewUserPage />} />
                             <Route
