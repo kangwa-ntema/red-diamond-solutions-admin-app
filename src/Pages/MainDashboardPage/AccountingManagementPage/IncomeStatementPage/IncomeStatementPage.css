@@ -1,0 +1,399 @@
+/* General Container Styling */
+.incomeStatementContainer {
+    background-color: var(--clr-charcoal-gray);
+    color: var(--clr-soap-stone);
+    margin: 1rem 0;
+    min-height: calc(100vh - 10rem);
+    padding: 1rem;
+    max-width: var(--max-width-xl);
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    font-family: 'Raleway-Medium', sans-serif;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* Back Link */
+.incomeStatementBackLink {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--clr-soap-stone);
+    background-color: var(--clr-charcoal-gray);
+    text-decoration: none;
+    font-family: 'Raleway-Bold', sans-serif;
+    font-size: 0.95rem;
+    transition: var(--transition-main);
+    padding: 0.5rem 0;
+}
+
+.incomeStatementBackLink:hover {
+    color: var(--clr-davy-grey);
+    background-color: var(--clr-zeus);
+    transform: translateX(-5px);
+}
+
+/* Headline */
+.incomeStatementHeadline {
+    font-family: "Raleway-ExtraBold", sans-serif;
+    color: var(--clr-golden-yellow);
+    text-align: center;
+    font-size: 2.5rem;
+    margin-top: 1rem;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.05em;
+}
+
+/* Filter Section */
+.incomeStatementFilters {
+    background-color: var(--clr-zeus);
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    align-items: flex-end;
+}
+
+.incomeStatementFilters h3 {
+    font-family: 'Raleway-Bold', sans-serif;
+    color: var(--clr-golden-yellow);
+    font-size: 1.2rem;
+    width: 100%;
+    margin-bottom: 0.5rem;
+}
+
+.filterGroup {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 200px;
+}
+
+.filterGroup label {
+    font-family: 'Raleway-Bold', sans-serif;
+    margin-bottom: 0.5rem;
+    color: var(--clr-golden-yellow);
+    font-size: 0.9rem;
+}
+
+.filterGroup input[type="date"] {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--clr-davy-grey);
+    border-radius: 8px;
+    background-color: var(--clr-neutral-100);
+    font-family: 'Raleway-Medium', sans-serif;
+    font-size: 1rem;
+    color: var(--clr-soap-stone);
+    transition: border-color var(--transition-main), box-shadow var(--transition-main);
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+.filterGroup input[type="date"]:focus {
+    outline: none;
+    border-color: var(--clr-golden-yellow);
+    box-shadow: 0 0 0 3px var(--clr-sandy-yellow);
+}
+
+.filterGroup input[type="date"]:disabled {
+    background-color: var(--clr-neutral-200);
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.filterButtons {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.applyFiltersBtn, .clearFiltersBtn {
+    padding: 0.8rem 1.5rem;
+    border: 0.01rem solid var(--clr-platinum);
+    border-radius: 8px;
+    font-family: 'Raleway-Bold', sans-serif;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: var(--transition-main);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.applyFiltersBtn {
+    background-color: var(--clr-dark-mint);
+    color: var(--clr-platinum);
+}
+
+.applyFiltersBtn:hover:not(:disabled) {
+    background-color: var(--clr-platinum);
+    color: var(--clr-dark-mint);
+    border: 0.01rem solid var(--clr-dark-mint);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.clearFiltersBtn {
+    background-color: var(--clr-davy-grey);
+    color: var(--clr-white);
+}
+
+.clearFiltersBtn:hover:not(:disabled) {
+    background-color: #4a4a4a;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.applyFiltersBtn:disabled, .clearFiltersBtn:disabled {
+    background-color: var(--clr-neutral-600);
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+/* Messages (Loading, Error, No Data) */
+.incomeStatementMessage {
+    text-align: center;
+    padding: 1.5rem;
+    background-color: var(--clr-zeus);
+    border-radius: 8px;
+    color: var(--clr-davy-grey);
+    font-size: 1.1rem;
+    font-family: 'Raleway-Medium', sans-serif;
+}
+
+.incomeStatementErrorMessage {
+    text-align: center;
+    padding: 1.5rem;
+    background-color: var(--clr-rose-gold);
+    border: 1px solid var(--clr-lava-red);
+    border-radius: 8px;
+    color: var(--clr-lava-red);
+    font-size: 1.1rem;
+    font-family: 'Raleway-Bold', sans-serif;
+}
+
+/* Income Statement Report Sections (Revenues, Expenses) */
+.incomeStatementReport {
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem; /* Spacing between sections */
+}
+
+.incomeStatementReport h2 {
+    font-family: 'Raleway-Bold', sans-serif;
+    color: var(--clr-golden-yellow);
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid var(--clr-golden-yellow);
+    padding-bottom: 0.5rem;
+    text-align: center;
+}
+
+.incomeStatementSection {
+    background-color: var(--clr-zeus);
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.incomeStatementSection h3 {
+    font-family: 'Raleway-Bold', sans-serif;
+    color: var(--clr-golden-yellow);
+    font-size: 1.6rem;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid var(--clr-sandy-yellow);
+    padding-bottom: 0.5rem;
+}
+
+.noDataMessage {
+    text-align: center;
+    color: var(--clr-davy-grey);
+    padding: 1rem 0;
+    font-style: italic;
+}
+
+/* Income Statement Table (for Revenue, Expense lists) */
+.incomeStatementTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+.incomeStatementTable tbody tr {
+    border-bottom: 1px solid var(--clr-neutral-300);
+}
+
+.incomeStatementTable tbody tr:last-child {
+    border-bottom: none; /* No border for the last row */
+}
+
+.incomeStatementTable tbody tr:nth-child(even) {
+    background-color: var(--clr-neutral-100);
+}
+
+.incomeStatementTable tbody tr:hover {
+    background-color: var(--clr-neutral-200);
+    transition: background-color var(--transition-main);
+}
+
+.incomeStatementTable td {
+    padding: 0.8rem 1rem;
+    font-family: 'Raleway-Medium', sans-serif;
+    color: var(--clr-soap-stone);
+}
+
+.incomeStatementTable .accountNameCol {
+    font-family: 'Raleway-Bold', sans-serif;
+    color: var(--clr-soap-stone);
+}
+
+.incomeStatementTable .amountCol {
+    font-family: 'Raleway-Bold', sans-serif;
+    white-space: nowrap; /* Prevent amounts from wrapping */
+    text-align: right; /* Ensure amounts are right-aligned */
+}
+
+.incomeStatementTable .text-right {
+    text-align: right;
+}
+
+.incomeStatementTable .totalRow {
+    background-color: var(--clr-neutral-200); /* Darker background for total rows */
+    font-family: 'Raleway-ExtraBold', sans-serif;
+    color: var(--clr-golden-yellow);
+    border-top: 2px solid var(--clr-golden-yellow);
+}
+
+.incomeStatementTable .totalRow td {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+/* Net Income Section */
+.netIncomeSection {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    border-radius: 10px;
+    background-color: var(--clr-zeus); /* Consistent with other sections */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Raleway-Bold', sans-serif;
+    font-size: 1.3rem;
+    color: var(--clr-golden-yellow); /* Net income label color */
+    border: 2px solid var(--clr-golden-yellow); /* Highlight net income section */
+}
+
+.netIncomeSection p {
+    margin: 0; /* Remove default paragraph margin */
+}
+
+.netIncomeAmount {
+    font-family: 'Raleway-ExtraBold', sans-serif;
+    font-size: 1.8rem; /* Larger font for the amount */
+    color: var(--clr-dark-mint); /* Green for positive net income */
+}
+
+.netIncomeAmount.negative-income {
+    color: var(--clr-lava-red); /* Red for negative net income (loss) */
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .incomeStatementHeadline {
+        font-size: 2rem;
+    }
+
+    .incomeStatementFilters {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .filterGroup {
+        min-width: unset;
+        width: 100%;
+    }
+
+    .filterButtons {
+        flex-direction: column;
+        gap: 0.8rem;
+    }
+
+    .applyFiltersBtn, .clearFiltersBtn {
+        width: 100%;
+    }
+
+    /* Make tables responsive by stacking cells */
+    .incomeStatementTable {
+        display: block;
+        width: 100%;
+    }
+
+    .incomeStatementTable tbody, .incomeStatementTable tr, .incomeStatementTable td {
+        display: block;
+    }
+
+    .incomeStatementTable tr {
+        border: 1px solid var(--clr-neutral-300);
+        margin-bottom: 1rem;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .incomeStatementTable td {
+        border: none;
+        position: relative;
+        padding-left: 50%;
+        text-align: right;
+        white-space: normal;
+    }
+
+    .incomeStatementTable td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 10px;
+        width: calc(50% - 20px);
+        padding-right: 10px;
+        white-space: nowrap;
+        text-align: left;
+        font-family: 'Raleway-Bold', sans-serif;
+        color: var(--clr-golden-yellow);
+    }
+
+    /* Specific adjustments for total rows in stacked tables */
+    .incomeStatementTable .totalRow td {
+        padding-left: 10px; /* Adjust for total row not having data-label */
+        text-align: right;
+    }
+    .incomeStatementTable .totalRow td:first-child {
+        text-align: left;
+    }
+
+    .netIncomeSection {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    .netIncomeAmount {
+        width: 100%;
+        text-align: right;
+    }
+}
+
+@media (max-width: 576px) {
+    .incomeStatementContainer {
+        padding: 1rem;
+        margin: 1rem auto;
+    }
+
+    .incomeStatementHeadline {
+        font-size: 1.8rem;
+    }
+}

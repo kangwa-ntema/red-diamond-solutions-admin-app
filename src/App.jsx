@@ -60,10 +60,10 @@ import AccountActivityLog from "./Pages/MainDashboardPage/AccountingManagementPa
 import JournalEntryActivityLog from "./Pages/MainDashboardPage/AccountingManagementPage/JournalEntriesListPage/JournalEntryActivityLog/JournalEntryActivityLog.jsx"; // NEW: Import JournalEntryActivityLog
 
 /* IMAGES */
-import PrimaryNavLogo from "./assets/logo-images/red-diamond-primary-logo-white-typeface.png";
 
 /* COMPONENTS */
 import ScrollToTop from "./components/scrollToTop/ScrollToTop";
+import PrimaryNavbar from "./components/primaryNavbar/primaryNavbar.jsx";
 
 /* SETTINGS COMPONENTS */
 import SettingsPage from "./Pages/MainDashboardPage/SettingsPage/SettingsPage";
@@ -79,22 +79,7 @@ function App() {
         <AuthProvider>
             <ScrollToTop />
             <div className="appContainer">
-                <div className="appPrimaryNavbarContainer">
-                    <header className="appPrimaryNavbar">
-                        <div className="primaryNavLogoContainer">
-                            <span>
-                                <img
-                                    src={PrimaryNavLogo}
-                                    alt="Red Diamond Solutions Logo"
-                                    className="primaryNavLogo"
-                                />
-                            </span>
-                            <span className="appPrimaryNavbarHeadline">
-                                <h1>Management Portal.</h1>
-                            </span>
-                        </div>
-                    </header>
-                </div>
+                <PrimaryNavbar/>
                 <div className="outletSection">
                     <Routes>
                         {/* Public Routes - Accessible without login */}

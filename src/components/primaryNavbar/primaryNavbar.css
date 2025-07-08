@@ -1,0 +1,18 @@
+.appPrimaryNavbarContainer {
+  background-color: var(--clr-charcoal-gray);
+  padding: 1rem;
+}
+
+.appPrimaryNavbar {
+  margin: auto;
+  max-width: var(--max-width-xl);
+}
+
+.primaryNavLogo {
+  max-height: 2rem;
+}
+
+.appPrimaryNavbarHeadline {
+  color: var(--clr-soap-stone);
+  font-family: "Raleway-Light";
+}

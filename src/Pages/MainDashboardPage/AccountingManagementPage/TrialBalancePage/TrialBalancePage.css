@@ -1,0 +1,385 @@
+.trialBalanceContainer {
+    background-color: var(--clr-charcoal-gray);
+    color: var(--clr-soap-stone);
+    margin: 1rem 0;
+    min-height: calc(100vh - 10rem);
+    padding: 1rem;
+    max-width: var(--max-width-xl); /* Keep max-width for consistency */
+    margin-left: auto; /* Center the container */
+    margin-right: auto;
+    border-radius: 12px; /* Consistent rounded corners */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); /* Consistent shadow */
+    font-family: 'Raleway-Medium', sans-serif;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* Back Link */
+.trialBalanceBackLink {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--clr-soap-stone);
+    background-color: var(--clr-charcoal-gray);
+    text-decoration: none;
+    font-family: 'Raleway-Bold', sans-serif;
+    font-size: 0.95rem;
+    transition: var(--transition-main);
+    padding: 0.5rem 0;
+}
+
+.trialBalanceBackLink:hover {
+    color: var(--clr-davy-grey);
+    background-color: var(--clr-zeus);
+    transform: translateX(-5px);
+}
+
+/* Headline */
+.trialBalanceHeadline {
+    font-family: "Raleway-ExtraBold", sans-serif;
+    color: var(--clr-golden-yellow);
+    text-align: center;
+    font-size: 2.5rem; /* Adjusted from clamp for consistency with GL */
+    margin-top: 1rem;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.05em;
+}
+
+/* Filter Section */
+.trialBalanceFilters {
+    background-color: var(--clr-zeus);
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-wrap: wrap; /* Allows items to wrap */
+    gap: 1.5rem;
+    align-items: flex-end; /* Aligns items to the bottom */
+}
+
+.trialBalanceFilters h3 {
+    font-family: 'Raleway-Bold', sans-serif;
+    color: var(--clr-golden-yellow);
+    font-size: 1.2rem;
+    width: 100%; /* Ensures headline takes full width */
+    margin-bottom: 0.5rem;
+}
+
+.filterGroup {
+    display: flex;
+    flex-direction: column;
+    flex: 1; /* Allows it to grow */
+    min-width: 200px; /* Minimum width before wrapping */
+}
+
+.filterGroup label {
+    font-family: 'Raleway-Bold', sans-serif;
+    margin-bottom: 0.5rem;
+    color: var(--clr-golden-yellow);
+    font-size: 0.9rem;
+}
+
+.filterGroup input[type="date"] {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--clr-davy-grey);
+    border-radius: 8px;
+    background-color: var(--clr-neutral-100);
+    font-family: 'Raleway-Medium', sans-serif;
+    font-size: 1rem;
+    color: var(--clr-soap-stone);
+    transition: border-color var(--transition-main), box-shadow var(--transition-main);
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+.filterGroup input[type="date"]:focus {
+    outline: none;
+    border-color: var(--clr-golden-yellow);
+    box-shadow: 0 0 0 3px var(--clr-sandy-yellow);
+}
+
+.filterGroup input[type="date"]:disabled {
+    background-color: var(--clr-neutral-200);
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.filterButtons {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap; /* Allow buttons to wrap */
+}
+
+.applyFiltersBtn, .clearFiltersBtn {
+    padding: 0.8rem 1.5rem;
+    border: 0.01rem solid var(--clr-platinum); /* Consistent border */
+    border-radius: 8px;
+    font-family: 'Raleway-Bold', sans-serif;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: var(--transition-main);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.applyFiltersBtn {
+    background-color: var(--clr-dark-mint);
+    color: var(--clr-platinum);
+}
+
+.applyFiltersBtn:hover:not(:disabled) {
+    background-color: var(--clr-platinum);
+    color: var(--clr-dark-mint);
+    border: 0.01rem solid var(--clr-dark-mint);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.clearFiltersBtn {
+    background-color: var(--clr-davy-grey);
+    color: var(--clr-white);
+}
+
+.clearFiltersBtn:hover:not(:disabled) {
+    background-color: #4a4a4a;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.applyFiltersBtn:disabled, .clearFiltersBtn:disabled {
+    background-color: var(--clr-neutral-600);
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+/* Messages (Loading, Error, No Data) */
+.trialBalanceMessage {
+    text-align: center;
+    padding: 1.5rem;
+    background-color: var(--clr-zeus);
+    border-radius: 8px;
+    color: var(--clr-davy-grey);
+    font-size: 1.1rem;
+    font-family: 'Raleway-Medium', sans-serif;
+}
+
+.trialBalanceErrorMessage {
+    text-align: center;
+    padding: 1.5rem;
+    background-color: var(--clr-rose-gold);
+    border: 1px solid var(--clr-lava-red);
+    border-radius: 8px;
+    color: var(--clr-lava-red);
+    font-size: 1.1rem;
+    font-family: 'Raleway-Bold', sans-serif;
+}
+
+/* Trial Balance Report Section */
+.trialBalanceReport {
+    margin-top: 2rem;
+}
+
+.trialBalanceReport h2 {
+    font-family: 'Raleway-Bold', sans-serif;
+    color: var(--clr-golden-yellow);
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid var(--clr-golden-yellow);
+    padding-bottom: 0.5rem;
+    text-align: center;
+}
+
+.balanceStatusMessage {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-size: 1.1rem;
+    font-family: 'Raleway-Bold', sans-serif;
+}
+
+.balanceStatusMessage .balanced {
+    color: var(--clr-dark-mint); /* Green for balanced */
+    background-color: var(--clr-zeus-blend-5);
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    display: inline-block; /* For padding and background to apply */
+}
+
+.balanceStatusMessage .unbalanced {
+    color: var(--clr-lava-red); /* Red for unbalanced */
+    background-color: var(--clr-rose-gold);
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    display: inline-block;
+}
+
+/* Trial Balance Table */
+.trialBalanceTableContainer {
+    overflow-x: auto;
+    margin-top: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    background-color: var(--clr-neutral-100);
+}
+
+.trialBalanceTable {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 700px; /* Ensure table doesn't shrink too much */
+}
+
+.trialBalanceTable thead {
+    background-color: var(--clr-neutral-200);
+    color: var(--clr-golden-yellow);
+}
+
+.trialBalanceTable th, .trialBalanceTable td {
+    padding: 1rem 1.2rem;
+    text-align: left;
+    border-bottom: 1px solid var(--clr-neutral-300);
+    font-size: 0.95rem;
+}
+
+.trialBalanceTable th {
+    font-family: 'Raleway-Bold', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+}
+
+.trialBalanceTable tbody tr:nth-child(even) {
+    background-color: var(--clr-neutral-100);
+}
+
+.trialBalanceTable tbody tr:hover {
+    background-color: var(--clr-neutral-200);
+    transition: background-color var(--transition-main);
+}
+
+.trialBalanceTable td {
+    font-family: 'Raleway-Medium', sans-serif;
+    color: var(--clr-soap-stone);
+}
+
+.trialBalanceTable .text-right {
+    text-align: right;
+}
+
+.trialBalanceTable .debit-column {
+    color: var(--clr-lava-red); /* Red for debits */
+    font-family: 'Raleway-Bold', sans-serif;
+    white-space: nowrap;
+}
+
+.trialBalanceTable .credit-column {
+    color: var(--clr-dark-mint); /* Green for credits */
+    font-family: 'Raleway-Bold', sans-serif;
+    white-space: nowrap;
+}
+
+/* Table Footer - Totals */
+.trialBalanceTable tfoot {
+    background-color: var(--clr-neutral-200);
+    color: var(--clr-golden-yellow);
+    font-family: 'Raleway-Bold', sans-serif;
+    font-size: 1.1rem;
+}
+
+.trialBalanceTable tfoot td {
+    padding: 1.2rem;
+    border-top: 2px solid var(--clr-golden-yellow);
+}
+
+.trialBalanceTable tfoot .balanced-totals {
+    color: var(--clr-dark-mint); /* Green for balanced totals */
+}
+
+.trialBalanceTable tfoot .unbalanced-totals {
+    color: var(--clr-lava-red); /* Red for unbalanced totals */
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .trialBalanceHeadline {
+        font-size: 2rem;
+    }
+
+    .trialBalanceFilters {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .filterGroup {
+        min-width: unset;
+        width: 100%;
+    }
+
+    .filterButtons {
+        flex-direction: column;
+        gap: 0.8rem;
+    }
+
+    .applyFiltersBtn, .clearFiltersBtn {
+        width: 100%;
+    }
+
+    /* Make table responsive by stacking cells */
+    .trialBalanceTable, .trialBalanceTable thead, .trialBalanceTable tbody, .trialBalanceTable th, .trialBalanceTable td, .trialBalanceTable tr {
+        display: block;
+    }
+
+    .trialBalanceTable thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+
+    .trialBalanceTable tr {
+        border: 1px solid var(--clr-neutral-300);
+        margin-bottom: 1rem;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .trialBalanceTable td {
+        border: none;
+        position: relative;
+        padding-left: 50%;
+        text-align: right;
+        white-space: normal;
+    }
+
+    .trialBalanceTable td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 10px;
+        width: calc(50% - 20px);
+        padding-right: 10px;
+        white-space: nowrap;
+        text-align: left;
+        font-family: 'Raleway-Bold', sans-serif;
+        color: var(--clr-golden-yellow);
+    }
+
+    .trialBalanceTable tfoot td {
+        text-align: right;
+        padding-right: 1.2rem;
+    }
+
+    .trialBalanceTable tfoot td:first-child {
+        text-align: left;
+        padding-left: 1.2rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .trialBalanceContainer {
+        padding: 1rem;
+        margin: 1rem auto;
+    }
+
+    .trialBalanceHeadline {
+        font-size: 1.8rem;
+    }
+}

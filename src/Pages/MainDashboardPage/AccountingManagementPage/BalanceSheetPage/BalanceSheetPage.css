@@ -1,0 +1,399 @@
+.balanceSheetContainer {
+    background-color: var(--clr-charcoal-gray);
+    color: var(--clr-soap-stone);
+    margin: 1rem 0;
+    min-height: calc(100vh - 10rem);
+    padding: 1rem;
+    max-width: var(--max-width-xl); /* Keep max-width for consistency */
+    margin-left: auto; /* Center the container */
+    margin-right: auto;
+    border-radius: 12px; /* Consistent rounded corners */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); /* Consistent shadow */
+    font-family: 'Raleway-Medium', sans-serif;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* Back Link */
+.balanceSheetBackLink {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--clr-soap-stone);
+    background-color: var(--clr-charcoal-gray);
+    text-decoration: none;
+    font-family: 'Raleway-Bold', sans-serif;
+    font-size: 0.95rem;
+    transition: var(--transition-main);
+    padding: 0.5rem 0;
+}
+
+.balanceSheetBackLink:hover {
+    color: var(--clr-davy-grey);
+    background-color: var(--clr-zeus);
+    transform: translateX(-5px);
+}
+
+/* Headline */
+.balanceSheetHeadline {
+    font-family: "Raleway-ExtraBold", sans-serif;
+    color: var(--clr-golden-yellow);
+    text-align: center;
+    font-size: 2.5rem;
+    margin-top: 1rem;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.05em;
+}
+
+/* Filter Section */
+.balanceSheetFilters {
+    background-color: var(--clr-zeus);
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    align-items: flex-end;
+}
+
+.balanceSheetFilters h3 {
+    font-family: 'Raleway-Bold', sans-serif;
+    color: var(--clr-golden-yellow);
+    font-size: 1.2rem;
+    width: 100%;
+    margin-bottom: 0.5rem;
+}
+
+.filterGroup {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 200px;
+}
+
+.filterGroup label {
+    font-family: 'Raleway-Bold', sans-serif;
+    margin-bottom: 0.5rem;
+    color: var(--clr-golden-yellow);
+    font-size: 0.9rem;
+}
+
+.filterGroup input[type="date"] {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--clr-davy-grey);
+    border-radius: 8px;
+    background-color: var(--clr-neutral-100);
+    font-family: 'Raleway-Medium', sans-serif;
+    font-size: 1rem;
+    color: var(--clr-soap-stone);
+    transition: border-color var(--transition-main), box-shadow var(--transition-main);
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+.filterGroup input[type="date"]:focus {
+    outline: none;
+    border-color: var(--clr-golden-yellow);
+    box-shadow: 0 0 0 3px var(--clr-sandy-yellow);
+}
+
+.filterGroup input[type="date"]:disabled {
+    background-color: var(--clr-neutral-200);
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.filterButtons {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.applyFiltersBtn, .clearFiltersBtn {
+    padding: 0.8rem 1.5rem;
+    border: 0.01rem solid var(--clr-platinum);
+    border-radius: 8px;
+    font-family: 'Raleway-Bold', sans-serif;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: var(--transition-main);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.applyFiltersBtn {
+    background-color: var(--clr-dark-mint);
+    color: var(--clr-platinum);
+}
+
+.applyFiltersBtn:hover:not(:disabled) {
+    background-color: var(--clr-platinum);
+    color: var(--clr-dark-mint);
+    border: 0.01rem solid var(--clr-dark-mint);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.clearFiltersBtn {
+    background-color: var(--clr-davy-grey);
+    color: var(--clr-white);
+}
+
+.clearFiltersBtn:hover:not(:disabled) {
+    background-color: #4a4a4a;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.applyFiltersBtn:disabled, .clearFiltersBtn:disabled {
+    background-color: var(--clr-neutral-600);
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+/* Messages (Loading, Error, No Data) */
+.balanceSheetMessage {
+    text-align: center;
+    padding: 1.5rem;
+    background-color: var(--clr-zeus);
+    border-radius: 8px;
+    color: var(--clr-davy-grey);
+    font-size: 1.1rem;
+    font-family: 'Raleway-Medium', sans-serif;
+}
+
+.balanceSheetErrorMessage {
+    text-align: center;
+    padding: 1.5rem;
+    background-color: var(--clr-rose-gold);
+    border: 1px solid var(--clr-lava-red);
+    border-radius: 8px;
+    color: var(--clr-lava-red);
+    font-size: 1.1rem;
+    font-family: 'Raleway-Bold', sans-serif;
+}
+
+/* Balance Sheet Report Sections (Assets, Liabilities, Equity) */
+.balanceSheetReport {
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem; /* Spacing between sections */
+}
+
+.balanceSheetSection {
+    background-color: var(--clr-zeus);
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.balanceSheetSection h3 {
+    font-family: 'Raleway-Bold', sans-serif;
+    color: var(--clr-golden-yellow);
+    font-size: 1.6rem;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid var(--clr-sandy-yellow);
+    padding-bottom: 0.5rem;
+}
+
+.noDataMessage {
+    text-align: center;
+    color: var(--clr-davy-grey);
+    padding: 1rem 0;
+    font-style: italic;
+}
+
+/* Balance Sheet Table (for Assets, Liabilities, Equity lists) */
+.balanceSheetTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+.balanceSheetTable tbody tr {
+    border-bottom: 1px solid var(--clr-neutral-300);
+}
+
+.balanceSheetTable tbody tr:last-child {
+    border-bottom: none; /* No border for the last row */
+}
+
+.balanceSheetTable tbody tr:nth-child(even) {
+    background-color: var(--clr-neutral-100);
+}
+
+.balanceSheetTable tbody tr:hover {
+    background-color: var(--clr-neutral-200);
+    transition: background-color var(--transition-main);
+}
+
+.balanceSheetTable td {
+    padding: 0.8rem 1rem;
+    font-family: 'Raleway-Medium', sans-serif;
+    color: var(--clr-soap-stone);
+}
+
+.balanceSheetTable .accountNameCol {
+    font-family: 'Raleway-Bold', sans-serif;
+    color: var(--clr-soap-stone);
+}
+
+.balanceSheetTable .amountCol {
+    font-family: 'Raleway-Bold', sans-serif;
+    white-space: nowrap; /* Prevent amounts from wrapping */
+}
+
+.balanceSheetTable .text-right {
+    text-align: right;
+}
+
+.balanceSheetTable .totalRow {
+    background-color: var(--clr-neutral-200); /* Darker background for total rows */
+    font-family: 'Raleway-ExtraBold', sans-serif;
+    color: var(--clr-golden-yellow);
+    border-top: 2px solid var(--clr-golden-yellow);
+}
+
+.balanceSheetTable .totalRow td {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+/* Accounting Equation Summary */
+.accountingEquationSummary {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    border-radius: 10px;
+    text-align: center;
+    font-family: 'Raleway-Bold', sans-serif;
+    font-size: 1.2rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+.accountingEquationSummary.balanced {
+    background-color: var(--clr-dark-mint);
+    color: var(--clr-white);
+}
+
+.accountingEquationSummary.unbalanced {
+    background-color: var(--clr-lava-red);
+    color: var(--clr-white);
+}
+
+.accountingEquationSummary p {
+    margin-bottom: 0.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.2rem 0;
+}
+
+.accountingEquationSummary p:last-child {
+    margin-bottom: 0;
+    font-size: 1.1rem;
+    margin-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+    padding-top: 1rem;
+}
+
+.accountingEquationSummary .totalAmount {
+    font-family: 'Raleway-ExtraBold', sans-serif;
+    font-size: 1.3rem;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .balanceSheetHeadline {
+        font-size: 2rem;
+    }
+
+    .balanceSheetFilters {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .filterGroup {
+        min-width: unset;
+        width: 100%;
+    }
+
+    .filterButtons {
+        flex-direction: column;
+        gap: 0.8rem;
+    }
+
+    .applyFiltersBtn, .clearFiltersBtn {
+        width: 100%;
+    }
+
+    /* Make tables responsive by stacking cells */
+    .balanceSheetTable {
+        display: block;
+        width: 100%;
+    }
+
+    .balanceSheetTable tbody, .balanceSheetTable tr, .balanceSheetTable td {
+        display: block;
+    }
+
+    .balanceSheetTable tr {
+        border: 1px solid var(--clr-neutral-300);
+        margin-bottom: 1rem;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .balanceSheetTable td {
+        border: none;
+        position: relative;
+        padding-left: 50%;
+        text-align: right;
+        white-space: normal;
+    }
+
+    .balanceSheetTable td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 10px;
+        width: calc(50% - 20px);
+        padding-right: 10px;
+        white-space: nowrap;
+        text-align: left;
+        font-family: 'Raleway-Bold', sans-serif;
+        color: var(--clr-golden-yellow);
+    }
+
+    /* Specific adjustments for total rows in stacked tables */
+    .balanceSheetTable .totalRow td {
+        padding-left: 10px; /* Adjust for total row not having data-label */
+        text-align: right;
+    }
+    .balanceSheetTable .totalRow td:first-child {
+        text-align: left;
+    }
+
+    .accountingEquationSummary p {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    .accountingEquationSummary .totalAmount {
+        width: 100%;
+        text-align: right;
+    }
+}
+
+@media (max-width: 576px) {
+    .balanceSheetContainer {
+        padding: 1rem;
+        margin: 1rem auto;
+    }
+
+    .balanceSheetHeadline {
+        font-size: 1.8rem;
+    }
+}

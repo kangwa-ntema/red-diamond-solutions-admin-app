@@ -1,0 +1,394 @@
+.generalLedgerContainer {
+    /* Updated to resemble .journalEntryListContainer */
+    background-color: var(--clr-charcoal-gray);
+    color: var(--clr-soap-stone);
+    margin: 1rem 0;
+    min-height: calc(100vh - 10rem);
+    padding: 1rem;
+    /* Retained from original for overall layout and appearance */
+    max-width: var(--max-width-xl); /* Retain max-width for large screens */
+    border-radius: 12px; /* Retain rounded corners */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); /* Retain shadow */
+    font-family: 'Raleway-Medium', sans-serif; /* Default font for content */
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* Back Link */
+.generalLedgerBackLink {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--clr-soap-stone); /* Changed for contrast on dark background */
+    background-color: var(--clr-charcoal-gray); /* Changed for contrast */
+    text-decoration: none;
+    font-family: 'Raleway-Bold', sans-serif;
+    font-size: 0.95rem;
+    transition: var(--transition-main);
+    padding: 0.5rem 0;
+}
+
+.generalLedgerBackLink:hover {
+    color: var(--clr-davy-grey); /* Changed for contrast */
+    background-color: var(--clr-zeus); /* Changed for contrast */
+    transform: translateX(-5px);
+}
+
+/* Headline */
+.generalLedgerHeadline {
+    font-family: 'Raleway-ExtraBold', sans-serif;
+    color: var(--clr-golden-yellow); /* Changed for contrast on dark background */
+    text-align: center;
+    font-size: 2.5rem;
+    margin-top: 1rem; /* Adjusted margin */
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.05em;
+}
+
+/* Controls Section */
+.ledgerControls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    align-items: flex-end;
+    background-color: var(--clr-zeus); /* Changed for contrast on dark background */
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.formGroup, .filterGroup {
+    display: flex;
+    flex-direction: column;
+    flex: 1; /* Allows items to grow and shrink */
+    min-width: 200px; /* Minimum width before wrapping */
+}
+
+.formGroup label, .filterGroup label {
+    font-family: 'Raleway-Bold', sans-serif;
+    margin-bottom: 0.5rem;
+    color: var(--clr-golden-yellow); /* Changed for contrast on dark background */
+    font-size: 0.9rem;
+}
+
+.formGroup select, .filterGroup input[type="date"] {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--clr-davy-grey);
+    border-radius: 8px;
+    background-color: var(--clr-neutral-100); /* Changed for contrast on dark background */
+    font-family: 'Raleway-Medium', sans-serif;
+    font-size: 1rem;
+    color: var(--clr-soap-stone); /* Changed for contrast on dark background */
+    transition: border-color var(--transition-main), box-shadow var(--transition-main);
+    -webkit-appearance: none; /* Remove default styling for select */
+    -moz-appearance: none;
+    appearance: none;
+}
+
+.formGroup select:focus, .filterGroup input[type="date"]:focus {
+    outline: none;
+    border-color: var(--clr-golden-yellow);
+    box-shadow: 0 0 0 3px var(--clr-sandy-yellow);
+}
+
+.formGroup select:disabled, .filterGroup input[type="date"]:disabled {
+    background-color: var(--clr-neutral-200); /* Adjusted for dark theme */
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.filterButtons {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
+}
+
+.applyFiltersBtn, .clearFiltersBtn {
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Raleway-Bold', sans-serif;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: var(--transition-main);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.applyFiltersBtn {
+    background-color: var(--clr-dark-mint);
+    color: var(--clr-platinum); /* Changed for contrast */
+    border: 0.01rem solid var(--clr-platinum); /* Added border */
+}
+
+.applyFiltersBtn:hover:not(:disabled) {
+    background-color: var(--clr-platinum); /* Changed for hover effect */
+    color: var(--clr-dark-mint); /* Changed for hover effect */
+    border: 0.01rem solid var(--clr-dark-mint); /* Changed for hover effect */
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.clearFiltersBtn {
+    background-color: var(--clr-davy-grey);
+    color: var(--clr-white);
+}
+
+.clearFiltersBtn:hover:not(:disabled) {
+    background-color: #4a4a4a; /* Slightly darker grey */
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.applyFiltersBtn:disabled, .clearFiltersBtn:disabled {
+    background-color: var(--clr-neutral-600);
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+/* Messages (Loading, Error, No Data) */
+.ledgerMessage {
+    text-align: center;
+    padding: 1.5rem;
+    background-color: var(--clr-zeus); /* Changed for contrast on dark background */
+    border-radius: 8px;
+    color: var(--clr-davy-grey);
+    font-size: 1.1rem;
+    font-family: 'Raleway-Medium', sans-serif;
+}
+
+.ledgerErrorMessage {
+    text-align: center;
+    padding: 1.5rem;
+    background-color: var(--clr-rose-gold);
+    border: 1px solid var(--clr-lava-red);
+    border-radius: 8px;
+    color: var(--clr-lava-red);
+    font-size: 1.1rem;
+    font-family: 'Raleway-Bold', sans-serif;
+}
+
+/* Ledger Details */
+.generalLedgerDetails h2 {
+    font-family: 'Raleway-Bold', sans-serif;
+    color: var(--clr-golden-yellow); /* Changed for contrast on dark background */
+    font-size: 1.8rem;
+    margin-bottom: 0.8rem;
+    border-bottom: 2px solid var(--clr-golden-yellow);
+    padding-bottom: 0.5rem;
+}
+
+.generalLedgerDetails p {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    color: var(--clr-soap-stone); /* Changed for contrast on dark background */
+}
+
+.generalLedgerDetails p strong {
+    font-family: 'Raleway-Bold', sans-serif;
+    color: var(--clr-soap-stone); /* Changed for contrast on dark background */
+}
+
+.openingBalance {
+    font-size: 1.1rem;
+    color: var(--clr-dark-mint);
+    font-family: 'Raleway-Bold', sans-serif;
+    margin-top: 1rem;
+    padding: 0.75rem 1rem;
+    background-color: var(--clr-zeus-blend-5); /* Changed for dark background */
+    border-left: 5px solid var(--clr-dark-mint);
+    border-radius: 5px;
+}
+
+/* Ledger Table */
+.ledgerTableContainer {
+    overflow-x: auto; /* Ensures table is scrollable on small screens */
+    margin-top: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    background-color: var(--clr-neutral-100); /* Changed for dark background */
+}
+
+.ledgerTable {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 700px; /* Ensure table doesn't shrink too much on smaller screens */
+}
+
+.ledgerTable thead {
+    background-color: var(--clr-neutral-200); /* Adjusted for dark theme */
+    color: var(--clr-golden-yellow); /* Changed for contrast */
+}
+
+.ledgerTable th, .ledgerTable td {
+    padding: 1rem 1.2rem;
+    text-align: left;
+    border-bottom: 1px solid var(--clr-neutral-300); /* Adjusted for dark theme */
+    font-size: 0.95rem;
+}
+
+.ledgerTable th {
+    font-family: 'Raleway-Bold', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    white-space: nowrap; /* Prevent headers from wrapping */
+}
+
+.ledgerTable tbody tr:nth-child(even) {
+    background-color: var(--clr-neutral-100); /* Adjusted for dark theme */
+}
+
+.ledgerTable tbody tr:hover {
+    background-color: var(--clr-neutral-200); /* Adjusted for dark theme */
+    transition: background-color var(--transition-main);
+}
+
+.ledgerTable td {
+    font-family: 'Raleway-Medium', sans-serif;
+    color: var(--clr-soap-stone); /* Changed for contrast on dark background */
+}
+
+.ledgerDebit {
+    color: var(--clr-lava-red); /* Red for debits */
+    font-family: 'Raleway-Bold', sans-serif;
+    text-align: right;
+    white-space: nowrap;
+}
+
+.ledgerCredit {
+    color: var(--clr-green); /* Green for credits */
+    font-family: 'Raleway-Bold', sans-serif;
+    text-align: right;
+    white-space: nowrap;
+}
+
+.runningBalance {
+    font-family: 'Raleway-Bold', sans-serif;
+    text-align: right;
+    white-space: nowrap;
+    color: var(--clr-soap-stone); /* Default for positive balance, changed for contrast */
+}
+
+.runningBalance.negative {
+    color: var(--clr-lava-red); /* Red for negative running balance */
+}
+
+.ledgerJELink {
+    color: var(--clr-golden-yellow); /* Changed for contrast on dark background */
+    text-decoration: none;
+    font-family: 'Raleway-Bold', sans-serif;
+    transition: var(--transition-main);
+}
+
+.ledgerJELink:hover {
+    color: var(--clr-sandy-yellow); /* Changed for contrast */
+    text-decoration: underline;
+}
+
+/* Table Footer */
+.ledgerTable tfoot {
+    background-color: var(--clr-neutral-200); /* Adjusted for dark theme */
+    color: var(--clr-golden-yellow); /* Changed for contrast */
+    font-family: 'Raleway-Bold', sans-serif;
+    font-size: 1.1rem;
+}
+
+.ledgerTable tfoot td {
+    padding: 1.2rem;
+    border-top: 2px solid var(--clr-golden-yellow);
+}
+
+.closingBalance {
+    text-align: right;
+    white-space: nowrap;
+}
+
+.closingBalance.negative {
+    color: var(--clr-lava-red); /* Red for negative closing balance */
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .generalLedgerHeadline {
+        font-size: 2rem;
+    }
+
+    .ledgerControls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .formGroup, .filterGroup {
+        min-width: unset; /* Remove min-width on small screens */
+        width: 100%;
+    }
+
+    .filterButtons {
+        flex-direction: column;
+        gap: 0.8rem;
+    }
+
+    .applyFiltersBtn, .clearFiltersBtn {
+        width: 100%;
+    }
+
+    /* Make table responsive by stacking cells */
+    .ledgerTable, .ledgerTable thead, .ledgerTable tbody, .ledgerTable th, .ledgerTable td, .ledgerTable tr {
+        display: block;
+    }
+
+    .ledgerTable thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+
+    .ledgerTable tr {
+        border: 1px solid var(--clr-neutral-300); /* Adjusted for dark theme */
+        margin-bottom: 1rem;
+        border-radius: 8px;
+        overflow: hidden; /* For rounded corners */
+    }
+
+    .ledgerTable td {
+        border: none;
+        position: relative;
+        padding-left: 50%; /* Space for the data-label */
+        text-align: right;
+        white-space: normal; /* Allow text to wrap */
+    }
+
+    .ledgerTable td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 10px;
+        width: calc(50% - 20px);
+        padding-right: 10px;
+        white-space: nowrap;
+        text-align: left;
+        font-family: 'Raleway-Bold', sans-serif;
+        color: var(--clr-golden-yellow); /* Changed for contrast */
+    }
+
+    .ledgerTable tfoot td {
+        text-align: right;
+        padding-right: 1.2rem; /* Adjust padding for mobile */
+    }
+
+    .ledgerTable tfoot td:first-child {
+        text-align: left;
+        padding-left: 1.2rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .generalLedgerContainer {
+        padding: 1rem;
+        margin: 1rem auto;
+    }
+
+    .generalLedgerHeadline {
+        font-size: 1.8rem;
+    }
+}
